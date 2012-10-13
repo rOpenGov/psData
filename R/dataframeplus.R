@@ -178,7 +178,8 @@ setMethod("initialize", "DataFramePlus",
 ##' @export
 subclass_data_frame_plus <- function(class, columns=character(),
                                      exclusive=FALSE,
-                                     keys=character()) {
+                                     keys=character(),
+                                     where=topenv(parent.frame())) {
 
     required <- names(columns)
     if (is.null(required)) {
@@ -195,7 +196,8 @@ subclass_data_frame_plus <- function(class, columns=character(),
     setClass(class, contains="DataFramePlus",
              prototype=prototype(x=.data, required=required,
                        classes=classes, exclusive=exclusive,
-                       keys=keys))
+                       keys=keys),
+             where=where)
 
     setValidity(class,
                 function(object) {
