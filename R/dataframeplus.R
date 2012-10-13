@@ -218,7 +218,8 @@ subclass_data_frame_plus <- function(class, columns=character(),
                     }
                     validObject(as(object, "DataFramePlus"))
                     TRUE
-                })
+                },
+                where=where)
     
     setMethod("initialize", class,
               function(.Object, x) {
@@ -229,10 +230,10 @@ subclass_data_frame_plus <- function(class, columns=character(),
                                             classes=classes,
                                             exclusive=exclusive, keys=keys)
                   .Object
-              })
+              }, where=where)
 
     setAs("data.frame", class,
-          function(from, to) new(class, from))
+          function(from, to) new(class, from), where=where)
     
     .f <- function(x) {
         new(class, x)
