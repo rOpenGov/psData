@@ -3,7 +3,7 @@
 \title{Check column names and classes of a \code{data.frame}}
 \usage{
   validate_data_frame(object, columns, exclusive = FALSE,
-    keys = character())
+    keys = character(), constraints = list())
 }
 \arguments{
   \item{object}{\code{data.frame} to be validated.}
@@ -18,6 +18,10 @@
 
   \item{keys}{\code{character} Names of columns which
   should be jointly unique.}
+
+  \item{constraints}{\code{list} of functions. Each
+  function should take only one argument, and return
+  \code{logical}.}
 }
 \value{
   If valid, then \code{TRUE}, else \code{character} with an

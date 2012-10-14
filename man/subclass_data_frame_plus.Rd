@@ -3,7 +3,8 @@
 \title{Create subclasss of \code{DataFramePlus}}
 \usage{
   subclass_data_frame_plus(class, columns = character(),
-    exclusive = FALSE, keys = character())
+    exclusive = FALSE, keys = character(),
+    where = topenv(parent.frame()), constraints = list())
 }
 \arguments{
   \item{class}{\code{character} Name of the new class.}
@@ -18,6 +19,13 @@
 
   \item{keys}{\code{character} Columns in the data fram
   which a jointly unique.}
+
+  \item{constraints}{\code{list} of functions. Each
+  function should take only one argument, and return
+  \code{logical}.}
+
+  \item{where}{\code{environment}. The environment in which
+  to store the definition. See \code{\link{setClass}}.}
 }
 \value{
   Invisibly returns a constructor function for the new
@@ -30,10 +38,8 @@
   \code{keys}) take specific values.
 }
 \examples{
-\dontrun{
 foo <- subclass_data_frame_plus("foo", columns=c(a="numeric"))
 foo(data.frame(a=1:10))
 try(foo(data.frame(b=1:10)))
-}
 }
 

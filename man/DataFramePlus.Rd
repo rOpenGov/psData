@@ -22,7 +22,9 @@
   cannot contain any columns other than those in
   \code{required}} \item{\code{keys}}{Object of class
   \code{keys} with column names which jointly identify rows
-  of the data frame.} }
+  of the data frame.} \item{\code{constrains}}{Object of
+  class \code{FunctionList}. Each function in the list
+  should take one argument, and return \code{logical}.} }
 }
 
 \section{Extends}{

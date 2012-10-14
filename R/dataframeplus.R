@@ -1,3 +1,16 @@
+setClass("FunctionList", "list")
+
+setValidity("FunctionList",
+            function(object) {
+                if (!all(sapply(object, class) == "function")) {
+                    return("Not all elements are functions.")
+                }
+                TRUE
+            })
+
+FunctionList <- function(x) new("FunctionList", x)
+
+
 ##' Check whether columns could be a key to a data.frame
 ##' 
 ##' @param x \code{data.frame} to check
@@ -18,10 +31,12 @@ is_key <- function(x, i) {
 ##' columns in \code{x}, values are the classes of those columns.
 ##' @param keys \code{character} Names of columns which should be
 ##' jointly unique.
+##' @param constraints \code{list} of functions. Each function should
+##' take only one argument, and return \code{logical}.
 ##' @return If valid, then \code{TRUE}, else \code{character} with
 ##' an error message.
 ##' @export
-validate_data_frame <- function(object, columns, exclusive=FALSE, keys=character()) {
+validate_data_frame <- function(object, columns, exclusive=FALSE, keys=character(), constraints=list()) {
     # error checking functions
     if (any(! keys %in% names(columns))) {
         stop("Keys must be in columns")
@@ -49,6 +64,12 @@ validate_data_frame <- function(object, columns, exclusive=FALSE, keys=character
                            paste(sQuote(keys), collapse=", ")))
         }
     }
+    for (f in object@constraints) {
+        rc <- f(object)
+        if (!rc) {
+            return(sprintf("Constraint failed:\n%s", deparse(f)))
+        }
+    }
     TRUE
 }
 
@@ -70,6 +91,8 @@ validate_data_frame <- function(object, columns, exclusive=FALSE, keys=character
 ##' in \code{required}}
 ##' \item{\code{keys}}{Object of class \code{keys} with column names which jointly
 ##' identify rows of the data frame.}
+##' \item{\code{constrains}}{Object of class \code{FunctionList}. Each function in
+##' the list should take one argument, and return \code{logical}.}
 ##' }
 ##'
 ##' @section Extends:
@@ -108,24 +131,31 @@ setClass("DataFramePlus", contains="data.frame",
          representation(required="character",
                         classes="character",
                         exclusive="logical",
-                        keys="character"),
+                        keys="character",
+                        constraints="FunctionList"),
          prototype(data.frame(),
                    required = character(),
                    classes=character(),
                    exclusive=FALSE,
-                   keys=character()))
+                   keys=character(),
+                   constraints=FunctionList(list())))
 
 setValidity("DataFramePlus",
             function(object) {
                 if(length(object@required) != length(object@classes)) {
                     return("length(object@required) != length(object@classes)")
                 }
-                validate_data_frame(object, setNames(object@classes, object@required),
-                                    exclusive=object@exclusive, keys = object@keys)
+                rc <- validate_data_frame(object, setNames(object@classes, object@required),
+                                          exclusive=object@exclusive, keys = object@keys)
+                if (is.character(rc)) {
+                    return(rc)
+                }
+                TRUE
             })
 
 setMethod("initialize", "DataFramePlus",
-          function(.Object, x, required=character(), classes=character(), exclusive=FALSE, keys=character()) {
+          function(.Object, x, required=character(), classes=character(),
+                   exclusive=FALSE, keys=character(), constraints=list()) {
               if(length(required) != length(classes)) {
                   return("length(object@required) != length(object@classes)")
               }
@@ -145,6 +175,7 @@ setMethod("initialize", "DataFramePlus",
               .Object@classes <- classes
               .Object@keys <- keys
               .Object@exclusive <- exclusive
+              .Object@constraints <- FunctionList(constraints)
               validObject(.Object)
               .Object
           })
@@ -164,22 +195,24 @@ setMethod("initialize", "DataFramePlus",
 ##' the data frame can only contain the columns in \code{columns}.
 ##' @param keys \code{character} Columns in the data fram which
 ##' a jointly unique.
-##' 
+##' @param constraints \code{list} of functions. Each function should
+##' take only one argument, and return \code{logical}.
+##' @param where \code{environment}. The environment in which to store
+##' the definition. See \code{\link{setClass}}.
 ##' @return Invisibly returns a constructor function for the
 ##' new class.
 ##'
 ##' @examples
-##' \dontrun{
 ##' foo <- subclass_data_frame_plus("foo", columns=c(a="numeric"))
 ##' foo(data.frame(a=1:10))
 ##' try(foo(data.frame(b=1:10)))
-##' }
 ##' 
 ##' @export
 subclass_data_frame_plus <- function(class, columns=character(),
                                      exclusive=FALSE,
                                      keys=character(),
-                                     where=topenv(parent.frame())) {
+                                     where=topenv(parent.frame()),
+                                     constraints=list()) {
 
     required <- names(columns)
     if (is.null(required)) {
@@ -192,11 +225,13 @@ subclass_data_frame_plus <- function(class, columns=character(),
         .data[[required[i]]] <- new(classes[i])
     }
     .data <- data.frame(.data)
+
+    constraint_hash <- sapply(constraints, digest)
     
     setClass(class, contains="DataFramePlus",
              prototype=prototype(x=.data, required=required,
-                       classes=classes, exclusive=exclusive,
-                       keys=keys),
+             classes=classes, exclusive=exclusive,
+             keys=keys, constraints=new("FunctionList", list())),
              where=where)
 
     setValidity(class,
@@ -215,6 +250,10 @@ subclass_data_frame_plus <- function(class, columns=character(),
                     if (!setequal(object@keys, keys)) {
                         return(sprintf("object@keys: %s != %s",
                                        deparse(object@keys), deparse(keys)))
+                    }
+                    tmphash <- sapply(object@constraints, digest)
+                    if (!setequal(tmphash, constraint_hash)) {
+                        return(sprintf("Invalid object@constraints"))
                     }
                     validObject(as(object, "DataFramePlus"))
                     TRUE
