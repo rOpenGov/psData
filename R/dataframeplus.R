@@ -64,7 +64,7 @@ validate_data_frame <- function(object, columns, exclusive=FALSE, keys=character
                            paste(sQuote(keys), collapse=", ")))
         }
     }
-    for (f in object@constraints) {
+    for (f in constraints) {
         rc <- f(object)
         if (!rc) {
             return(sprintf("Constraint failed:\n%s", deparse(f)))
@@ -231,7 +231,7 @@ subclass_data_frame_plus <- function(class, columns=character(),
     setClass(class, contains="DataFramePlus",
              prototype=prototype(x=.data, required=required,
              classes=classes, exclusive=exclusive,
-             keys=keys, constraints=new("FunctionList", list())),
+             keys=keys, constraints=FunctionList(constraints)),
              where=where)
 
     setValidity(class,
