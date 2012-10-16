@@ -1,5 +1,7 @@
+\docType{classes}
 \name{ListOfClasses}
 \alias{ListOfClasses}
+\alias{ListOfClasses-class}
 \title{List of classes}
 \description{
   An S4 subclass of \code{list} which requires all elements
@@ -14,4 +16,5 @@
 \section{Extends}{
   \describe{ \item{\code{list}}{Directly.} }
 }
+\keyword{classes}
 

@@ -17,6 +17,9 @@
 ##' \item{\code{list}}{Directly.}
 ##' }
 ##'
+##' @aliases ListOfClasses-class
+##' @docType classes
+##' @keywords classes
 ##' @export
 setClass("ListOfClasses",
          contains="list",
@@ -44,6 +47,11 @@ setMethod("c", signature="ListOfClasses",
           })
 
 
+##' Create subclass list of classes
+##'
+##' Creates a new subclass of \code{ListOfClasses} which requires a
+##' specific class.
+##' 
 ##' @export
 subclass_list_of_classes <- function(class, classtype="ANY",
                                      where=topenv(parent.frame())) {
