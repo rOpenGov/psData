@@ -1,5 +1,8 @@
 export(is_key)
 export(subclass_data_frame_plus)
+export(subclass_list_of_classes)
 export(validate_data_frame)
 exportClasses(DataFramePlus)
+exportClasses(ListOfClasses)
+exportMethods(c)
 import(digest)

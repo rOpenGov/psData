@@ -16,3 +16,4 @@ Suggests:
 Collate:
     'DataFramePlus-package.r'
     'dataframeplus.R'
+    'list-of-classes.R'
