@@ -37,14 +37,23 @@ test_that("[<-,ListOfClasses works", {
     foo <- new("ListOfClasses", 1:4, classtype="integer")
     foo[1:2] <- 2L:3L
     expect_is(foo, "ListOfClasses")
-    expect_equal(unlist(foo), as.integer(c(2, 3, 3, 4)))
+    expect_equal(unname(unlist(foo)), as.integer(c(2, 3, 3, 4)))
 })
 
 test_that("[[<-,ListOfClasses works", {
   foo <- new("ListOfClasses", 1:4, classtype="integer")
-  foo[[1]] <- 2L
+  foo[[1]] <- 1
   expect_is(foo, "ListOfClasses")
   expect_equal(foo[[1]], 2L)
+})
+
+test_that("$<-,ListOfClasses works", {
+  foo <- new("ListOfClasses", list(a=1L, b=2L), classtype="integer")
+  y <- 10L
+  foo$a <- y
+  print(foo)
+  expect_is(foo, "ListOfClasses")
+  expect_equal(foo$a, y)
 })
 
 test_that("subclass_list_of_classes creates a subclass", {
@@ -66,5 +75,32 @@ test_that("subclass_list_of_classes new class gives error if classtype altered",
     slot(bar, "classtype") <- "character"
     bar <- setDataPart(bar, letters)
     expect_error(validObject(bar), "object@classtype !=")
+})
+
+##################
+
+
+test_that("[<-,ListOfClasses works", {
+    foo <- subclass_list_of_classes("foo", "integer")
+    bar <- foo(1:4)
+    bar[1:2] <- 2L:3L
+    expect_is(bar, "foo")
+    expect_equal(unname(unlist(bar)), as.integer(c(2, 3, 3, 4)))
+})
+
+test_that("[[<-,ListOfClasses works", {
+  foo <- subclass_list_of_classes("foo", "integer")
+  bar <- foo(1:4)
+  bar[[1]] <- 2L
+  expect_is(bar, "foo")
+  expect_equal(unname(unlist(bar)), as.integer(c(2, 2, 3, 4)))
+})
+
+test_that("$<-,ListOfClasses works", {
+  foo <- subclass_list_of_classes("foo", "integer")
+  bar <- foo(list(a=1L, b=2L))
+  bar$a <- 10L
+  expect_is(bar, "foo")
+  expect_equal(bar$a, 10L)
 })
 

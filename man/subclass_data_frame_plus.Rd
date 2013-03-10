@@ -2,12 +2,12 @@
 \alias{subclass_data_frame_plus}
 \title{Create subclasss of \code{DataFramePlus}}
 \usage{
-  subclass_data_frame_plus(class, columns = character(),
-    exclusive = FALSE, where = topenv(parent.frame()),
-    constraints = list())
+  subclass_data_frame_plus(Class, columns = character(),
+    exclusive = FALSE, constraints = list(),
+    where = topenv(parent.frame()))
 }
 \arguments{
-  \item{class}{\code{character} Name of the new class.}
+  \item{Class}{\code{character} Name of the new class.}
 
   \item{columns}{Named \code{character} vector. The names
   are the names of required columns; the values are the

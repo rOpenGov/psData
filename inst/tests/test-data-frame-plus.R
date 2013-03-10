@@ -58,8 +58,9 @@ test_that("constraints throws error", {
 test_that("[<- works", {
   foo <- DataFramePlus(data.frame(a=1:10),
                        columns=c(a="integer"))
-  foo["a", 1] <- 5L
+  foo[1, "a"] <- 5L
   expect_is(foo, "DataFramePlus")
+  expect_equal(foo[1, "a"], 5L)
 })
 
 test_that("[<- throws error if invalid object produced", {
@@ -69,11 +70,22 @@ test_that("[<- throws error if invalid object produced", {
                "column a does not inherit from integer")
 })
 
-test_that("[[<- works", {
+test_that("[[<- with i=ANY, j=missing works", {
   foo <- DataFramePlus(data.frame(a=1:10),
                        columns=c(a="integer"))
-  foo[["a"]] <- 1:5
+  y <- foo$a + 20L
+  foo[["a"]] <- y
   expect_is(foo, "DataFramePlus")
+  expect_equal(foo[["a"]], y)
+})
+
+test_that("[[<- with i=ANY, j=ANY works", {
+  foo <- DataFramePlus(data.frame(a=1:10),
+                       columns=c(a="integer"))
+  y <- 10L
+  foo[[1, "a"]] <- y
+  expect_is(foo, "DataFramePlus")
+  expect_equal(foo[[1, "a"]], y)
 })
 
 test_that("[[<- throws error if invalid object produced", {
@@ -82,6 +94,22 @@ test_that("[[<- throws error if invalid object produced", {
   expect_error(foo[["a"]] <- letters[seq_len(nrow(foo))],
                "column a does not inherit from integer")
 })
+
+test_that("$<- works", {
+  foo <- DataFramePlus(data.frame(a=1:10),
+                       columns=c(a="integer"))
+  foo$a <- 1:10 + 10L
+  expect_is(foo, "DataFramePlus")
+  expect_equal(foo$a, 1:10 + 10)
+})
+
+test_that("$<- throws error if invalid object produced", {
+  foo <- DataFramePlus(data.frame(a=1:10),
+                       columns=c(a="integer"))
+  expect_error(foo$a <- letters[seq_len(nrow(foo))],
+               "column a does not inherit from integer")
+})
+
 
 test_that("Subclassing works", {
   subclass_data_frame_plus("df1", columns=c(a="factor"))
@@ -92,4 +120,50 @@ test_that("Subclassing returns a function", {
   df1 <- subclass_data_frame_plus("df1", columns=c(a="factor"))
   expect_is(df1(data.frame(a=letters)), "df1")
 })
+
+test_that("Subclass with i=ANY, j=missing works", {
+  df1 <- subclass_data_frame_plus("df1", columns=c(a="numeric"))
+  foo <- df1(data.frame(a=1:10))
+  y <- foo$a + 10
+  foo[["a"]] <- y
+  expect_is(foo, "df1")
+  expect_equal(foo[["a"]], y)
+})
+
+test_that("Subclass [[<- with i=ANY, j=ANY works", {
+  df1 <- subclass_data_frame_plus("df1", columns=c(a="numeric"))
+  foo <- df1(data.frame(a=1:10))
+  y <- 10L
+  foo[[1, "a"]] <- y
+  expect_is(foo, "df1")
+  expect_equal(foo[[1, "a"]], y)
+})
+
+test_that("Subclassing [<- with i=ANY, j=ANY works", {
+  df1 <- subclass_data_frame_plus("df1", columns=c(a="numeric"))
+  foo <- df1(data.frame(a=1:10))
+  y <- 10L
+  foo[1, "a"] <- y
+  expect_is(foo, "df1")
+  expect_equal(foo[1, "a"], y)
+})
+
+test_that("Subclass [<- with i=ANY, j=missing works", {
+  df1 <- subclass_data_frame_plus("df1", columns=c(a="numeric"))
+  foo <- df1(data.frame(a=1:10))
+  y <- foo$a + 10L
+  foo[, "a"] <- y
+  expect_is(foo, "df1")
+  expect_equal(foo[, "a"], y)
+})
+
+test_that("Subclass $<- works", {
+  df1 <- subclass_data_frame_plus("df1", columns=c(a="numeric"))
+  foo <- df1(data.frame(a=1:10))
+  y <- foo$a + 10L
+  foo$a <- y
+  expect_is(foo, "df1")
+  expect_equal(foo[, "a"], y)
+})
+
 

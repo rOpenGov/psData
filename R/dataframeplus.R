@@ -1,8 +1,6 @@
 #' @include listofclasses.R
 NULL
 
-FunctionList <- subclass_list_of_classes("FunctionList", "function")
-
 #' Check column names and classes of a \code{data.frame}
 #'
 #' @param object \code{data.frame} to be validated.
@@ -79,14 +77,15 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' \item{\code{exclusive}}{Object of class \code{logical}. If \code{TRUE},
 #' then the data frame cannot contain any columns other than those
 #' in \code{columns}}
-#' \item{\code{constraints}}{Object of class \code{FunctionList}. Each function in
-#' the list should take one argument, and return \code{logical}.}
+#' \item{\code{constraints}}{Object of class \code{list} containing \code{function}
+#' elements.  Each function in the list should take one argument, and return \code{logical}.}
 #' }
 #'
 #' @section Methods:
 #' \describe{
 #'     \item{[<-}{\code{signature(x = "DataFramePlus")}: ... }
 #'     \item{[[<-}{\code{signature(x = "DataFramePlus")}: ... }
+#'     \item{$<-}{\code{signature(x = "DataFramePlus")}: ... }
 #'     \item{initialize}{\code{signature(.Object = "DataFramePlus")}: ... }
 #' }
 #'
@@ -102,6 +101,7 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases DataFramePlus
 #' @aliases [<-,DataFramePlus-method
 #' @aliases [[<-,DataFramePlus-method
+#' @aliases $<-,DataFramePlus-method
 #' @aliases initialize,DataFramePlus-method
 #' @examples
 #' new("DataFramePlus", data.frame(a=1:10),
@@ -111,11 +111,11 @@ DataFramePlus <-
   setClass("DataFramePlus", contains="data.frame",
            representation(columns="character",
                           exclusive="logical",
-                          constraints="FunctionList"),
+                          constraints="list"),
            prototype(data.frame(),
                      columns=character(),
                      exclusive=FALSE,
-                     constraints=FunctionList(list())))
+                     constraints=list()))
 
 setValidity("DataFramePlus",
             function(object) {
@@ -137,7 +137,7 @@ setMethod("initialize", "DataFramePlus",
             .Object <- callNextMethod(.Object, x)
             .Object@columns <- columns
             .Object@exclusive <- exclusive
-            .Object@constraints <- FunctionList(constraints)
+            .Object@constraints <- list()
             validObject(.Object)
             .Object
           })
@@ -145,16 +145,31 @@ setMethod("initialize", "DataFramePlus",
 #' @export
 setMethod("[<-", c(x="DataFramePlus"),
           function(x, i, j, ..., value) {
-            # was having trouble with call next function working
-            new("DataFramePlus", `[<-`(data.frame(x), i, j, ..., value=value),
-                x@columns, x@exclusive, x@constraints)
+            # callNextMethod() causes problems
+            y <- callGeneric(data.frame(x), i, j, ..., value=value)
+            new("DataFramePlus", y,  x@columns, x@exclusive, x@constraints)
           })
 
 #' @export
-setMethod("[[<-", "DataFramePlus",
-          function(x, i, ..., value) {
-            new("DataFramePlus", `[[<-`(data.frame(x), i, value=value),
-                x@columns, x@exclusive, x@constraints)
+setMethod("[[<-", c(x="DataFramePlus", i="ANY", j="missing", value="ANY"),
+          function(x, i, j, ..., value) {
+            y <- data.frame(x)
+            y[[i]] <- value
+            new("DataFramePlus", y, x@columns, x@exclusive, x@constraints)
+          })
+
+setMethod("[[<-", c(x="DataFramePlus", i="ANY", j="ANY", value="ANY"),
+          function(x, i, j, ..., value) {
+            y <- data.frame(x)
+            y[[i, j]] <- value
+            new("DataFramePlus", y, x@columns, x@exclusive, x@constraints)
+          })
+
+#' @export
+setMethod("$<-", "DataFramePlus",
+          function(x, name, value) {
+            y <- callNextMethod()
+            new("DataFramePlus", y, x@columns, x@exclusive, x@constraints)
           })
 
 
@@ -165,7 +180,7 @@ setMethod("[[<-", "DataFramePlus",
 #' (\code{columns}, and \code{exclusive}
 #' take specific values.
 #'
-#' @param class \code{character} Name of the new class.
+#' @param Class \code{character} Name of the new class.
 #' @param columns Named \code{character} vector. The names are
 #' the names of required columns; the values are the classes
 #' of those columns.
@@ -184,42 +199,67 @@ setMethod("[[<-", "DataFramePlus",
 #' try(foo(data.frame(b=1:10)))
 #' 
 #' @export
-subclass_data_frame_plus <- function(class, columns=character(),
+subclass_data_frame_plus <- function(Class, columns=character(),
                                      exclusive=FALSE,
-                                     where=topenv(parent.frame()),
-                                     constraints=list()) {
+                                     constraints=list(),
+                                     where=topenv(parent.frame())) {
 
   .data <- data.frame()
   for (i in seq_along(columns)) {
     .data[[names(columns)[i]]] <- new(columns[i])
   }
   
-  setClass(class, contains="DataFramePlus",
+  setClass(Class, contains="DataFramePlus",
            prototype=prototype(x=.data, columns=columns,
              exclusive=exclusive,
-             constraints=FunctionList(constraints)),
+             constraints=list()),
            where=where)
   
-  setValidity(class,
+  setValidity(Class,
               function(object) {
                 validObject(as(object, "DataFramePlus"))
                 TRUE
               },
               where=where)
   
-  setMethod("initialize", class,
+  setMethod("initialize", Class,
               function(.Object, x) {
                 callNextMethod(.Object,
                                x=x,
                                columns=columns,
                                exclusive=exclusive)
               }, where=where)
+
+  setMethod("$<-", c(x=Class),
+            function(x, name, value) {
+              y <- callNextMethod()
+              new(Class, y)
+            }, where=where)
+
+  setMethod("[<-", c(x=Class),
+            function(x, i, j, ..., value) {
+              y <- callGeneric(as(x, "DataFramePlus"), i=i, j=j, ..., value=value)
+              new(Class, y)
+            }, where=where)
+
+  ## Need to be explicitly set
+  setMethod("[[<-", c(x=Class, i="ANY", j="missing", value="ANY"),
+            function(x, i, j, ..., value) {
+              y <- callGeneric(as(x, "DataFramePlus"), i=i, value=value)
+              new(Class, y)
+            }, where=where)
   
-  setAs("data.frame", class,
-        function(from, to) new(class, from), where=where)
+  setMethod("[[<-", c(x=Class, i="ANY", j="ANY", value="ANY"),
+            function(x, i, j, ..., value) {
+              y <- callGeneric(as(x, "DataFramePlus"), i=i, j=j, value=value)
+              new(Class, y)
+            }, where=where)
+
+  setAs("data.frame", Class,
+        function(from, to) new(Class, from), where=where)
   
   .f <- function(x) {
-    new(class, x)
+    new(Class, x)
   }
   invisible(.f)
 }

@@ -1,5 +1,6 @@
 \docType{class}
 \name{DataFramePlus}
+\alias{$<-,DataFramePlus-method}
 \alias{DataFramePlus}
 \alias{DataFramePlus-class}
 \alias{DataFramePlus-package}
@@ -32,14 +33,16 @@
   \item{\code{exclusive}}{Object of class \code{logical}.
   If \code{TRUE}, then the data frame cannot contain any
   columns other than those in \code{columns}}
-  \item{\code{constraints}}{Object of class
-  \code{FunctionList}. Each function in the list should
-  take one argument, and return \code{logical}.} }
+  \item{\code{constraints}}{Object of class \code{list}
+  containing \code{function} elements.  Each function in
+  the list should take one argument, and return
+  \code{logical}.} }
 }
 
 \section{Methods}{
   \describe{ \item{[<-}{\code{signature(x =
   "DataFramePlus")}: ... } \item{[[<-}{\code{signature(x =
+  "DataFramePlus")}: ... } \item{$<-}{\code{signature(x =
   "DataFramePlus")}: ... }
   \item{initialize}{\code{signature(.Object =
   "DataFramePlus")}: ... } }

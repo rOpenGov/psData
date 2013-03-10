@@ -1,5 +1,6 @@
 \docType{class}
 \name{ListOfClasses}
+\alias{$<-,ListOfClasses-method}
 \alias{ListOfClasses}
 \alias{ListOfClasses-class}
 \alias{[,ListOfClasses-method}

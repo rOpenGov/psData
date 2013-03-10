@@ -33,13 +33,14 @@
 #' @aliases [,ListOfClasses-method
 #' @aliases [<-,ListOfClasses-method
 #' @aliases [[<-,ListOfClasses-method
+#' @aliases $<-,ListOfClasses-method
 #' @aliases c,ListOfClasses-method
 #' @docType class
 #' @keywords classes
 #' @exportClass ListOfClasses
 #' @export
 ListOfClasses <- setClass("ListOfClasses",
-                          contains="list",
+                          contains="namedList",
                           representation(classtype="character"))
 
 setValidity("ListOfClasses",
@@ -64,7 +65,7 @@ setMethod("c", signature="ListOfClasses",
 
 #' @export
 setMethod("[", signature="ListOfClasses",
-          def=function(x, i, ...) {
+          def=function(x, i, j, ...) {
               new("ListOfClasses",
                   x@.Data[i],
                   classtype=x@classtype)
@@ -72,19 +73,31 @@ setMethod("[", signature="ListOfClasses",
 
 #' @export
 setMethod("[<-", signature="ListOfClasses",
-          def = function(x, i, value) {
-            x@.Data[i] <- value
-            validObject(x)
-            x
+          def = function(x, i, j, ..., value) {
+            y <- callGeneric(as(x, "namedList"), i, j, ..., value=value)
+            new("ListOfClasses", y, classtype=x@classtype)
           })
 
-setMethod("[[<-", signature="ListOfClasses",
-          def = function(x, i, value) {
-              x@.Data[[i]] <- value
-              validObject(x)
-              x
-          })
+#' @export
+## setMethod("$<-", signature=c(x="ListOfClasses"),
+##           def = function(x, name, value) {
+##             what <- substitute(name)
+##             if (is.symbol(what)) {
+##               what <- as.character(what)
+##             } else {
+##               what <- name
+##             }
+##             x[[what]] <- value
+##             x
+##         })
 
+## #' @export
+## setMethod("[[<-", signature=c(x="ListOfClasses"),
+##           function(x, i, j, ..., value) {
+##             y <- as(x, "namedList")
+##             y[[i]] <- value
+##             new("ListOfClasses", y, classtype=x@classtype)
+##           })
 
 
 #' Create subclass list of classes
@@ -102,7 +115,7 @@ subclass_list_of_classes <- function(Class, classtype="ANY",
                                      where=topenv(parent.frame())) {
     .f <- setClass(Class,
                    contains="ListOfClasses",
-                   prototype=prototype(list(), classtype=classtype),
+                   prototype=prototype(classtype=classtype),
                    where=where)
 
     setValidity(Class,
@@ -115,14 +128,33 @@ subclass_list_of_classes <- function(Class, classtype="ANY",
                 },
                 where=where)
 
-    setMethod("c", Class, 
-          function(x, ...) {
-              new(Class, callNextMethod(x, ...))
-          })
+    setMethod("[<-", Class,
+              function(x, i, j, ..., value) {
+                y <- callGeneric(as(x, "ListOfClasses"), i, j, ..., value=value)
+                new(Class, y)
+              }, where=where)
+
+    setMethod("[[<-", Class,
+              function(x, i, j, ..., value) {
+                y <- callGeneric(as(x, "ListOfClasses"), i, j, ..., value=value)
+                new(Class, y)
+              }, where=where)
+
+    setMethod("$<-", Class,
+              function(x, name, value) {
+                ## rewrite to use partial matching as in a list
+                what <- substitute(name)
+                if (is.symbol(what)) 
+                  what <- as.character(what)
+                else what <- name
+                x[[what]] <- value
+                x
+              }, where=where)
     
-    setAs("list", Class,
+    setAs("namedList", Class,
           function(from, to) new(class, from), where=where)
 
     invisible(.f)
 }
          
+
