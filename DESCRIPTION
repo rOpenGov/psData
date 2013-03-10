@@ -8,12 +8,10 @@ Description: Create data frames with constraints on
     the names, classes, and unique values of their columns.
 Depends:
     methods
-Imports:
-    digest
 Suggests:
     testthat,
     roxygen2
 Collate:
-    'DataFramePlus-package.r'
+    'listofclasses.R'
     'dataframeplus.R'
-    'list-of-classes.R'
+    'DataFramePlus-package.r'

@@ -26,6 +26,27 @@ test_that("c,ListOfClasses-method works", {
     expect_equal(baz@classtype, "integer")
 })
 
+test_that("[,ListOfClasses works", {
+    foo <- new("ListOfClasses", 1:4, classtype="integer")
+    bar <- foo[1:2]
+    expect_is(bar, "ListOfClasses")
+    expect_equal(length(bar), 2)
+})
+
+test_that("[<-,ListOfClasses works", {
+    foo <- new("ListOfClasses", 1:4, classtype="integer")
+    foo[1:2] <- 2L:3L
+    expect_is(foo, "ListOfClasses")
+    expect_equal(unlist(foo), as.integer(c(2, 3, 3, 4)))
+})
+
+test_that("[[<-,ListOfClasses works", {
+  foo <- new("ListOfClasses", 1:4, classtype="integer")
+  foo[[1]] <- 2L
+  expect_is(foo, "ListOfClasses")
+  expect_equal(foo[[1]], 2L)
+})
+
 test_that("subclass_list_of_classes creates a subclass", {
     foo <- subclass_list_of_classes("foo", "integer")
     expect_is(foo, "function")

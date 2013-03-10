@@ -2,8 +2,8 @@
 \alias{validate_data_frame}
 \title{Check column names and classes of a \code{data.frame}}
 \usage{
-  validate_data_frame(object, columns, exclusive = FALSE,
-    keys = character(), constraints = list())
+  validate_data_frame(object, columns = NULL,
+    exclusive = FALSE, constraints = list())
 }
 \arguments{
   \item{object}{\code{data.frame} to be validated.}
@@ -16,9 +16,6 @@
   in \code{columns} columns in \code{x}, values are the
   classes of those columns.}
 
-  \item{keys}{\code{character} Names of columns which
-  should be jointly unique.}
-
   \item{constraints}{\code{list} of functions. Each
   function should take only one argument, and return
   \code{logical}.}
@@ -29,5 +26,19 @@
 }
 \description{
   Check column names and classes of a \code{data.frame}
+}
+\examples{
+data(iris)
+# check that the iris dataset has numeric column Sepal.Length
+# and factor Species.
+validate_data_frame(iris,
+                    columns=c(Sepal.Length="numeric",
+                              Species="factor"))
+# Error because iris does not have column 'foo'
+try(validate_data_frame(iris,
+                    columns=c(foo="numeric")))
+# Error because Sepal.Length is not an integer
+try(validate_data_frame(iris,
+                    columns=c(foo="ineger")))
 }
 

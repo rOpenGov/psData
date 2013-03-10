@@ -3,8 +3,8 @@
 \title{Create subclasss of \code{DataFramePlus}}
 \usage{
   subclass_data_frame_plus(class, columns = character(),
-    exclusive = FALSE, keys = character(),
-    where = topenv(parent.frame()), constraints = list())
+    exclusive = FALSE, where = topenv(parent.frame()),
+    constraints = list())
 }
 \arguments{
   \item{class}{\code{character} Name of the new class.}
@@ -16,9 +16,6 @@
   \item{exclusive}{\code{logical} If \code{TRUE}, then the
   data frame can only contain the columns in
   \code{columns}.}
-
-  \item{keys}{\code{character} Columns in the data fram
-  which a jointly unique.}
 
   \item{constraints}{\code{list} of functions. Each
   function should take only one argument, and return
@@ -34,8 +31,8 @@
 \description{
   This function creates a class which directly extends
   \code{DataFramePlus} with the requirement that the slots
-  (\code{required}, \code{classes}, \code{exclusive}, and
-  \code{keys}) take specific values.
+  (\code{columns}, and \code{exclusive} take specific
+  values.
 }
 \examples{
 foo <- subclass_data_frame_plus("foo", columns=c(a="numeric"))
