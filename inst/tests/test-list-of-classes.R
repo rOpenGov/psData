@@ -18,12 +18,12 @@ test_that("Error if length classtype > 1", {
 })
 
 test_that("c,ListOfClasses-method works", {
-    foo <- new("ListOfClasses", 1:4, classtype="integer")
-    bar <- new("ListOfClasses", 5:10, classtype="integer")
+    foo <- new("ListOfClasses", list(a=1), classtype="numeric")
+    bar <- new("ListOfClasses", list(b=2), classtype="numeric")
     baz <- c(foo, bar)
     expect_is(baz, "ListOfClasses")
-    expect_equal(baz@.Data, as.list(1:10))
-    expect_equal(baz@classtype, "integer")
+    expect_equal(baz@.Data, as.list(1:2))
+    expect_equal(names(baz), c("a", "b"))
 })
 
 test_that("[,ListOfClasses works", {
@@ -56,15 +56,15 @@ test_that("[[<-,ListOfClasses i=numeric works", {
   expect_equal(foo[[1]], y)
 })
 
-
 test_that("$<-,ListOfClasses works", {
   foo <- new("ListOfClasses", list(a=1L, b=2L), classtype="integer")
   y <- 10L
   foo$a <- y
-  print(foo)
   expect_is(foo, "ListOfClasses")
   expect_equal(foo$a, y)
 })
+
+############################################
 
 context("ListOfClasses subclasses")
 
@@ -112,4 +112,14 @@ test_that("$<-,ListOfClasses works", {
   expect_is(bar, "foo")
   expect_equal(bar$a, 10L)
 })
+
+test_that("c subclass works", {
+  foo <- subclass_list_of_classes("foo", "integer")
+  bar <- foo(list(a=1L, b=2L))
+  baz <- c(bar, list(c=3L))
+  expect_is(baz, "foo")
+  expect_equal(baz@.Data, as.list(1:3))
+  expect_equal(names(baz), letters[1:3])
+})
+
 

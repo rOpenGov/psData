@@ -1,7 +1,10 @@
 #' @include listofclasses.R
 NULL
 
-#' Check column names and classes of a \code{data.frame}
+#' Validate \code{data.frame}: column names, classes, and arbitrary constraints
+#'
+#' Check that at \code{data.frame} has columns of specified classtypes, and
+#' satisfies arbitrary constraints.
 #'
 #' @param object \code{data.frame} to be validated.
 #' @param columns Named \code{character} vector. Names are required
@@ -57,36 +60,40 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
   TRUE
 }
 
-#' Data Frame with column constraints
+#' Data Frame with constraints
 #'
 #' Creates a new object directly extended \code{\link{data.frame}},
 #' but with constrains that require columns. This class can be used
 #' to ensure that data frames have a specific structure.
 #'
-#' @param ... Passed to \link{new}
-#'
-
+#' @param ... Data to include in the object.
+#' 
 #' @section Slots:
 #' 
 #' \describe{
-#' \item{\code{names}:}{Object of class \code{"character"} ~~ }
-#' \item{\code{row.names}:}{Object of class \code{"data.frameRowLabels"} ~~ }
-#' \item{\code{.S3Class}:}{Object of class \code{"character"} ~~ }
+#' \item{\code{list}:}{Object of class \code{"list"}}
 #' \item{\code{columns}}{Named \code{character} vector. The names are the
-#' column names, and the values are the required class of the column.}
+#' column names, and the values are the required classes of the column.}
 #' \item{\code{exclusive}}{Object of class \code{logical}. If \code{TRUE},
 #' then the data frame cannot contain any columns other than those
 #' in \code{columns}}
 #' \item{\code{constraints}}{Object of class \code{list} containing \code{function}
 #' elements.  Each function in the list should take one argument, and return \code{logical}.}
+#' \item{\code{names}:}{Object of class \code{"character"} Column names}
+#' \item{\code{row.names}:}{Object of class \code{"data.frameRowLabels"} Row names}
+#' \item{\code{.S3Class}:}{Object of class \code{"character"} Name of \code{S3Class}}
 #' }
 #'
 #' @section Methods:
+#'
+#' Replace methods are defined to return \code{"DataFramePlus"} objects where appropriate.
+#'
 #' \describe{
 #'     \item{[<-}{\code{signature(x = "DataFramePlus")}: ... }
 #'     \item{[[<-}{\code{signature(x = "DataFramePlus")}: ... }
 #'     \item{$<-}{\code{signature(x = "DataFramePlus")}: ... }
-#'     \item{initialize}{\code{signature(.Object = "DataFramePlus")}: ... }
+#'     \item{rbind2}{\code{signature(x = "DataFramePlus")}: ... }
+#'     \item{cbind2}{\code{signature(x = "DataFramePlus")}: ... }
 #' }
 #'
 #' @section Extends:
@@ -100,8 +107,11 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases DataFramePlus-class
 #' @aliases DataFramePlus
 #' @aliases [<-,DataFramePlus-method
-#' @aliases [[<-,DataFramePlus-method
+#' @aliases [[<-,DataFramePlus,ANY,missing-method
+#' @aliases [[<-,DataFramePlus,ANY,ANY-method
 #' @aliases $<-,DataFramePlus-method
+#' @aliases rbind2,DataFramePlus,ANY-method
+#' @aliases cbind2,DataFramePlus,ANY-method
 #' @aliases initialize,DataFramePlus-method
 #' @examples
 #' new("DataFramePlus", data.frame(a=1:10),
@@ -170,6 +180,20 @@ setMethod("$<-", "DataFramePlus",
           function(x, name, value) {
             y <- callNextMethod()
             new("DataFramePlus", y, x@columns, x@exclusive, x@constraints)
+          })
+
+#' @export
+setMethod("rbind2", "DataFramePlus",
+          function(x, y, ...) {
+            z <- rbind(as(x, "data.frame"), as(y, "data.frame"), ...)
+            new("DataFramePlus", z, x@columns, x@exclusive, x@constraints)
+          })
+
+#' @export
+setMethod("cbind2", "DataFramePlus",
+          function(x, y, ...) {
+            z <- cbind(as(x, "data.frame"), as(y, "data.frame"), ...)
+            new("DataFramePlus", z, x@columns, x@exclusive, x@constraints)
           })
 
 
@@ -248,13 +272,27 @@ subclass_data_frame_plus <- function(Class, columns=character(),
               y <- callGeneric(as(x, "DataFramePlus"), i=i, value=value)
               new(Class, y)
             }, where=where)
-  
+
   setMethod("[[<-", c(x=Class, i="ANY", j="ANY", value="ANY"),
             function(x, i, j, ..., value) {
               y <- callGeneric(as(x, "DataFramePlus"), i=i, j=j, value=value)
               new(Class, y)
             }, where=where)
 
+
+  
+  setMethod("rbind2", Class,
+            function(x, y, ...) {
+              z <- callNextMethod()
+              new(Class, z)
+            }, where=where)
+
+  setMethod("cbind2", Class,
+            function(x, y, ...) {
+              z <- callNextMethod()
+              new(Class, z)
+            }, where=where)
+  
   setAs("data.frame", Class,
         function(from, to) new(Class, from), where=where)
   

@@ -110,6 +110,38 @@ test_that("$<- throws error if invalid object produced", {
                "column a does not inherit from integer")
 })
 
+test_that("dimnames<- works", {
+  foo <- DataFramePlus(data.frame(a=1:10, b=1:10),
+                       columns=c(a="integer"))
+  dimnames(foo)[[2]] <- c("a", "c")
+  expect_is(foo, "DataFramePlus")
+  expect_equal(dimnames(foo), list(as.character(1:10), c("a", "c")))
+})
+
+test_that("dim<- works", {
+  foo <- DataFramePlus(data.frame(a=1:10, b=1:10),
+                       columns=c(a="integer"))
+  names(foo) <- c("a", "c")
+  expect_is(foo, "DataFramePlus")
+  expect_equal(dimnames(foo), list(as.character(1:10), c("a", "c")))
+})
+
+test_that("rbind2 works", {
+  foo <- DataFramePlus(data.frame(a=1:10, b=1:10),
+                       columns=c(a="integer"))
+  bar <- rbind2(foo, data.frame(a=13L, b=14L))
+  expect_is(bar, "DataFramePlus")
+})
+
+test_that("cbind2 works", {
+  foo <- DataFramePlus(data.frame(a=1:10, b=1:10),
+                       columns=c(a="integer"))
+  bar <- cbind2(foo, data.frame(c=1))
+  expect_is(bar, "DataFramePlus")
+})
+
+
+##############################################################################
 
 test_that("Subclassing works", {
   subclass_data_frame_plus("df1", columns=c(a="factor"))
@@ -166,4 +198,19 @@ test_that("Subclass $<- works", {
   expect_equal(foo[, "a"], y)
 })
 
+test_that("Subclass cbind2 works", {
+  df1 <- subclass_data_frame_plus("df1", columns=c(a="numeric"))
+  foo <- df1(data.frame(a=1:10))
+  bar <- cbind2(foo, data.frame(c=11))
+  expect_is(bar, "df1")
+  expect_equal(dim(bar), c(nrow(foo), 2))
+})
+
+test_that("Subclass rbind2 works", {
+  df1 <- subclass_data_frame_plus("df1", columns=c(a="numeric"))
+  foo <- df1(data.frame(a=1:10))
+  bar <- rbind2(foo, data.frame(a=11))
+  expect_is(bar, "df1")
+  expect_equal(dim(bar), c(nrow(foo) + 1, 1))
+})
 

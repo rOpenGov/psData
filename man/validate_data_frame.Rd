@@ -1,6 +1,6 @@
 \name{validate_data_frame}
 \alias{validate_data_frame}
-\title{Check column names and classes of a \code{data.frame}}
+\title{Validate \code{data.frame}: column names, classes, and arbitrary constraints}
 \usage{
   validate_data_frame(object, columns = NULL,
     exclusive = FALSE, constraints = list())
@@ -25,7 +25,8 @@
   error message.
 }
 \description{
-  Check column names and classes of a \code{data.frame}
+  Check that at \code{data.frame} has columns of specified
+  classtypes, and satisfies arbitrary constraints.
 }
 \examples{
 data(iris)

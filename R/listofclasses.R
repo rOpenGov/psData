@@ -32,7 +32,7 @@
 #' @aliases ListOfClasses
 #' @aliases [,ListOfClasses-method
 #' @aliases [<-,ListOfClasses-method
-#' @aliases [[<-,ListOfClasses-method
+#' @aliases [[<-,ListOfClasses,charOrNumeric,missing-method
 #' @aliases $<-,ListOfClasses-method
 #' @aliases c,ListOfClasses-method
 #' @docType class
@@ -58,9 +58,8 @@ setValidity("ListOfClasses",
 #' @export
 setMethod("c", signature="ListOfClasses",
           def=function(x, ...) {
-              new("ListOfClasses",
-                  c(x@.Data, ...),
-                  classtype=x@classtype)
+            y <- callGeneric(as(x, "namedList"), ...)
+            new("ListOfClasses", y, classtype=x@classtype)
           })
 
 #' @export
@@ -136,6 +135,12 @@ subclass_list_of_classes <- function(Class, classtype="ANY",
               function(x, name, value) {
                 x[[name]] <- value
                 new(Class, x)
+              }, where=where)
+    
+    setMethod("c", Class,
+              function(x, ...) {
+                y <- callGeneric(as(x, "ListOfClasses"), ...)
+                new(Class, y)
               }, where=where)
     
     setAs("list", Class,

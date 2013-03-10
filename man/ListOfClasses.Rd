@@ -5,7 +5,7 @@
 \alias{ListOfClasses-class}
 \alias{[,ListOfClasses-method}
 \alias{[<-,ListOfClasses-method}
-\alias{[[<-,ListOfClasses-method}
+\alias{[[<-,ListOfClasses,charOrNumeric,missing-method}
 \alias{c,ListOfClasses-method}
 \title{List of classes}
 \usage{
