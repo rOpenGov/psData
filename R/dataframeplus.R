@@ -128,7 +128,7 @@ setValidity("DataFramePlus",
             })
 
 setMethod("initialize", "DataFramePlus",
-          function(.Object, x, columns, exclusive=FALSE, constraints=list()) {
+          function(.Object, x, columns=character(), exclusive=FALSE, constraints=list()) {
               ## Drop any bad columns if exclusive
             if (exclusive) {
               coltouse <- intersect(names(x), names(columns))
@@ -137,7 +137,7 @@ setMethod("initialize", "DataFramePlus",
             .Object <- callNextMethod(.Object, x)
             .Object@columns <- columns
             .Object@exclusive <- exclusive
-            .Object@constraints <- list()
+            .Object@constraints <- constraints
             validObject(.Object)
             .Object
           })

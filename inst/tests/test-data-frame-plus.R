@@ -28,7 +28,7 @@ test_that("error: bad column type", {
   expect_error(new("DataFramePlus",
                    data.frame(a=letters[1:10], b=letters[1:10]),
                    columns=c(a="factor", b="numeric")),
-               regexp="column b does not have class numeric")
+               regexp="column b does not inherit from numeric")
 })
 
 test_that("extra columns and exclusive=TRUE produces no error and drops extra cols", {

@@ -73,32 +73,24 @@ setMethod("[", signature="ListOfClasses",
 
 #' @export
 setMethod("[<-", signature="ListOfClasses",
-          def = function(x, i, j, ..., value) {
-            y <- callGeneric(as(x, "namedList"), i, j, ..., value=value)
+          function(x, i, j, ..., value) {
+            y <- callGeneric(as(x, "namedList"), i=i, value=value)
             new("ListOfClasses", y, classtype=x@classtype)
           })
 
-#' @export
-## setMethod("$<-", signature=c(x="ListOfClasses"),
-##           def = function(x, name, value) {
-##             what <- substitute(name)
-##             if (is.symbol(what)) {
-##               what <- as.character(what)
-##             } else {
-##               what <- name
-##             }
-##             x[[what]] <- value
-##             x
-##         })
+setClassUnion("charOrNumeric", c("character", "numeric"))
 
-## #' @export
-## setMethod("[[<-", signature=c(x="ListOfClasses"),
-##           function(x, i, j, ..., value) {
-##             y <- as(x, "namedList")
-##             y[[i]] <- value
-##             new("ListOfClasses", y, classtype=x@classtype)
-##           })
+setMethod("[[<-", signature=c(x="ListOfClasses", i="charOrNumeric", j="missing", value="ANY"),
+          function(x, i, j, ..., value) {
+            y <- callGeneric(as(x, "namedList"), i=i, value=value)
+            new("ListOfClasses", y, classtype=x@classtype)
+          })
 
+setMethod("$<-", signature=c(x="ListOfClasses"),
+          function(x, name, value) {
+            x[[name]] <- value
+            new("ListOfClasses", x)
+          })
 
 #' Create subclass list of classes
 #'
@@ -134,26 +126,21 @@ subclass_list_of_classes <- function(Class, classtype="ANY",
                 new(Class, y)
               }, where=where)
 
-    setMethod("[[<-", Class,
+    setMethod("[[<-", c(x=Class, i="charOrNumeric", j="missing", value="ANY"),
               function(x, i, j, ..., value) {
-                y <- callGeneric(as(x, "ListOfClasses"), i, j, ..., value=value)
+                y <- callGeneric(as(x, "ListOfClasses"), i=i, value=value)
                 new(Class, y)
               }, where=where)
-
+    
     setMethod("$<-", Class,
               function(x, name, value) {
-                ## rewrite to use partial matching as in a list
-                what <- substitute(name)
-                if (is.symbol(what)) 
-                  what <- as.character(what)
-                else what <- name
-                x[[what]] <- value
-                x
+                x[[name]] <- value
+                new(Class, x)
               }, where=where)
     
-    setAs("namedList", Class,
+    setAs("list", Class,
           function(from, to) new(class, from), where=where)
-
+    
     invisible(.f)
 }
          
