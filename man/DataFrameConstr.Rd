@@ -57,10 +57,5 @@
 \section{Extends}{
   \describe{ \item{\code{data.frame}}{Directly.} }
 }
-\examples{
-new("DataFrameConstr",
-     data.frame(a=1:10),
-     columns=c(a="numeric"))
-}
 \keyword{classes}
 

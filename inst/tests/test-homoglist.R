@@ -26,7 +26,7 @@ test_that("Error if bad classtype", {
 
 test_that("Error if length classtype > 1", {
     expect_error(new("HomogList", 1:4, classtype=c("integer", "character")),
-                 "length > 1")
+                 "length != 1")
 })
 
 test_that("c,HomogList-method works", {

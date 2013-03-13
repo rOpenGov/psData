@@ -1,4 +1,4 @@
 library("testthat")
-library("DataFramePlus")
+library("DataFrameConstr")
 
-test_package("DataFramePlus")
+test_package("DataFrameConstr")

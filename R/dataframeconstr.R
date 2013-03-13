@@ -121,11 +121,6 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases initialize,DataFrameConstr-method
 #' @exportClass DataFrameConstr
 #' @export
-#' @examples
-#' new("DataFrameConstr",
-#'      data.frame(a=1:10),
-#'      columns=c(a="numeric"))
-#'
 DataFrameConstr <-
   setClass("DataFrameConstr", contains="data.frame",
            representation(columns="character",
