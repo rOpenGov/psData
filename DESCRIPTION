@@ -1,11 +1,12 @@
-Package: DataFramePlus
+Package: DataFrameConstr
 Maintainer: Jeffrey Arnold <jeffrey.arnold@gmail.com>
 Author: Jeffrey Arnold <jeffrey.arnold@gmail.com>
-Version: 2.0-0
+Version: 3.0-0
 License: GPL-3
-Title: Data Frames with column constraints
-Description: Create data frames with constraints on
-    the names, classes, and unique values of their columns.
+Title: Constrained data frames and list classes
+Description: Defines two utility S4 classes. DataFrameConstr: extends data frames
+    with column and general constraints. HomogList: 
+    a list in which all elements to have the same class. 
 Depends:
     methods
 Suggests:

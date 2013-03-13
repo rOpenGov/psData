@@ -1,7 +1,11 @@
-#' List of classes
+#' Homogenous List
 #'
-#' An S4 subclass of \code{list} which requires all elements of the
+#' An S4 subclass of \code{list} in which all elements of the
 #' list to be the same class.
+#'
+#' This is similar to the 'atomic lists' in R in that all elements
+#' of the vector must be the same class, but the \code{HomogList}
+#' supports arbitrary classes.
 #' 
 #' @section Slots:
 #'
@@ -22,28 +26,28 @@
 #' @section Methods:
 #' 
 #' \describe{
-#'     \item{[<-}{\code{signature(x = "ListOfClasses")}: ... }
-#'     \item{[}{\code{signature(x = "ListOfClasses")}: ... }
-#'     \item{[[<-}{\code{signature(x = "ListOfClasses")}: ... }
-#'     \item{c}{\code{signature(x = "ListOfClasses")}: ... }
+#'     \item{[<-}{\code{signature(x = "HomogList")}: ... }
+#'     \item{[}{\code{signature(x = "HomogList")}: ... }
+#'     \item{[[<-}{\code{signature(x = "HomogList")}: ... }
+#'     \item{c}{\code{signature(x = "HomogList")}: ... }
 #' }
 #' 
-#' @aliases ListOfClasses-class
-#' @aliases ListOfClasses
-#' @aliases [,ListOfClasses-method
-#' @aliases [<-,ListOfClasses-method
-#' @aliases [[<-,ListOfClasses,charOrNumeric,missing-method
-#' @aliases $<-,ListOfClasses-method
-#' @aliases c,ListOfClasses-method
+#' @aliases HomogList-class
+#' @aliases HomogList
+#' @aliases [,HomogList-method
+#' @aliases [<-,HomogList-method
+#' @aliases [[<-,HomogList,charOrNumeric,missing-method
+#' @aliases $<-,HomogList-method
+#' @aliases c,HomogList-method
 #' @docType class
 #' @keywords classes
-#' @exportClass ListOfClasses
+#' @exportClass HomogList
 #' @export
-ListOfClasses <- setClass("ListOfClasses",
+HomogList <- setClass("HomogList",
                           contains="namedList",
                           representation(classtype="character"))
 
-setValidity("ListOfClasses",
+setValidity("HomogList",
             function(object) {
                 if (length(object@classtype) > 1) {
                     return("object@classtype has a length > 1")
@@ -56,56 +60,62 @@ setValidity("ListOfClasses",
             })
 
 #' @export
-setMethod("c", signature="ListOfClasses",
+setMethod("c", signature="HomogList",
           def=function(x, ...) {
             y <- callGeneric(as(x, "namedList"), ...)
-            new("ListOfClasses", y, classtype=x@classtype)
+            new("HomogList", y, classtype=x@classtype)
           })
 
 #' @export
-setMethod("[", signature="ListOfClasses",
+setMethod("[", signature="HomogList",
           def=function(x, i, j, ...) {
-              new("ListOfClasses",
+              new("HomogList",
                   x@.Data[i],
                   classtype=x@classtype)
           })
 
 #' @export
-setMethod("[<-", signature="ListOfClasses",
+setMethod("[<-", signature="HomogList",
           function(x, i, j, ..., value) {
             y <- callGeneric(as(x, "namedList"), i=i, value=value)
-            new("ListOfClasses", y, classtype=x@classtype)
+            new("HomogList", y, classtype=x@classtype)
           })
 
 setClassUnion("charOrNumeric", c("character", "numeric"))
 
-setMethod("[[<-", signature=c(x="ListOfClasses", i="charOrNumeric", j="missing", value="ANY"),
+setMethod("[[<-", signature=c(x="HomogList", i="charOrNumeric", j="missing", value="ANY"),
           function(x, i, j, ..., value) {
             y <- callGeneric(as(x, "namedList"), i=i, value=value)
-            new("ListOfClasses", y, classtype=x@classtype)
+            new("HomogList", y, classtype=x@classtype)
           })
 
-setMethod("$<-", signature=c(x="ListOfClasses"),
+setMethod("$<-", signature=c(x="HomogList"),
           function(x, name, value) {
             x[[name]] <- value
-            new("ListOfClasses", x)
+            new("HomogList", x)
           })
 
-#' Create subclass list of classes
+#' Create a subclass of HomogList
 #'
-#' Creates a new subclass of \code{ListOfClasses} which requires a
-#' specific class.
+#' Creates a new subclass of \code{HomogList} for a specific class.
 #'
-#' @param Class \code{character} string name for the class.
+#' @param Class \code{character} string name of the new class
+#' that will extend \code{HomogList}.
 #' @param classtype \code{character} The name of the class which 
 #' all elements must inherit from. This is tested with \code{is}.
 #' @param where Passed to \code{\link{setClass}}.
-#' 
+#'
 #' @export
-subclass_list_of_classes <- function(Class, classtype="ANY",
-                                     where=topenv(parent.frame())) {
+#' @examples
+#' # create a list of list of lists
+#' ListOfLists <- subclass_homog_list("ListOfLists", "list")
+#' foo <- ListOfLists(list(list(a=1), list(b=2))
+#' # Error because 2 is not a list
+#' try(ListOfLists(list(list(a=1), 2))
+subclass_homog_list <- function(Class, classtype="ANY",
+                                where=topenv(parent.frame())) {
     .f <- setClass(Class,
-                   contains="ListOfClasses",
+                   contains="HomogList",
                    prototype=prototype(classtype=classtype),
                    where=where)
 
@@ -114,20 +124,20 @@ subclass_list_of_classes <- function(Class, classtype="ANY",
                     if (object@classtype != classtype) {
                         return(sprintf("object@classtype != %s", classtype))
                     }
-                    validObject(as(object, "ListOfClasses"))
+                    validObject(as(object, "HomogList"))
                     TRUE
                 },
                 where=where)
 
     setMethod("[<-", Class,
               function(x, i, j, ..., value) {
-                y <- callGeneric(as(x, "ListOfClasses"), i, j, ..., value=value)
+                y <- callGeneric(as(x, "HomogList"), i, j, ..., value=value)
                 new(Class, y)
               }, where=where)
 
     setMethod("[[<-", c(x=Class, i="charOrNumeric", j="missing", value="ANY"),
               function(x, i, j, ..., value) {
-                y <- callGeneric(as(x, "ListOfClasses"), i=i, value=value)
+                y <- callGeneric(as(x, "HomogList"), i=i, value=value)
                 new(Class, y)
               }, where=where)
     
@@ -139,7 +149,7 @@ subclass_list_of_classes <- function(Class, classtype="ANY",
     
     setMethod("c", Class,
               function(x, ...) {
-                y <- callGeneric(as(x, "ListOfClasses"), ...)
+                y <- callGeneric(as(x, "HomogList"), ...)
                 new(Class, y)
               }, where=where)
     
