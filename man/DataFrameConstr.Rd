@@ -30,11 +30,11 @@
   \item{\code{exclusive}}{Object of class \code{logical}.
   If \code{TRUE}, then the data frame cannot contain any
   columns other than those in \code{columns}}
-  \item{\code{constraints}}{Object of class
-  \code{FunctionList} containing \code{function} elements.
-  Each function in the list should take one argument, and
-  return \code{logical}.} \item{\code{names}:}{Object of
-  class \code{"character"} Column names}
+  \item{\code{constraints}}{Object of class \code{list}
+  containing \code{function} elements.  Each function in
+  the list should take one argument, and return
+  \code{logical}.} \item{\code{names}:}{Object of class
+  \code{"character"} Column names}
   \item{\code{row.names}:}{Object of class
   \code{"data.frameRowLabels"} Row names}
   \item{\code{.S3Class}:}{Object of class

@@ -1,7 +1,7 @@
 #' @include homoglist.R
 NULL
 
-FunctionList <- subclass_homog_list("FunctionList", "function")
+# FunctionList <- subclass_homog_list("FunctionList", "function")
 
 #' Validate \code{data.frame}: column names, classes, and arbitrary constraints
 #'
@@ -83,7 +83,7 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' \item{\code{exclusive}}{Object of class \code{logical}. If \code{TRUE},
 #' then the data frame cannot contain any columns other than those
 #' in \code{columns}}
-#' \item{\code{constraints}}{Object of class \code{FunctionList} containing \code{function}
+#' \item{\code{constraints}}{Object of class \code{list} containing \code{function}
 #' elements.  Each function in the list should take one argument, and return \code{logical}.}
 #' \item{\code{names}:}{Object of class \code{"character"} Column names}
 #' \item{\code{row.names}:}{Object of class \code{"data.frameRowLabels"} Row names}
@@ -125,11 +125,11 @@ DataFrameConstr <-
   setClass("DataFrameConstr", contains="data.frame",
            representation(columns="character",
                           exclusive="logical",
-                          constraints="FunctionList"),
+                          constraints="list"),
            prototype(data.frame(),
                      columns=character(),
                      exclusive=FALSE,
-                     constraints=FunctionList()))
+                     constraints=list()))
 
 setValidity("DataFrameConstr",
             function(object) {
@@ -154,7 +154,7 @@ setMethod("initialize", "DataFrameConstr",
             .Object <- callNextMethod(.Object, x)
             .Object@columns <- columns
             .Object@exclusive <- exclusive
-            .Object@constraints <- FunctionList(constraints)
+            .Object@constraints <- constraints
             validObject(.Object)
             .Object
           })
@@ -244,8 +244,8 @@ constrained_data_frame <- function(Class, columns=character(),
   setClass(Class, contains="DataFrameConstr",
            prototype=
            prototype(x=new_data_frame(columns), columns=columns,
-             exclusive=exclusive,
-             constraints=FunctionList()),
+                     exclusive=exclusive,
+                     constraints=constraints),
            where=where)
   
   setValidity(Class,
@@ -263,7 +263,9 @@ constrained_data_frame <- function(Class, columns=character(),
               }
               callNextMethod(.Object, x=x,
                              columns=columns,
-                             exclusive=exclusive)
+                             exclusive=exclusive,
+                             constraints=constraints
+                             )
             }, where=where)
 
   setMethod("$<-", c(x=Class),
