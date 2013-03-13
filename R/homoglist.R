@@ -108,6 +108,12 @@ setMethod("$<-", signature=c(x="HomogList"),
             new("HomogList", x)
           })
 
+setMethod("show", "HomogList",
+          function(object) {
+            cat(sprintf("List of %s objects:\n", dQuote(object@classtype)))
+            print(object@.Data)
+          })
+
 #' Create a subclass of HomogList
 #'
 #' Creates a new subclass of \code{HomogList} for a specific class.
