@@ -1,8 +1,8 @@
-\name{subclass_data_frame_plus}
-\alias{subclass_data_frame_plus}
-\title{Create subclasss of \code{DataFramePlus}}
+\name{constrained_data_frame}
+\alias{constrained_data_frame}
+\title{Create subclasss of \code{DataFrameConstr}}
 \usage{
-  subclass_data_frame_plus(Class, columns = character(),
+  constrained_data_frame(Class, columns = character(),
     exclusive = FALSE, constraints = list(),
     where = topenv(parent.frame()))
 }
@@ -30,8 +30,8 @@
 }
 \description{
   This function creates a class which directly extends
-  \code{DataFramePlus} with the requirement that the slots
-  (\code{columns}, and \code{exclusive} take specific
+  \code{DataFrameConstr} with the requirement that the
+  slots (\code{columns}, and \code{exclusive} take specific
   values.
 }
 \examples{

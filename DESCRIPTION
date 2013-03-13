@@ -4,15 +4,15 @@ Author: Jeffrey Arnold <jeffrey.arnold@gmail.com>
 Version: 3.0-0
 License: GPL-3
 Title: Constrained data frames and list classes
-Description: Defines two utility S4 classes. DataFrameConstr: extends data frames
-    with column and general constraints. HomogList: 
-    a list in which all elements to have the same class. 
+Description: Defines two utility S4 classes. DataFrameConstr: extends data
+    frames with column and general constraints. HomogList: a list in which all
+    elements to have the same class.
 Depends:
     methods
 Suggests:
     testthat,
     roxygen2
 Collate:
-    'listofclasses.R'
-    'dataframeplus.R'
-    'DataFramePlus-package.r'
+    'homoglist.R'
+    'dataframeconstr.R'
+    'package.R'

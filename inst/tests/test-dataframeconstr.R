@@ -11,6 +11,22 @@ test_that("new DataFrameConstr", {
   expect_is(bar, "DataFrameConstr")
 })
 
+test_that("new DataFrameConstr without args works", {
+  foo <- data.frame(a=letters[1:10], b=1:10)
+  bar <- new("DataFrameConstr")
+  expect_is(bar, "DataFrameConstr")
+})
+
+test_that("new DataFrameConstr with only columns works", {
+  bar <- new("DataFrameConstr", columns=c(a="integer"))
+  expect_is(bar, "DataFrameConstr")
+})
+
+test_that("DataFrameConstr with column class ANY works", {
+  bar <- new("DataFrameConstr", data.frame(a=1:10), columns=c(a="ANY"))
+  expect_is(bar, "DataFrameConstr")
+})
+
 test_that("DataFrameConstr inherits from data.frame", {
   foo <- new("DataFrameConstr",
              data.frame(a=letters[1:10]))

@@ -44,20 +44,33 @@
 #' @exportClass HomogList
 #' @export
 HomogList <- setClass("HomogList",
-                          contains="namedList",
-                          representation(classtype="character"))
+                      contains="namedList",
+                      representation(classtype="character"),
+                      prototype(list(), classtype="ANY"))
 
 setValidity("HomogList",
             function(object) {
-                if (length(object@classtype) > 1) {
-                    return("object@classtype has a length > 1")
+                if (length(object@classtype) != 1) {
+                    return("object@classtype has a length != 1")
                 }
-                if (!all(sapply(object, is, class2=object@classtype))) {
+                # Hack. need to test s3 and s4 classes differently
+                # is(x, "ANY") does not work for s3 objects
+                if (object@classtype != "ANY") {
+                  if (!all(sapply(object, is, class2=object@classtype))) {
                     return(sprintf("Not all elements have class %s",
                                    object@classtype))
+                  }
                 }
                 TRUE
-            })
+              })
+
+setMethod("initialize", "HomogList",
+          function(.Object, x=list(), classtype="ANY") {
+            .Object <- callNextMethod(.Object, x)
+            .Object@classtype <- classtype
+            validObject(.Object)
+            .Object
+          })
 
 #' @export
 setMethod("c", signature="HomogList",
@@ -116,8 +129,13 @@ subclass_homog_list <- function(Class, classtype="ANY",
                                 where=topenv(parent.frame())) {
     .f <- setClass(Class,
                    contains="HomogList",
-                   prototype=prototype(classtype=classtype),
+                   prototype=prototype(list(), classtype=classtype),
                    where=where)
+
+    setMethod("initialize", Class,
+              function(.Object, x=list()) {
+                callNextMethod(.Object, x, classtype=classtype)
+              }, where=where)
 
     setValidity(Class,
                 function(object) {

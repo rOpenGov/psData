@@ -1,5 +1,7 @@
-#' @include listofclasses.R
+#' @include homoglist.R
 NULL
+
+FunctionList <- subclass_homog_list("FunctionList", "function")
 
 #' Validate \code{data.frame}: column names, classes, and arbitrary constraints
 #'
@@ -35,6 +37,10 @@ NULL
 validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constraints=list()) {
   if (length(columns)) {
     for (i in names(columns)) {
+      # hack
+      if (i == "ANY") {
+        next
+      }
       if (! i %in% colnames(object)) {
         return(sprintf("column %s not in 'object'", i))
       }
@@ -77,7 +83,7 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' \item{\code{exclusive}}{Object of class \code{logical}. If \code{TRUE},
 #' then the data frame cannot contain any columns other than those
 #' in \code{columns}}
-#' \item{\code{constraints}}{Object of class \code{list} containing \code{function}
+#' \item{\code{constraints}}{Object of class \code{FunctionList} containing \code{function}
 #' elements.  Each function in the list should take one argument, and return \code{logical}.}
 #' \item{\code{names}:}{Object of class \code{"character"} Column names}
 #' \item{\code{row.names}:}{Object of class \code{"data.frameRowLabels"} Row names}
@@ -116,20 +122,22 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @examples
 #' new("DataFrameConstr", data.frame(a=1:10),
 #'     columns=c(a="numeric"))
+#' @exportClass DataFrameConstr
 #' @export
 DataFrameConstr <-
   setClass("DataFrameConstr", contains="data.frame",
            representation(columns="character",
                           exclusive="logical",
-                          constraints="list"),
+                          constraints="FunctionList"),
            prototype(data.frame(),
                      columns=character(),
                      exclusive=FALSE,
-                     constraints=list()))
+                     constraints=FunctionList()))
 
 setValidity("DataFrameConstr",
             function(object) {
-              rc <- validate_data_frame(object, object@columns, exclusive=object@exclusive,
+              rc <- validate_data_frame(object, object@columns,
+                                        exclusive=object@exclusive,
                                         object@constraints)
               if (is.character(rc)) {
                 return(rc)
@@ -138,7 +146,8 @@ setValidity("DataFrameConstr",
             })
 
 setMethod("initialize", "DataFrameConstr",
-          function(.Object, x, columns=character(), exclusive=FALSE, constraints=list()) {
+          function(.Object, x=new_data_frame(columns), columns=character(),
+                   exclusive=FALSE, constraints=list()) {
               ## Drop any bad columns if exclusive
             if (exclusive) {
               coltouse <- intersect(names(x), names(columns))
@@ -147,7 +156,7 @@ setMethod("initialize", "DataFrameConstr",
             .Object <- callNextMethod(.Object, x)
             .Object@columns <- columns
             .Object@exclusive <- exclusive
-            .Object@constraints <- constraints
+            .Object@constraints <- FunctionList(constraints)
             validObject(.Object)
             .Object
           })
@@ -196,6 +205,13 @@ setMethod("cbind2", "DataFrameConstr",
             new("DataFrameConstr", z, x@columns, x@exclusive, x@constraints)
           })
 
+new_data_frame <- function(columns=character()) {
+  .data <- data.frame()
+  for (i in seq_along(columns)) {
+    .data[[names(columns)[i]]] <- new(columns[i])
+  }
+  .data
+}
 
 #' Create subclasss of \code{DataFrameConstr}
 #'
@@ -228,13 +244,9 @@ constrained_data_frame <- function(Class, columns=character(),
                                      constraints=list(),
                                      where=topenv(parent.frame())) {
 
-  .data <- data.frame()
-  for (i in seq_along(columns)) {
-    .data[[names(columns)[i]]] <- new(columns[i])
-  }
-  
   setClass(Class, contains="DataFrameConstr",
-           prototype=prototype(x=.data, columns=columns,
+           prototype=
+           prototype(x=new_data_frame(columns), columns=columns,
              exclusive=exclusive,
              constraints=list()),
            where=where)
