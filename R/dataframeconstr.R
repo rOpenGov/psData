@@ -1,6 +1,8 @@
 #' @include homoglist.R
 NULL
 
+FunctionList <- subclass_homog_list("FunctionList", "function")
+
 # FunctionList <- subclass_homog_list("FunctionList", "function")
 
 #' Validate \code{data.frame}: column names, classes, and arbitrary constraints
@@ -35,6 +37,7 @@ NULL
 #'
 #' @export
 validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constraints=list()) {
+  constraints <- FunctionList(constraints)
   if (length(columns)) {
     for (i in names(columns)) {
       # hack
@@ -125,11 +128,11 @@ DataFrameConstr <-
   setClass("DataFrameConstr", contains="data.frame",
            representation(columns="character",
                           exclusive="logical",
-                          constraints="list"),
+                          constraints="FunctionList"),
            prototype(data.frame(),
                      columns=character(),
                      exclusive=FALSE,
-                     constraints=list()))
+                     constraints=FunctionList()))
 
 setValidity("DataFrameConstr",
             function(object) {
@@ -154,7 +157,7 @@ setMethod("initialize", "DataFrameConstr",
             .Object <- callNextMethod(.Object, x)
             .Object@columns <- columns
             .Object@exclusive <- exclusive
-            .Object@constraints <- constraints
+            .Object@constraints <- FunctionList(constraints)
             validObject(.Object)
             .Object
           })
@@ -241,6 +244,8 @@ constrained_data_frame <- function(Class, columns=character(),
                                      constraints=list(),
                                      where=topenv(parent.frame())) {
 
+  constraints <- FunctionList(constraints)
+  
   setClass(Class, contains="DataFrameConstr",
            prototype=
            prototype(x=new_data_frame(columns), columns=columns,
