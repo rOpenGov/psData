@@ -35,8 +35,7 @@
   values.
 }
 \examples{
-foo <- subclass_data_frame_plus("foo", columns=c(a="numeric"))
+foo <- constrained_data_frame("foo", columns=c(a="numeric"))
 foo(data.frame(a=1:10))
-try(foo(data.frame(b=1:10)))
 }
 

@@ -23,7 +23,7 @@
   data frames have a specific structure.
 }
 \section{Slots}{
-  \describe{ \item{\code{list}:}{Object of class
+  \describe{ \item{\code{.Data}:}{Object of class
   \code{"list"}} \item{\code{columns}}{Named
   \code{character} vector. The names are the column names,
   and the values are the required classes of the column.}

@@ -77,7 +77,7 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @section Slots:
 #' 
 #' \describe{
-#' \item{\code{list}:}{Object of class \code{"list"}}
+#' \item{\code{.Data}:}{Object of class \code{"list"}}
 #' \item{\code{columns}}{Named \code{character} vector. The names are the
 #' column names, and the values are the required classes of the column.}
 #' \item{\code{exclusive}}{Object of class \code{logical}. If \code{TRUE},
@@ -146,7 +146,8 @@ setValidity("DataFrameConstr",
             })
 
 setMethod("initialize", "DataFrameConstr",
-          function(.Object, x=new_data_frame(columns), columns=character(),
+          function(.Object,
+                   x=new_data_frame(columns), columns=character(),
                    exclusive=FALSE, constraints=list()) {
               ## Drop any bad columns if exclusive
             if (exclusive) {
@@ -233,12 +234,11 @@ new_data_frame <- function(columns=character()) {
 #' @return Invisibly returns a constructor function for the
 #' new class.
 #'
-#' @examples
-#' foo <- subclass_data_frame_plus("foo", columns=c(a="numeric"))
-#' foo(data.frame(a=1:10))
-#' try(foo(data.frame(b=1:10)))
-#' 
 #' @export
+#' @examples
+#' foo <- constrained_data_frame("foo", columns=c(a="numeric"))
+#' foo(data.frame(a=1:10))
+#'
 constrained_data_frame <- function(Class, columns=character(),
                                      exclusive=FALSE,
                                      constraints=list(),
@@ -248,23 +248,26 @@ constrained_data_frame <- function(Class, columns=character(),
            prototype=
            prototype(x=new_data_frame(columns), columns=columns,
              exclusive=exclusive,
-             constraints=list()),
+             constraints=FunctionList()),
            where=where)
   
   setValidity(Class,
               function(object) {
                 validObject(as(object, "DataFrameConstr"))
-                TRUE
               },
               where=where)
-  
+
   setMethod("initialize", Class,
-              function(.Object, x) {
-                callNextMethod(.Object,
-                               x=x,
-                               columns=columns,
-                               exclusive=exclusive)
-              }, where=where)
+            function(.Object, x=new_data_frame(columns)) {
+              if (missing(x)) print("foo")
+              if (!missing(x)) {
+                print("not missing")
+                print(x)
+              }
+              callNextMethod(.Object, x=x,
+                             columns=columns,
+                             exclusive=exclusive)
+            }, where=where)
 
   setMethod("$<-", c(x=Class),
             function(x, name, value) {
@@ -290,8 +293,6 @@ constrained_data_frame <- function(Class, columns=character(),
               y <- callGeneric(as(x, "DataFrameConstr"), i=i, j=j, value=value)
               new(Class, y)
             }, where=where)
-
-
   
   setMethod("rbind2", Class,
             function(x, y, ...) {
@@ -308,8 +309,8 @@ constrained_data_frame <- function(Class, columns=character(),
   setAs("data.frame", Class,
         function(from, to) new(Class, from), where=where)
   
-  .f <- function(x) {
-    new(Class, x)
+  .f <- function(...) {
+    new(Class, ...)
   }
   invisible(.f)
 }

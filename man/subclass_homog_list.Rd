@@ -23,7 +23,5 @@
 # create a list of list of lists
 ListOfLists <- subclass_homog_list("ListOfLists", "list")
 foo <- ListOfLists(list(list(a=1), list(b=2))
-# Error because 2 is not a list
-try(ListOfLists(list(list(a=1), 2))
 }
 
