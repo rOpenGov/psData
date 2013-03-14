@@ -210,10 +210,11 @@ new_data_frame <- function(columns=character()) {
   .data <- data.frame()
   for (i in seq_along(columns)) {
     cname <- names(columns)[i]
-    if (i == "ANY") {
+    classname <- columns[i]
+    if (classname == "ANY") {
       .data[[cname]] <- numeric()
     } else {
-      .data[[cname]] <- new(columns[i])
+      .data[[cname]] <- new(classname)
     }
   }
   .data

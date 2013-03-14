@@ -74,7 +74,7 @@ print(foo)
 ## [[4]]
 ## function (x, ...) 
 ## UseMethod("mean")
-## <bytecode: 0x15b5f78>
+## <bytecode: 0x37b5d08>
 ## <environment: namespace:base>
 ```
 
@@ -106,11 +106,6 @@ which all elements must be `function` objects.
 FunctionList <- subclass_homog_list("FunctionList", "function")
 ```
 
-```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
-```
-
 
 Then a new object of class `FunctionList` can be created either by
 
@@ -119,8 +114,15 @@ FunctionList(list(sum = sum, mean = mean))
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## List of "function" objects:
+## [[1]]
+## function (..., na.rm = FALSE)  .Primitive("sum")
+## 
+## [[2]]
+## function (x, ...) 
+## UseMethod("mean")
+## <bytecode: 0x37b5d08>
+## <environment: namespace:base>
 ```
 
 or, more verbosely,
@@ -130,8 +132,15 @@ new("FunctionList", list(sum = sum, mean = mean))
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## List of "function" objects:
+## [[1]]
+## function (..., na.rm = FALSE)  .Primitive("sum")
+## 
+## [[2]]
+## function (x, ...) 
+## UseMethod("mean")
+## <bytecode: 0x37b5d08>
+## <environment: namespace:base>
 ```
 
 
@@ -143,22 +152,14 @@ FunctionList(list(a = 1))
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## Error: invalid class "FunctionList" object: Not all elements have class
+## function
 ```
 
 or when updating an existing object,
 
 ```r
 foo <- FunctionList(list(sum = sum, mean = mean))
-```
-
-```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
-```
-
-```r
 foo[["a"]] <- 1
 ```
 
@@ -198,11 +199,6 @@ foo <- DataFrameConstr(data.frame(a = runif(3), b = runif(3), c = letters[1:3]),
     }))
 ```
 
-```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
-```
-
 
 The new object `foo` acts just like any other `data.frame`,
 
@@ -211,21 +207,10 @@ print(foo)
 ```
 
 ```
-## List of "function" objects:
-## [[1]]
-## function (..., na.rm = FALSE)  .Primitive("sum")
-## 
-## [[2]]
-## function (..., na.rm = FALSE)  .Primitive("max")
-## 
-## [[3]]
-## function (..., na.rm = FALSE)  .Primitive("min")
-## 
-## [[4]]
-## function (x, ...) 
-## UseMethod("mean")
-## <bytecode: 0x15b5f78>
-## <environment: namespace:base>
+##         a      b c
+## 1 0.35036 0.1287 a
+## 2 0.01622 0.6547 b
+## 3 0.05910 0.7155 c
 ```
 
 ```r
@@ -233,11 +218,13 @@ summary(foo)
 ```
 
 ```
-##      Length Class  Mode    
-## sum  1      -none- function
-## max  1      -none- function
-## min  1      -none- function
-## mean 1      -none- function
+##        a                b         c    
+##  Min.   :0.0162   Min.   :0.129   a:1  
+##  1st Qu.:0.0377   1st Qu.:0.392   b:1  
+##  Median :0.0591   Median :0.655   c:1  
+##  Mean   :0.1419   Mean   :0.500        
+##  3rd Qu.:0.2047   3rd Qu.:0.685        
+##  Max.   :0.3504   Max.   :0.716
 ```
 
 
@@ -249,8 +236,8 @@ foo$a <- as.character(foo$a)
 ```
 
 ```
-## Error: invalid class "HomogList" object: Not all elements have class
-## function
+## Error: invalid class "DataFrameConstr" object: column a does not inherit
+## from numeric
 ```
 
 This returns an error because `a` is constrained to be strictly positive,
@@ -260,8 +247,8 @@ foo["a", 1] <- -1
 ```
 
 ```
-## Error: invalid class "HomogList" object: Not all elements have class
-## function
+## Error: invalid class "DataFrameConstr" object: Constraint failed: function
+## (x) { x$a > 0 }
 ```
 
 ```r
@@ -278,11 +265,6 @@ it is of class "ANY"),
 foo$b <- as.character(foo$b)
 ```
 
-```
-## Error: invalid class "HomogList" object: Not all elements have class
-## function
-```
-
 
 Since `foo` was created with `exclusive=FALSE` (by default) then the data frame can contain more rows 
 than `a`, `b`, and `c`. The following is valid,
@@ -291,16 +273,15 @@ than `a`, `b`, and `c`. The following is valid,
 foo$d <- runif(3)
 ```
 
-```
-## Error: invalid class "HomogList" object: Not all elements have class
-## function
-```
-
 However, `foo` is guaranteed to always contain columns `a`, `b`, and `c`, and thus these columns cannot 
 be deleted. This will return an error,
 
 ```r
 foo$a <- NULL
+```
+
+```
+## Error: invalid class "DataFrameConstr" object: column a not in 'object'
 ```
 
 
@@ -319,8 +300,7 @@ Foo <- constrained_data_frame("Foo", columns = c(a = "numeric", b = "ANY", c = "
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## Error: trying to generate an object from a virtual class ("ANY")
 ```
 
 Now there is a new class, `"Foo"`, which inherits from `DataFrameConstr`,
@@ -351,8 +331,7 @@ bar[["a"]] <- as.character(bar[["a"]])
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## Error: object 'bar' not found
 ```
 
 ```r
@@ -360,8 +339,7 @@ bar[["a"]] <- -1
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## Error: object 'bar' not found
 ```
 
 ```r
@@ -369,8 +347,7 @@ bar[["a"]] <- NULL
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## Error: object 'bar' not found
 ```
 
 
