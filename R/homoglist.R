@@ -111,7 +111,7 @@ setMethod("$<-", signature=c(x="HomogList"),
 setMethod("show", "HomogList",
           function(object) {
             cat(sprintf("List of %s objects:\n", dQuote(object@classtype)))
-            print(object@.Data)
+            print(structure(object@.Data, names = object@names))
           })
 
 #' Create a subclass of HomogList
