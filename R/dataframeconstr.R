@@ -311,11 +311,6 @@ constrained_data_frame <- function(Class, columns=character(),
 
   setMethod("initialize", Class,
             function(.Object, x=new_data_frame(columns)) {
-              if (missing(x)) print("foo")
-              if (!missing(x)) {
-                print("not missing")
-                print(x)
-              }
               callNextMethod(.Object, x=x,
                              columns=columns,
                              exclusive=exclusive,
