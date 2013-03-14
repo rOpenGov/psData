@@ -217,9 +217,9 @@ print(foo)
 
 ```
 ##        a      b c
-## 1 0.5370 0.8134 a
-## 2 0.1315 0.5436 b
-## 3 0.4777 0.5046 c
+## 1 0.5837 0.9933 a
+## 2 0.9352 0.8535 b
+## 3 0.6958 0.8593 c
 ```
 
 ```r
@@ -228,12 +228,12 @@ summary(foo)
 
 ```
 ##        a               b         c    
-##  Min.   :0.132   Min.   :0.505   a:1  
-##  1st Qu.:0.305   1st Qu.:0.524   b:1  
-##  Median :0.478   Median :0.544   c:1  
-##  Mean   :0.382   Mean   :0.621        
-##  3rd Qu.:0.507   3rd Qu.:0.678        
-##  Max.   :0.537   Max.   :0.813
+##  Min.   :0.584   Min.   :0.854   a:1  
+##  1st Qu.:0.640   1st Qu.:0.856   b:1  
+##  Median :0.696   Median :0.859   c:1  
+##  Mean   :0.738   Mean   :0.902        
+##  3rd Qu.:0.816   3rd Qu.:0.926        
+##  Max.   :0.935   Max.   :0.993
 ```
 
 
@@ -351,9 +351,9 @@ bar <- Foo(data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
 ```
 ## [1] "not missing"
 ##         a      b c
-## 1 0.45127 0.8313 a
-## 2 0.74257 0.6000 b
-## 3 0.08378 0.2156 c
+## 1 0.01305 0.9868 a
+## 2 0.86750 0.8165 b
+## 3 0.66116 0.4577 c
 ```
 
 This new object will validate any new data, so the following will produce errors,
@@ -394,10 +394,10 @@ Foo(data.frame(a = runif(3)))
 
 ```
 ## [1] "not missing"
-##        a
-## 1 0.8031
-## 2 0.5368
-## 3 0.1890
+##         a
+## 1 0.04970
+## 2 0.05677
+## 3 0.89883
 ```
 
 ```
