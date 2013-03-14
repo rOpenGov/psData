@@ -10,6 +10,15 @@ It also defines the most common methods
 `[<-`, `[[<-`, `$<-`, `c`, `cbind2`, `rbind2` for these classes so that the constraints
 are checked when data in the objects are updated.
 
+# Install
+
+Install the latest version of the devtools **devtools** package, then
+
+```r
+library("devtools")
+install_github("ggthemes", "jrnold")
+```
+
 ## HomogList
 
 Create a list in which all elements must be functions
@@ -207,10 +216,10 @@ print(foo)
 ```
 
 ```
-##         a      b c
-## 1 0.03765 0.6625 a
-## 2 0.33810 0.4121 b
-## 3 0.32484 0.2429 c
+##        a      b c
+## 1 0.5370 0.8134 a
+## 2 0.1315 0.5436 b
+## 3 0.4777 0.5046 c
 ```
 
 ```r
@@ -218,13 +227,13 @@ summary(foo)
 ```
 
 ```
-##        a                b         c    
-##  Min.   :0.0376   Min.   :0.243   a:1  
-##  1st Qu.:0.1812   1st Qu.:0.328   b:1  
-##  Median :0.3248   Median :0.412   c:1  
-##  Mean   :0.2335   Mean   :0.439        
-##  3rd Qu.:0.3315   3rd Qu.:0.537        
-##  Max.   :0.3381   Max.   :0.662
+##        a               b         c    
+##  Min.   :0.132   Min.   :0.505   a:1  
+##  1st Qu.:0.305   1st Qu.:0.524   b:1  
+##  Median :0.478   Median :0.544   c:1  
+##  Mean   :0.382   Mean   :0.621        
+##  3rd Qu.:0.507   3rd Qu.:0.678        
+##  Max.   :0.537   Max.   :0.813
 ```
 
 
@@ -299,6 +308,11 @@ Foo <- constrained_data_frame("Foo", columns = c(a = "numeric", b = "ANY", c = "
     }))
 ```
 
+```
+## Error: trying to get slot "target" from an object of a basic class
+## ("environment") with no slots
+```
+
 Now there is a new class, `"Foo"`, which inherits from `DataFrameConstr`,
 
 ```r
@@ -337,9 +351,9 @@ bar <- Foo(data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
 ```
 ## [1] "not missing"
 ##         a      b c
-## 1 0.11581 0.1650 a
-## 2 0.09174 0.1191 b
-## 3 0.98917 0.7465 c
+## 1 0.45127 0.8313 a
+## 2 0.74257 0.6000 b
+## 3 0.08378 0.2156 c
 ```
 
 This new object will validate any new data, so the following will produce errors,
@@ -381,9 +395,9 @@ Foo(data.frame(a = runif(3)))
 ```
 ## [1] "not missing"
 ##        a
-## 1 0.3689
-## 2 0.5876
-## 3 0.9814
+## 1 0.8031
+## 2 0.5368
+## 3 0.1890
 ```
 
 ```
@@ -397,6 +411,8 @@ The additional capabilities that `DataFrameConstr` adds to
 - slot class types within S4 objects
 - data validation
 - creating an **R** ORM to databases
+
+
 
 
 

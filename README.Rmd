@@ -10,6 +10,15 @@ It also defines the most common methods
 `[<-`, `[[<-`, `$<-`, `c`, `cbind2`, `rbind2` for these classes so that the constraints
 are checked when data in the objects are updated.
 
+# Install
+
+Install the latest version of the devtools **devtools** package, then
+
+```r
+library("devtools")
+install_github("ggthemes", "jrnold")
+```
+
 ## HomogList
 
 Create a list in which all elements must be functions
