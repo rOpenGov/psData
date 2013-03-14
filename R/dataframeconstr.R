@@ -221,6 +221,18 @@ setMethod("cbind2", "DataFrameConstr",
             new("DataFrameConstr", z, x@columns, x@exclusive, x@constraints)
           })
 
+#' @export
+setMethod("show", "DataFrameConstr",
+          function(object) {
+            cat("Data frame with constraints\n")
+            print(as(object, "data.frame"))
+            cat("Required columns:\n")
+            mapply(function(x, y) cat(sprintf("..  %s: %s\n", x, y)),
+                   names(object@columns), object@columns)
+            cat("Constraints:\n")
+            show(object@constraints)
+          })
+
 new_data_frame <- function(columns=character()) {
   .data <- data.frame()
   for (i in seq_along(columns)) {
