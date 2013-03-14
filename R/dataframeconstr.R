@@ -209,7 +209,12 @@ setMethod("cbind2", "DataFrameConstr",
 new_data_frame <- function(columns=character()) {
   .data <- data.frame()
   for (i in seq_along(columns)) {
-    .data[[names(columns)[i]]] <- new(columns[i])
+    cname <- names(columns)[i]
+    if (i == "ANY") {
+      .data[[cname]] <- numeric()
+    } else {
+      .data[[cname]] <- new(columns[i])
+    }
   }
   .data
 }
