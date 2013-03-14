@@ -124,6 +124,21 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases initialize,DataFrameConstr-method
 #' @exportClass DataFrameConstr
 #' @export
+#' @examples
+#' foo <- 
+#'   DataFrameConstr(data.frame(a = runif(3), b = runif(3), c = letters[1:3]),
+#'                   columns = c(a = "numeric", b = "ANY", c = "factor"),
+#'                   constraints = list(function(x) {x$a > 0}))
+#' # works just like a normal data.frame
+#' print(foo)
+#' summary(foo)
+#' # errors
+#' try(foo$a <- as.character(foo$a))
+#' try(foo["a", 1] <- -1)
+#' try(foo$a <- NULL)
+#' # errors
+#' try(foo$b <- as.character(foo$b))
+#' try(foo$d <- runif(3))
 DataFrameConstr <-
   setClass("DataFrameConstr", contains="data.frame",
            representation(columns="character",
@@ -242,9 +257,26 @@ new_data_frame <- function(columns=character()) {
 #'
 #' @export
 #' @examples
-#' foo <- constrained_data_frame("foo", columns=c(a="numeric"))
-#' foo(data.frame(a=1:10))
-#'
+#' Foo <-
+#'   constrained_data_frame("Foo",
+#'                          columns = c(a = "numeric", b = "ANY", c = "factor"),
+#'                          constraints = list(function(x) {x$a > 0}))
+#' showClass("Foo")
+#' 
+#' # Create a new "Foo" object
+#' foo <- Foo(data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
+#' # this also works
+#' # new("Foo", data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
+#' # works like a normal data.frame
+#' print(foo)
+#' summary(foo)
+#' # errors
+#' try(foo$a <- as.character(foo$a))
+#' try(foo["a", 1] <- -1)
+#' try(foo$a <- NULL)
+#' # errors
+#' try(foo$b <- as.character(foo$b))
+#' try(foo$d <- runif(3))
 constrained_data_frame <- function(Class, columns=character(),
                                      exclusive=FALSE,
                                      constraints=list(),
