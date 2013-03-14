@@ -74,7 +74,7 @@ print(foo)
 ## [[4]]
 ## function (x, ...) 
 ## UseMethod("mean")
-## <bytecode: 0x37b5d08>
+## <bytecode: 0x1b986f8>
 ## <environment: namespace:base>
 ```
 
@@ -121,7 +121,7 @@ FunctionList(list(sum = sum, mean = mean))
 ## [[2]]
 ## function (x, ...) 
 ## UseMethod("mean")
-## <bytecode: 0x37b5d08>
+## <bytecode: 0x1b986f8>
 ## <environment: namespace:base>
 ```
 
@@ -139,7 +139,7 @@ new("FunctionList", list(sum = sum, mean = mean))
 ## [[2]]
 ## function (x, ...) 
 ## UseMethod("mean")
-## <bytecode: 0x37b5d08>
+## <bytecode: 0x1b986f8>
 ## <environment: namespace:base>
 ```
 
@@ -208,9 +208,9 @@ print(foo)
 
 ```
 ##         a      b c
-## 1 0.35036 0.1287 a
-## 2 0.01622 0.6547 b
-## 3 0.05910 0.7155 c
+## 1 0.03765 0.6625 a
+## 2 0.33810 0.4121 b
+## 3 0.32484 0.2429 c
 ```
 
 ```r
@@ -219,12 +219,12 @@ summary(foo)
 
 ```
 ##        a                b         c    
-##  Min.   :0.0162   Min.   :0.129   a:1  
-##  1st Qu.:0.0377   1st Qu.:0.392   b:1  
-##  Median :0.0591   Median :0.655   c:1  
-##  Mean   :0.1419   Mean   :0.500        
-##  3rd Qu.:0.2047   3rd Qu.:0.685        
-##  Max.   :0.3504   Max.   :0.716
+##  Min.   :0.0376   Min.   :0.243   a:1  
+##  1st Qu.:0.1812   1st Qu.:0.328   b:1  
+##  Median :0.3248   Median :0.412   c:1  
+##  Mean   :0.2335   Mean   :0.439        
+##  3rd Qu.:0.3315   3rd Qu.:0.537        
+##  Max.   :0.3381   Max.   :0.662
 ```
 
 
@@ -299,10 +299,6 @@ Foo <- constrained_data_frame("Foo", columns = c(a = "numeric", b = "ANY", c = "
     }))
 ```
 
-```
-## Error: trying to generate an object from a virtual class ("ANY")
-```
-
 Now there is a new class, `"Foo"`, which inherits from `DataFrameConstr`,
 
 ```r
@@ -310,7 +306,25 @@ showClass("Foo")
 ```
 
 ```
-## Error: "Foo" is not a defined class
+## Class "Foo" [in ".GlobalEnv"]
+## 
+## Slots:
+##                                                                   
+## Name:                .Data             columns           exclusive
+## Class:                list           character             logical
+##                                                                   
+## Name:          constraints               names           row.names
+## Class:        FunctionList           character data.frameRowLabels
+##                           
+## Name:             .S3Class
+## Class:           character
+## 
+## Extends: 
+## Class "DataFrameConstr", directly
+## Class "data.frame", by class "DataFrameConstr", distance 2
+## Class "list", by class "DataFrameConstr", distance 3
+## Class "oldClass", by class "DataFrameConstr", distance 3
+## Class "vector", by class "DataFrameConstr", distance 4
 ```
 
 
@@ -321,7 +335,11 @@ bar <- Foo(data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
 ```
 
 ```
-## Error: could not find function "Foo"
+## [1] "not missing"
+##         a      b c
+## 1 0.11581 0.1650 a
+## 2 0.09174 0.1191 b
+## 3 0.98917 0.7465 c
 ```
 
 This new object will validate any new data, so the following will produce errors,
@@ -331,7 +349,8 @@ bar[["a"]] <- as.character(bar[["a"]])
 ```
 
 ```
-## Error: object 'bar' not found
+## Error: invalid class "DataFrameConstr" object: column a does not inherit
+## from numeric
 ```
 
 ```r
@@ -339,7 +358,8 @@ bar[["a"]] <- -1
 ```
 
 ```
-## Error: object 'bar' not found
+## Error: invalid class "DataFrameConstr" object: Constraint failed: function
+## (x) { x$a > 0 }
 ```
 
 ```r
@@ -347,7 +367,7 @@ bar[["a"]] <- NULL
 ```
 
 ```
-## Error: object 'bar' not found
+## Error: invalid class "DataFrameConstr" object: column a not in 'object'
 ```
 
 
@@ -359,7 +379,15 @@ Foo(data.frame(a = runif(3)))
 ```
 
 ```
-## Error: could not find function "Foo"
+## [1] "not missing"
+##        a
+## 1 0.3689
+## 2 0.5876
+## 3 0.9814
+```
+
+```
+## Error: invalid class "Foo" object: column b not in 'object'
 ```
 
 
@@ -369,8 +397,6 @@ The additional capabilities that `DataFrameConstr` adds to
 - slot class types within S4 objects
 - data validation
 - creating an **R** ORM to databases
-
-
 
 
 
