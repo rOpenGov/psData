@@ -43,6 +43,15 @@
 #' @keywords classes
 #' @exportClass HomogList
 #' @export
+#' @examples
+#' foo <- HomogList(list(sum=sum, max=max, min=min), "function")
+#' print(foo)
+#' x <- 1:10
+#' lapply(foo, function(f) f(x))
+#' foo[["mean"]] <- mean
+#' print(foo)
+#' # error
+#' try(foo[["a"]] <- 1)
 HomogList <- setClass("HomogList",
                       contains="namedList",
                       representation(classtype="character"),
@@ -126,9 +135,19 @@ setMethod("show", "HomogList",
 #'
 #' @export
 #' @examples
-#' # create a list of list of lists
-#' ListOfLists <- subclass_homog_list("ListOfLists", "list")
-#' foo <- ListOfLists(list(list(a=1), list(b=2)))
+#' FunctionList <-
+#'   subclass_homog_list("FunctionList", "function")
+#' # creates a new class "FunctionList")
+#' showClass("FunctionList")
+#' # Create a new object of class FunctionList
+#' foo <- FunctionList(list(sum=sum, max=max, min=min))
+#' print(foo)
+#' x <- 1:10
+#' lapply(foo, function(f) f(x))
+#' foo[["mean"]] <- mean
+#' print(foo)
+#' # error
+#' try(foo[["a"]] <- 1)
 subclass_homog_list <- function(Class, classtype="ANY",
                                 where=topenv(parent.frame())) {
     .f <- setClass(Class,

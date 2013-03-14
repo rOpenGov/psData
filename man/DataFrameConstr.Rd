@@ -57,5 +57,21 @@
 \section{Extends}{
   \describe{ \item{\code{data.frame}}{Directly.} }
 }
+\examples{
+foo <-
+  DataFrameConstr(data.frame(a = runif(3), b = runif(3), c = letters[1:3]),
+                  columns = c(a = "numeric", b = "ANY", c = "factor"),
+                  constraints = list(function(x) {x$a > 0}))
+# works just like a normal data.frame
+print(foo)
+summary(foo)
+# errors
+try(foo$a <- as.character(foo$a))
+try(foo["a", 1] <- -1)
+try(foo$a <- NULL)
+# errors
+try(foo$b <- as.character(foo$b))
+try(foo$d <- runif(3))
+}
 \keyword{classes}
 

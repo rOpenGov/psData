@@ -40,5 +40,15 @@
   \item{[[<-}{\code{signature(x = "HomogList")}: ... }
   \item{c}{\code{signature(x = "HomogList")}: ... } }
 }
+\examples{
+foo <- HomogList(list(sum=sum, max=max, min=min), "function")
+print(foo)
+x <- 1:10
+lapply(foo, function(f) f(x))
+foo[["mean"]] <- mean
+print(foo)
+# error
+try(foo[["a"]] <- 1)
+}
 \keyword{classes}
 

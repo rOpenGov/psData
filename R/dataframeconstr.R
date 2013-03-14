@@ -1,6 +1,8 @@
 #' @include homoglist.R
 NULL
 
+FunctionList <- subclass_homog_list("FunctionList", "function")
+
 # FunctionList <- subclass_homog_list("FunctionList", "function")
 
 #' Validate \code{data.frame}: column names, classes, and arbitrary constraints
@@ -35,6 +37,7 @@ NULL
 #'
 #' @export
 validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constraints=list()) {
+  constraints <- FunctionList(constraints)
   if (length(columns)) {
     for (i in names(columns)) {
       # hack
@@ -121,15 +124,30 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases initialize,DataFrameConstr-method
 #' @exportClass DataFrameConstr
 #' @export
+#' @examples
+#' foo <- 
+#'   DataFrameConstr(data.frame(a = runif(3), b = runif(3), c = letters[1:3]),
+#'                   columns = c(a = "numeric", b = "ANY", c = "factor"),
+#'                   constraints = list(function(x) {x$a > 0}))
+#' # works just like a normal data.frame
+#' print(foo)
+#' summary(foo)
+#' # errors
+#' try(foo$a <- as.character(foo$a))
+#' try(foo["a", 1] <- -1)
+#' try(foo$a <- NULL)
+#' # errors
+#' try(foo$b <- as.character(foo$b))
+#' try(foo$d <- runif(3))
 DataFrameConstr <-
   setClass("DataFrameConstr", contains="data.frame",
            representation(columns="character",
                           exclusive="logical",
-                          constraints="list"),
+                          constraints="FunctionList"),
            prototype(data.frame(),
                      columns=character(),
                      exclusive=FALSE,
-                     constraints=list()))
+                     constraints=FunctionList()))
 
 setValidity("DataFrameConstr",
             function(object) {
@@ -154,7 +172,7 @@ setMethod("initialize", "DataFrameConstr",
             .Object <- callNextMethod(.Object, x)
             .Object@columns <- columns
             .Object@exclusive <- exclusive
-            .Object@constraints <- constraints
+            .Object@constraints <- FunctionList(constraints)
             validObject(.Object)
             .Object
           })
@@ -206,7 +224,13 @@ setMethod("cbind2", "DataFrameConstr",
 new_data_frame <- function(columns=character()) {
   .data <- data.frame()
   for (i in seq_along(columns)) {
-    .data[[names(columns)[i]]] <- new(columns[i])
+    cname <- names(columns)[i]
+    classname <- columns[i]
+    if (classname == "ANY") {
+      .data[[cname]] <- numeric()
+    } else {
+      .data[[cname]] <- new(classname)
+    }
   }
   .data
 }
@@ -233,14 +257,33 @@ new_data_frame <- function(columns=character()) {
 #'
 #' @export
 #' @examples
-#' foo <- constrained_data_frame("foo", columns=c(a="numeric"))
-#' foo(data.frame(a=1:10))
-#'
+#' Foo <-
+#'   constrained_data_frame("Foo",
+#'                          columns = c(a = "numeric", b = "ANY", c = "factor"),
+#'                          constraints = list(function(x) {x$a > 0}))
+#' showClass("Foo")
+#' 
+#' # Create a new "Foo" object
+#' foo <- Foo(data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
+#' # this also works
+#' # new("Foo", data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
+#' # works like a normal data.frame
+#' print(foo)
+#' summary(foo)
+#' # errors
+#' try(foo$a <- as.character(foo$a))
+#' try(foo["a", 1] <- -1)
+#' try(foo$a <- NULL)
+#' # errors
+#' try(foo$b <- as.character(foo$b))
+#' try(foo$d <- runif(3))
 constrained_data_frame <- function(Class, columns=character(),
                                      exclusive=FALSE,
                                      constraints=list(),
                                      where=topenv(parent.frame())) {
 
+  constraints <- FunctionList(constraints)
+  
   setClass(Class, contains="DataFrameConstr",
            prototype=
            prototype(x=new_data_frame(columns), columns=columns,
