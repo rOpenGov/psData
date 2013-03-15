@@ -96,12 +96,17 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' Replace methods are defined to return \code{"DataFrameConstr"} objects where appropriate.
 #'
 #' \describe{
-#'     \item{[<-}{\code{signature(x = "DataFrameConstr")}: ... }
-#'     \item{[[<-}{\code{signature(x = "DataFrameConstr")}: ... }
-#'     \item{$<-}{\code{signature(x = "DataFrameConstr")}: ... }
-#'     \item{cbind2}{\code{signature(x = "DataFrameConstr")}: ... }
-#'     \item{rbind2}{\code{signature(x = "DataFrameConstr")}: ... }
-#'     \item{show}{\code{signature(object = "DataFrameConstr")}: ... }
+#'   \item{[<-}{\code{signature(x = "DataFrameConstr")}: }
+#'   \item{[[<-}{\code{signature(x = "DataFrameConstr")}: }
+#'   \item{[}{\code{signature(object = "DataFrameConstr")}:
+#'   Returns \linkS4class{DataFrameConstr} if it is a valid object,
+#'   otherwise returns a \code{data.frame}.
+#'   }
+#'   \item{$<-}{\code{signature(x = "DataFrameConstr")}: }
+#'   \item{cbind2}{\code{signature(x = "DataFrameConstr")}:}
+#'   \item{rbind2}{\code{signature(x = "DataFrameConstr")}: ... }
+#'   \item{show}{\code{signature(object = "DataFrameConstr")}: }
+#'   \item{[}{\code{signature(object = "DataFrameConstr")}: }
 #' }
 #'
 #' @section Extends:
@@ -115,6 +120,7 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases DataFrameConstr-class
 #' @aliases DataFrameConstr
 #' @aliases [<-,DataFrameConstr-method
+#' @aliases [,DataFrameConstr-method
 #' @aliases [[<-,DataFrameConstr,ANY,missing-method
 #' @aliases [[<-,DataFrameConstr,ANY,ANY-method
 #' @aliases $<-,DataFrameConstr-method
@@ -179,22 +185,31 @@ setMethod("initialize", "DataFrameConstr",
 
 #' @export
 setMethod("[<-", c(x="DataFrameConstr"),
-          function(x, i, j, ..., value) {
+          function(x, i, j, value) {
             # callNextMethod() causes problems
-            y <- callGeneric(data.frame(x), i, j, ..., value=value)
+            y <- callGeneric(data.frame(x), i, j, value=value)
             new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
           })
 
 #' @export
+setMethod("[", c(x="DataFrameConstr"),
+          function(x, i, j, drop) {
+            y <- callGeneric(data.frame(x), i, j, drop)
+            tryCatch(new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints),
+                     error = function(e) y)
+          })
+          
+
+#' @export
 setMethod("[[<-", c(x="DataFrameConstr", i="ANY", j="missing", value="ANY"),
-          function(x, i, j, ..., value) {
+          function(x, i, j, value) {
             y <- data.frame(x)
             y[[i]] <- value
             new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints)
           })
 
 setMethod("[[<-", c(x="DataFrameConstr", i="ANY", j="ANY", value="ANY"),
-          function(x, i, j, ..., value) {
+          function(x, i, j, value) {
             y <- data.frame(x)
             y[[i, j]] <- value
             new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints)
@@ -227,23 +242,10 @@ setMethod("show", "DataFrameConstr",
             cat("Data frame with constraints\n")
             print(as(object, "data.frame"))
             cat("Required columns:\n")
-            mapply(function(x, y) cat(sprintf("..  %s: %s\n", x, y)),
+            mapply(function(x, y) cat(sprintf("$ %s: %s\n", x, y)),
                    names(object@columns), object@columns)
             cat("Constraints:\n")
             show(object@constraints)
           })
 
-new_data_frame <- function(columns=character()) {
-  .data <- data.frame()
-  for (i in seq_along(columns)) {
-    cname <- names(columns)[i]
-    classname <- columns[i]
-    if (classname == "ANY") {
-      .data[[cname]] <- numeric()
-    } else {
-      .data[[cname]] <- new(classname)
-   }
-  }
-  .data
-}
 

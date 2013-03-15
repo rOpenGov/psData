@@ -3,6 +3,7 @@
 \alias{$<-,DataFrameConstr-method}
 \alias{DataFrameConstr}
 \alias{DataFrameConstr-class}
+\alias{[,DataFrameConstr-method}
 \alias{[<-,DataFrameConstr-method}
 \alias{[[<-,DataFrameConstr,ANY,ANY-method}
 \alias{[[<-,DataFrameConstr,ANY,missing-method}
@@ -47,14 +48,17 @@
   \code{"DataFrameConstr"} objects where appropriate.
 
   \describe{ \item{[<-}{\code{signature(x =
-  "DataFrameConstr")}: ... } \item{[[<-}{\code{signature(x
-  = "DataFrameConstr")}: ... } \item{$<-}{\code{signature(x
-  = "DataFrameConstr")}: ... }
-  \item{cbind2}{\code{signature(x = "DataFrameConstr")}:
-  ... } \item{rbind2}{\code{signature(x =
-  "DataFrameConstr")}: ... }
-  \item{show}{\code{signature(object = "DataFrameConstr")}:
-  ... } }
+  "DataFrameConstr")}: } \item{[[<-}{\code{signature(x =
+  "DataFrameConstr")}: } \item{[}{\code{signature(object =
+  "DataFrameConstr")}: Returns
+  \linkS4class{DataFrameConstr} if it is a valid object,
+  otherwise returns a \code{data.frame}.  }
+  \item{$<-}{\code{signature(x = "DataFrameConstr")}: }
+  \item{cbind2}{\code{signature(x = "DataFrameConstr")}:}
+  \item{rbind2}{\code{signature(x = "DataFrameConstr")}:
+  ... } \item{show}{\code{signature(object =
+  "DataFrameConstr")}: } \item{[}{\code{signature(object =
+  "DataFrameConstr")}: } }
 }
 
 \section{Extends}{

@@ -1,6 +1,20 @@
 #' @include dataframeconstr.R
 NULL
 
+new_data_frame <- function(columns=character()) {
+  .data <- data.frame()
+  for (i in seq_along(columns)) {
+    cname <- names(columns)[i]
+    classname <- columns[i]
+    if (classname == "ANY") {
+      .data[[cname]] <- numeric()
+    } else {
+      .data[[cname]] <- new(classname)
+   }
+  }
+  .data
+}
+
 #' Create subclasss of \code{DataFrameConstr}
 #'
 #' This function creates a class which directly extends
@@ -79,21 +93,31 @@ constrained_data_frame <- function(Class, columns=character(),
             }, where=where)
 
   setMethod("[<-", c(x=Class),
-            function(x, i, j, ..., value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i=i, j=j, ..., value=value)
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
               new(Class, y)
             }, where=where)
 
+  setMethod("[", c(x=Class),
+            function(x, i, j, drop) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, j, drop=drop)
+              if (is(y, "DataFrameConstr")) {
+                new(Class, y)
+              } else {
+                y
+              }
+            }, where=where)
+  
   ## Need to be explicitly set
   setMethod("[[<-", c(x=Class, i="ANY", j="missing", value="ANY"),
-            function(x, i, j, ..., value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i=i, value=value)
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, value=value)
               new(Class, y)
             }, where=where)
 
   setMethod("[[<-", c(x=Class, i="ANY", j="ANY", value="ANY"),
-            function(x, i, j, ..., value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i=i, j=j, value=value)
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
               new(Class, y)
             }, where=where)
   
