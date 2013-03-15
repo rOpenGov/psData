@@ -7,6 +7,7 @@
 \alias{[<-,HomogList-method}
 \alias{[[<-,HomogList,charOrNumeric,missing-method}
 \alias{c,HomogList-method}
+\alias{show,HomogList-method}
 \title{Homogenous List}
 \usage{
   HomogList(...)
@@ -38,7 +39,9 @@
   \describe{ \item{[<-}{\code{signature(x = "HomogList")}:
   ... } \item{[}{\code{signature(x = "HomogList")}: ... }
   \item{[[<-}{\code{signature(x = "HomogList")}: ... }
-  \item{c}{\code{signature(x = "HomogList")}: ... } }
+  \item{c}{\code{signature(x = "HomogList")}: ... }
+  \item{show}{\code{signature(object = "HomogList")}: ... }
+  }
 }
 \examples{
 foo <- HomogList(list(sum=sum, max=max, min=min), "function")

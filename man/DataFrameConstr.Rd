@@ -9,6 +9,7 @@
 \alias{cbind2,DataFrameConstr,ANY-method}
 \alias{initialize,DataFrameConstr-method}
 \alias{rbind2,DataFrameConstr,ANY-method}
+\alias{show,DataFrameConstr-method}
 \title{Data Frame with constraints}
 \usage{
   DataFrameConstr(...)
@@ -49,9 +50,11 @@
   "DataFrameConstr")}: ... } \item{[[<-}{\code{signature(x
   = "DataFrameConstr")}: ... } \item{$<-}{\code{signature(x
   = "DataFrameConstr")}: ... }
-  \item{rbind2}{\code{signature(x = "DataFrameConstr")}:
-  ... } \item{cbind2}{\code{signature(x =
-  "DataFrameConstr")}: ... } }
+  \item{cbind2}{\code{signature(x = "DataFrameConstr")}:
+  ... } \item{rbind2}{\code{signature(x =
+  "DataFrameConstr")}: ... }
+  \item{show}{\code{signature(object = "DataFrameConstr")}:
+  ... } }
 }
 
 \section{Extends}{

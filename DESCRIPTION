@@ -13,8 +13,10 @@ Suggests:
     testthat,
     roxygen2
 Collate:
-    'homoglist.R'
-    'dataframeconstr.R'
     'package.R'
+    'homoglist.R'
+    'subclass_homoglist.R'
+    'dataframeconstr.R'
+    'constrained_data_frame.R'
 URL: https://github.com/jrnold/DataFrameConstr
 BugReports: https://github.com/jrnold/DataFrameConstr
