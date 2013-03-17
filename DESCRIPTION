@@ -15,7 +15,7 @@ Suggests:
 Collate:
     'package.R'
     'class-HomogList.R'
-    'subclass_homoglist.R'
+    'subclass_homog_list.R'
     'class-DataFrameConstr.R'
     'constrained_data_frame.R'
 URL: https://github.com/jrnold/DataFrameConstr

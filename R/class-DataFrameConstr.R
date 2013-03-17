@@ -1,6 +1,7 @@
 #' @include package.R
-#' @include subclass_homoglist.R
+#' @include subclass_homog_list.R
 #' @export DataFrameConstr
+#' @export validate_data_frame
 #' @exportClass DataFrameConstr
 #' @exportMethod [<-
 #' @exportMethod [[<-

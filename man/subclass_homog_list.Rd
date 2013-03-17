@@ -20,18 +20,16 @@
   class.
 }
 \examples{
-FunctionList <-
-  subclass_homog_list("FunctionList", "function")
-# creates a new class "FunctionList")
-showClass("FunctionList")
-# Create a new object of class FunctionList
-foo <- FunctionList(list(sum=sum, max=max, min=min))
+NumericList <-
+  subclass_homog_list("NumericList", "numeric")
+# creates a new class "NumericList"
+showClass("NumericList")
+# Create a new object of class NumericList
+foo <- NumericList(list(a=1, b=2))
 print(foo)
-x <- 1:10
-lapply(foo, function(f) f(x))
-foo[["mean"]] <- mean
+foo[["c"]] <- 3
 print(foo)
 # error
-try(foo[["a"]] <- 1)
+try(foo[["c"]] <- 3)
 }
 

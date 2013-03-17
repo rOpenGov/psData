@@ -1,22 +1,32 @@
 context("testing list-of-classes")
 
 test_that("new(\"HomogList\", ...) with args works", {
-    foo <- new("HomogList", 1:4, classtype = "integer")
+    foo <- new("HomogList", list(a=1, b=2, c=3), classtype = "numeric")
     expect_is(foo, "HomogList")
-    expect_equal(foo@.Data, as.list(1:4))
-    expect_equal(foo@classtype, "integer")
+    expect_equal(foo@.Data, list(1, 2, 3))
+    expect_equal(names(foo), c("a", "b", "c"))
+    expect_equal(foo@classtype, "numeric")
 })
 
 test_that("new(\"HomogList\", ...) without args works", {
     foo <- new("HomogList")
     expect_is(foo, "HomogList")
     expect_equal(foo@.Data, list())
+    expect_equal(names(foo), character())
     expect_equal(foo@classtype, "ANY")
 })
 
+test_that("new(\"HomogList\") works with NULL elements", {
+    foo <- new("HomogList", list(a=1, NULL, 2, NULL))
+    expect_is(foo, "HomogList")
+    expect_equal(names(foo), c("a", "", "", ""))
+    expect_equal(foo@classtype, "ANY")
+})
+
+
 test_that("HomogList() works", {
-  expect_identical(HomogList(1:4, "integer"),
-                   new("HomogList", 1:4, "integer"))
+  expect_identical(HomogList(list(a=1, b=2), "numeric"),
+                   new("HomogList", list(a=1, b=2), "numeric"))
 })
 
 test_that("Error if bad classtype", {

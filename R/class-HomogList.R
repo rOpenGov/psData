@@ -55,10 +55,12 @@ is_or_null <- function(object, class2) {
 #' @aliases [,HomogList,ANY-method
 #' @aliases [<-,HomogList,missing-method
 #' @aliases [<-,HomogList,ANY-method
-#' @aliases [[<-,HomogList,missing-method
-#' @aliases [[<-,HomogList,ANY-method
+#' @aliases [[<-,HomogList,missing,ANY-method
+#' @aliases [[<-,HomogList,ANY,ANY-method
 #' @aliases $<-,HomogList-method
 #' @aliases c,HomogList-method
+#' @aliases length<-,HomogList,numeric-method
+#' @aliases names<-,HomogList,NULL-method
 #' @aliases show,HomogList-method
 #' @docType class
 #' @keywords classes
@@ -153,7 +155,7 @@ setMethod("[[<-", signature=c(x="HomogList", i="ANY", value="ANY"),
 setMethod("$<-", signature=c(x="HomogList"),
           function(x, name, value) {
             x[[name]] <- value
-            new("HomogList", x, classtype=x@classtype)
+            x
           })
 
 setMethod("names<-", signature=c(x="HomogList", value="NULL"),
