@@ -3,8 +3,8 @@
 \alias{$<-,HomogList-method}
 \alias{HomogList}
 \alias{HomogList-class}
-\alias{[,HomogList,ANY-method}
-\alias{[,HomogList,missing-method}
+\alias{[,HomogList,ANY,ANY-method}
+\alias{[,HomogList,missing,ANY-method}
 \alias{[<-,HomogList,ANY-method}
 \alias{[<-,HomogList,missing-method}
 \alias{[[<-,HomogList,ANY,ANY-method}

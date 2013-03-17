@@ -3,13 +3,22 @@
 \alias{$<-,DataFrameConstr-method}
 \alias{DataFrameConstr}
 \alias{DataFrameConstr-class}
-\alias{[,DataFrameConstr-method}
-\alias{[<-,DataFrameConstr-method}
+\alias{[,DataFrameConstr,ANY,ANY-method}
+\alias{[,DataFrameConstr,ANY,missing-method}
+\alias{[,DataFrameConstr,missing,ANY-method}
+\alias{[,DataFrameConstr,missing,missing-method}
+\alias{[<-,DataFrameConstr,ANY,ANY-method}
+\alias{[<-,DataFrameConstr,ANY,missing-method}
+\alias{[<-,DataFrameConstr,missing,ANY-method}
+\alias{[<-,DataFrameConstr,missing,missing-method}
 \alias{[[<-,DataFrameConstr,ANY,ANY-method}
 \alias{[[<-,DataFrameConstr,ANY,missing-method}
 \alias{cbind2,DataFrameConstr,ANY-method}
+\alias{colnames<-,DataFrameConstr-method}
 \alias{initialize,DataFrameConstr-method}
+\alias{names<-,DataFrameConstr,ANY-method}
 \alias{rbind2,DataFrameConstr,ANY-method}
+\alias{rownames<-,DataFrameConstr-method}
 \alias{show,DataFrameConstr-method}
 \title{Data Frame with constraints}
 \usage{

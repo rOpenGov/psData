@@ -71,100 +71,203 @@ test_that("constraints throws error", {
                regexp="Constraint failed")
 })
 
-test_that("[<- works", {
-  foo <- DataFrameConstr(data.frame(a=1:10),
-                       columns=c(a="integer"))
-  foo[1, "a"] <- 5L
+######################
+
+## Test Methods
+
+foo <- DataFrameConstr(data.frame(a=1:5, b=6:10),
+                       columns=c(a="numeric", b="numeric"))
+
+###
+
+context("[,DataFrameConstr-method")
+
+test_that("[,DataFrameConstr,missing,missing works", {
+  expect_equal(foo[], foo)
+})
+
+test_that("[,DataFrameConstr,missing,character with drop=missing  works", {
+  expect_equal(foo[ , "a"], as.numeric(1:5))
+})
+
+test_that("[,DataFrameConstr,missing,character with drop=FALSE works", {
+  expect_equal(foo[ , "a", drop=FALSE], data.frame(a=1:5))
+})
+
+test_that("[,DataFrameConstr,missing,character with drop=FALSE works", {
+  expect_equal(foo[ , "a", drop=FALSE], data.frame(a=1:5))
+})
+
+test_that("[,DataFrameConstr,integer,mssing works", {
+  expected <- DataFrameConstr(data.frame(a=1:2, b=6:7),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo[1:2], expected)
+})
+
+test_that("[,DataFrameConstr,integer,mssing: test #1", {
+  expect_equal(foo[1:2, "a"], 1:2)
+})
+
+test_that("[,DataFrameConstr,integer,mssing: test #2", {
+  expect_equal(foo[1:2, "a", drop=FALSE], data.frame(a=1:2))
+})
+
+test_that("[,DataFrameConstr,integer,mssing: test #3", {
+  expected <- DataFrameConstr(data.frame(a=1:2, b=6:7),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo[1:2, c("a", "b"), drop=FALSE], expected)
+})
+
+########
+context("[<- method")
+
+test_that("[<-,DataFrameConstr,missing,missing: working", {
+  foo[] <- 1
+  expected <- DataFrameConstr(data.frame(a=rep(1, 5), b=rep(1, 5)),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,DataFrameConstr,missing,missing: error", {
+  expect_error(foo[] <- "a", "invalid class")
+})
+
+test_that("[<-,DataFrameConstr,missing,ANY: working", {
+  foo[ , "b"] <- 11:15
+  expected <- DataFrameConstr(data.frame(a=rep(1, 5), b=11:15),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,DataFrameConstr,missing,ANY: error", {
+  expect_error(foo[ , "b"] <- "a", "invalid class")
+})
+
+test_that("[<-,DataFrameConstr,ANY,missing: works", {
+  foo[1, ] <- 100
+  expected <- DataFrameConstr(data.frame(a=c(100, 2:5), b=c(100, 7:10)),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,DataFrameConstr,missing,ANY: error", {
+  expect_error(foo[1] <- "a", "invalid class")
+})
+
+test_that("[<-,DataFrameConstr,ANY,ANY: works", {
+  foo[1, "a"] <- 100
+  expected <- DataFrameConstr(data.frame(a=c(100, 2:5), b=6:10),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,DataFrameConstr,ANY,ANY: error", {
+  expect_error(foo[1, "a"] <- "a", "invalid class")
+})
+
+####
+context("[[<- method")
+
+test_that("[[<-,DataFrameConstr,missing,missing error", {
+  expect_error(foo[[]] <- 1, "missing subscript")
+})
+
+test_that("[[<-,DataFrameConstr,integer,missing works", {
+  foo[[1]] <- 100
+  expected <- DataFrameConstr(data.frame(a=rep(100, 5), b=6:10),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[[<-,DataFrameConstr,character,missing works", {
+  foo[["a"]] <- 100
+  expected <- DataFrameConstr(data.frame(a=rep(100, 5), b=6:10),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[[<-,DataFrameConstr,ANY,missing error", {
+  expect_error(foo[["a"]] <- "a", "invalid class")
+})
+
+test_that("[[<-,DataFrameConstr,integer,integer,missing works", {
+  foo[[1, 1]] <- 100
+  expected <- DataFrameConstr(data.frame(a=c(100, 2:5), b=6:10),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[[<-,DataFrameConstr,integer,character,missing works", {
+  foo[[1, "a"]] <- 100
+  expected <- DataFrameConstr(data.frame(a=c(100, 2:5), b=6:10),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("[[<-,DataFrameConstr,ANY,ANY error", {
+  expect_error(foo[[1, "a"]] <- "a", "invalid class")
+})
+
+####
+context("$<- method")
+
+test_that("$<-,DataFrameConstr works", {
+  foo$a <- 11:15
+  expected <- DataFrameConstr(data.frame(a=c(100, 2:5), b=6:10),
+                              columns=c(a="numeric", b="numeric"))
+  expect_equal(foo, expected)
+})
+
+test_that("$<-,DataFrameConstr error", {
+  expect_error(foo$a <- "a", "invalid class")
+})
+
+####
+context("colnames<- method")
+
+test_that("colnames<- error", {
+  expect_error(colnames(foo) <- c("d", "b"))
+})
+
+test_that("colnames<- works", {
+  colnames(foo) <- c("a", "b")
   expect_is(foo, "DataFrameConstr")
-  expect_equal(foo[1, "a"], 5L)
 })
 
-test_that("[<- throws error if invalid object produced", {
-  foo <- DataFrameConstr(data.frame(a=1:10),
-                       columns=c(a="integer"))
-  expect_error(foo["a", 1] <- "c",
-               "column a does not inherit from integer")
-})
+####
+context("rownames<- method")
 
-test_that("[ works", {
-  foo <- DataFrameConstr(data.frame(a=1:10, b=1:10),
-                       columns=c(a="integer", b="numeric"))
-  expect_is(foo[1:2, ], "DataFrameConstr")
-})
-
-test_that("[ does not return DataFrameConst or error if invalid", {
-  foo <- DataFrameConstr(data.frame(a=1:10, b=1:10),
-                         columns=c(a="integer", b="numeric"))[ , "a"]
-  expect_false(is(foo, "DataFrameConstr"))
-})
-
-test_that("[[<- with i=ANY, j=missing works", {
-  foo <- DataFrameConstr(data.frame(a=1:10),
-                       columns=c(a="integer"))
-  y <- foo$a + 20L
-  foo[["a"]] <- y
+test_that("rownames<- works", {
+  rownames(foo) <- letters[1:5]
   expect_is(foo, "DataFrameConstr")
-  expect_equal(foo[["a"]], y)
 })
 
-test_that("[[<- with i=ANY, j=ANY works", {
-  foo <- DataFrameConstr(data.frame(a=1:10),
-                       columns=c(a="integer"))
-  y <- 10L
-  foo[[1, "a"]] <- y
+test_that("rownames<- with NULL works", {
+  rownames(foo) <- NULL
   expect_is(foo, "DataFrameConstr")
-  expect_equal(foo[[1, "a"]], y)
 })
 
-test_that("[[<- throws error if invalid object produced", {
-  foo <- DataFrameConstr(data.frame(a=1:10),
-                       columns=c(a="integer"))
-  expect_error(foo[["a"]] <- letters[seq_len(nrow(foo))],
-               "column a does not inherit from integer")
-})
+####
+context("names<- method")
 
-test_that("$<- works", {
-  foo <- DataFrameConstr(data.frame(a=1:10),
-                       columns=c(a="integer"))
-  foo$a <- 1:10 + 10L
+test_that("names<- works", {
+  names(foo) <- c("a", "b")
   expect_is(foo, "DataFrameConstr")
-  expect_equal(foo$a, 1:10 + 10)
 })
 
-test_that("$<- throws error if invalid object produced", {
-  foo <- DataFrameConstr(data.frame(a=1:10),
-                       columns=c(a="integer"))
-  expect_error(foo$a <- letters[seq_len(nrow(foo))],
-               "column a does not inherit from integer")
+test_that("names<- error", {
+  expect_error(names(foo) <- c("c", "b"), "invalid class")
 })
+
+####
+context("dimnames<- method")
 
 test_that("dimnames<- works", {
-  foo <- DataFrameConstr(data.frame(a=1:10, b=1:10),
-                       columns=c(a="integer"))
-  dimnames(foo)[[2]] <- c("a", "c")
+  dimnames(foo) <- list(1:5, c("a", "b"))
   expect_is(foo, "DataFrameConstr")
-  expect_equal(dimnames(foo), list(as.character(1:10), c("a", "c")))
 })
 
-test_that("dim<- works", {
-  foo <- DataFrameConstr(data.frame(a=1:10, b=1:10),
-                       columns=c(a="integer"))
-  names(foo) <- c("a", "c")
-  expect_is(foo, "DataFrameConstr")
-  expect_equal(dimnames(foo), list(as.character(1:10), c("a", "c")))
-})
-
-test_that("rbind2 works", {
-  foo <- DataFrameConstr(data.frame(a=1:10, b=1:10),
-                       columns=c(a="integer"))
-  bar <- rbind2(foo, data.frame(a=13L, b=14L))
-  expect_is(bar, "DataFrameConstr")
-})
-
-test_that("cbind2 works", {
-  foo <- DataFrameConstr(data.frame(a=1:10, b=1:10),
-                       columns=c(a="integer"))
-  bar <- cbind2(foo, data.frame(c=1))
-  expect_is(bar, "DataFrameConstr")
-})
+test_that("dimnames<- error", {
+  expect_error(dimnames(foo) <- list(1:5, c("d", "b")), "invalid class")
+}
 

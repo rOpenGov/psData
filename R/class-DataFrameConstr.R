@@ -9,6 +9,9 @@
 #' @exportMethod [
 #' @exportMethod cbind2
 #' @exportMethod rbind2
+#' @exportMethod colnames<-
+#' @exportMethod rownames<-
+#' @exportMethod names<-
 NULL
 
 FunctionList <- subclass_homog_list("FunctionList", "function")
@@ -128,14 +131,25 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @keywords classes
 #' @aliases DataFrameConstr-class
 #' @aliases DataFrameConstr
-#' @aliases [<-,DataFrameConstr-method
-#' @aliases [,DataFrameConstr-method
+#' @aliases [,DataFrameConstr,missing,missing-method
+#' @aliases [,DataFrameConstr,missing,ANY-method
+#' @aliases [,DataFrameConstr,ANY,missing-method
+#' @aliases [,DataFrameConstr,ANY,ANY-method
+#' @aliases [<-,DataFrameConstr,ANY,ANY-method
+#' @aliases [<-,DataFrameConstr,ANY,missing-method
+#' @aliases [<-,DataFrameConstr,missing,ANY-method
+#' @aliases [<-,DataFrameConstr,missing,missing-method
 #' @aliases [[<-,DataFrameConstr,ANY,missing-method
 #' @aliases [[<-,DataFrameConstr,ANY,ANY-method
 #' @aliases $<-,DataFrameConstr-method
 #' @aliases show,DataFrameConstr-method
 #' @aliases rbind2,DataFrameConstr,ANY-method
 #' @aliases cbind2,DataFrameConstr,ANY-method
+#' @aliases colnames<-,DataFrameConstr-method
+#' @aliases rownames<-,DataFrameConstr,ANY-method
+#' @aliases rownames<-,DataFrameConstr,missing-method
+#' @aliases names<-,DataFrameConstr,ANY-method
+#' @aliases dimnames<-,DataFrameConstr,list-method
 #' @aliases initialize,DataFrameConstr-method
 #' @examples
 #' foo <- 
@@ -202,52 +216,140 @@ setMethod("show", "DataFrameConstr",
           })
 
 
+###Methods
 
-setMethod("[", c(x="DataFrameConstr"),
-          function(x, i, j, drop) {
-            y <- callGeneric(data.frame(x), i, j, drop)
+# [-method
+setMethod("[", c(x="DataFrameConstr", i="missing", j="missing"),
+          function(x, i, j, drop=TRUE) {
+            if (ncol(x) == 1) {
+              x[[1]]
+            } else {
+              x
+            }
+          })
+
+setMethod("[", c(x="DataFrameConstr", i = "missing", j = "ANY"), 
+          function(x, i, j, drop=TRUE) {
+            y <- data.frame(x)[ , j, drop=drop]
             tryCatch(new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints),
                      error = function(e) y)
           })
-          
-setMethod("[<-", c(x="DataFrameConstr"),
+
+setMethod("[", c(x="DataFrameConstr", i = "ANY", j = "missing"), 
+          function(x, i, j, drop = TRUE) {
+            y <- as(x, "data.frame")[i, , drop=drop]
+            tryCatch(new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints),
+                     error = function(e) y)
+          })
+
+setMethod("[", c(x="DataFrameConstr", i = "ANY", j = "ANY"), 
+          function(x, i, j, drop = TRUE) {
+            y <- as(x, "data.frame")[i, j, drop=drop]
+            tryCatch(new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints),
+                     error = function(e) y)
+          })
+
+
+# [<- method
+
+setMethod("[<-", c(x="DataFrameConstr", i="missing", j="missing"),
           function(x, i, j, value) {
-            # callNextMethod() causes problems
-            y <- callGeneric(data.frame(x), i, j, value=value)
+            y <- callGeneric(data.frame(x), , ,value=value)
+            new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
+          })
+
+setMethod("[<-", c(x="DataFrameConstr", i="missing", j="ANY"),
+          function(x, i, j, value) {
+            y <- callGeneric(data.frame(x), , j,value=value)
+            new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
+          })
+
+setMethod("[<-", c(x="DataFrameConstr", i="ANY", j="missing"),
+          function(x, i, j, value) {
+            y <- callGeneric(data.frame(x), i, ,value=value)
+            new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
+          })
+
+setMethod("[<-", c(x="DataFrameConstr", i="ANY", j="ANY"),
+          function(x, i, j, value) {
+            y <- callGeneric(data.frame(x), i, j,value=value)
             new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
           })
 
 
+# [[<- method
+
 setMethod("[[<-", c(x="DataFrameConstr", i="ANY", j="missing", value="ANY"),
           function(x, i, j, value) {
-            y <- data.frame(x)
-            y[[i]] <- value
+            y <- callGeneric(data.frame(x), i, value=value)
             new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints)
           })
 
 setMethod("[[<-", c(x="DataFrameConstr", i="ANY", j="ANY", value="ANY"),
           function(x, i, j, value) {
-            y <- data.frame(x)
-            y[[i, j]] <- value
+            y <- callGeneric(data.frame(x), i, j, value=value)
             new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints)
           })
 
+# $<- method
 setMethod("$<-", "DataFrameConstr",
           function(x, name, value) {
             y <- callNextMethod()
             new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints)
           })
 
+# rbind2 method
 setMethod("rbind2", "DataFrameConstr",
           function(x, y, ...) {
             z <- rbind(as(x, "data.frame"), as(y, "data.frame"), ...)
             new("DataFrameConstr", z, x@columns, x@exclusive, x@constraints)
           })
 
+# cbind2 method
 setMethod("cbind2", "DataFrameConstr",
           function(x, y, ...) {
             z <- cbind(as(x, "data.frame"), as(y, "data.frame"), ...)
             new("DataFrameConstr", z, x@columns, x@exclusive, x@constraints)
           })
 
+# colnames<-
+setMethod("colnames<-", "DataFrameConstr",
+          function(x, value) {
+            y <- callNextMethod()
+            validObject(y)
+            y
+          })
+
+# rownames<-
+setMethod("rownames<-", c(x = "DataFrameConstr", value = "ANY"),
+          function(x, value) {
+            y <- callNextMethod()
+            validObject(y)
+            y
+          })
+
+setMethod("rownames<-", c(x = "DataFrameConstr", value = "NULL"),
+          function(x, value) {
+            x@row.names <- seq_len(nrow(x))
+            validObject(x)
+            x
+          })
+
+# names<-
+setMethod("names<-", "DataFrameConstr",
+          function(x, value) {
+            y <- callNextMethod()
+            validObject(y)
+            y
+          })
+
+
+# names<-
+setMethod("dimnames<-", c(x="DataFrameConstr", value="list"),
+          function(x, value) {
+            rownames(x) <- value[[1]]
+            colnames(x) <- value[[2]]
+            validObject(x)
+            x
+          })
 
