@@ -135,7 +135,7 @@ test_that("[[<-,HomogList,character: test #1", {
 
 test_that("[[<-,HomogList,character: test #2", {
   foo[[c("a", "b")]] <- 100
-  expect_equal(foo, new("HomogList", list(a=c(100, b=100), b=2, c=3), classtype="numeric"))
+  expect_equal(foo, new("HomogList", list(a=c(1, b=100), b=2, c=3), classtype="numeric"))
 })
 
 test_that("[[<-,HomogList,numeric: test #1", {

@@ -94,6 +94,7 @@ test_that("[<- with integer: test #1", {
 })
 
 ##########
+context("[[<- method")
 
 test_that("[[<- with missing throws error", {
   expect_error({foo[[]] <- 1}, regexp="missing subscript")
