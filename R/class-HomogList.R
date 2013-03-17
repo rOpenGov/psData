@@ -1,11 +1,18 @@
 #' @include package.R
 #' @exportClass HomogList
 #' @export HomogList
+#' @exportMethod [
 #' @exportMethod [<-
 #' @exportMethod [[<-
 #' @exportMethod $<-
 #' @exportMethod c
+#' @exportMethod names<-
+#' @exportMethod length<-
 NULL
+
+is_or_null <- function(object, class2) {
+  is(object, class2) || is.null(object)
+}
 
 #' Homogenous List
 #'
@@ -14,7 +21,7 @@ NULL
 #'
 #' This is similar to the 'atomic lists' in R in that all elements
 #' of the vector must be the same class, but the \code{HomogList}
-#' supports arbitrary classes.
+#' supports arbitrary classes. \code{NULL} values are also valid.
 #' 
 #' @section Slots:
 #'
@@ -79,7 +86,7 @@ setValidity("HomogList",
                 # Hack. need to test s3 and s4 classes differently
                 # is(x, "ANY") does not work for s3 objects
                 if (object@classtype != "ANY") {
-                  if (!all(sapply(object, is, class2=object@classtype))) {
+                  if (!all(sapply(object, is_or_null, class2=object@classtype))) {
                     return(sprintf("Not all elements have class %s",
                                    object@classtype))
                   }
@@ -113,7 +120,7 @@ setMethod("c", signature="HomogList",
 setMethod("[", signature=c(x="HomogList", i="missing"), 
           function(x, i, j, ...., drop) x)
 
-setMethod("[", signature=c(x="HomogList", i="missing"), 
+setMethod("[", signature=c(x="HomogList", i="ANY"), 
           function(x, i, j, ...., drop) {
             y <- callGeneric(as(x, "namedList"), i=i)
             new("HomogList", y, classtype=x@classtype)
@@ -132,9 +139,9 @@ setMethod("[<-", signature=c(x="HomogList", i="ANY"),
           })
 
 setMethod("[[<-", signature=c(x="HomogList", i="missing", value="ANY"),
-          function(x, i, j, ..., value) {          
-            y <- callGeneric(as(x, "namedList"), value=value)
-            new("HomogList", y, classtype=x@classtype)
+          function(x, i, j, ..., value) {
+            # Error ... : [[ ]] with missing subscript
+            callGeneric(as(x, "namedList"), value=value)
           })
 
 setMethod("[[<-", signature=c(x="HomogList", i="ANY", value="ANY"),
@@ -146,6 +153,18 @@ setMethod("[[<-", signature=c(x="HomogList", i="ANY", value="ANY"),
 setMethod("$<-", signature=c(x="HomogList"),
           function(x, name, value) {
             x[[name]] <- value
-            new("HomogList", x)
+            new("HomogList", x, classtype=x@classtype)
+          })
+
+setMethod("names<-", signature=c(x="HomogList", value="NULL"),
+          function(x, value) {
+            x@names <- rep(NA_character_, length(x))
+            x
+          })
+
+setMethod("length<-", signature=c(x="HomogList", value="numeric"),
+          function(x, value) {
+            y <- callGeneric(as(x, "namedList"), value)
+            new("HomogList", y, classtype=x@classtype)
           })
 

@@ -1,6 +1,6 @@
 #' @include package.R
 #' @include class-DataFrameConstr.R
-#' @export contrained_data_frame
+#' @export constrained_data_frame
 NULL
 
 new_data_frame <- function(columns=character()) {

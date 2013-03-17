@@ -1,6 +1,6 @@
 #' @include package.R
 #' @include class-HomogList.R
-#' @export subclass_data_frame
+#' @export subclass_homog_list
 NULL
 
 #' Create a subclass of HomogList
