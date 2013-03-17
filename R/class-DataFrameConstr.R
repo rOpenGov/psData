@@ -190,12 +190,18 @@ setMethod("initialize", "DataFrameConstr",
             .Object
           })
 
-setMethod("[<-", c(x="DataFrameConstr"),
-          function(x, i, j, value) {
-            # callNextMethod() causes problems
-            y <- callGeneric(data.frame(x), i, j, value=value)
-            new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
+setMethod("show", "DataFrameConstr",
+          function(object) {
+            cat("Data frame with constraints\n")
+            print(as(object, "data.frame"))
+            cat("Required columns:\n")
+            mapply(function(x, y) cat(sprintf("$ %s: %s\n", x, y)),
+                   names(object@columns), object@columns)
+            cat("Constraints:\n")
+            show(object@constraints)
           })
+
+
 
 setMethod("[", c(x="DataFrameConstr"),
           function(x, i, j, drop) {
@@ -204,6 +210,13 @@ setMethod("[", c(x="DataFrameConstr"),
                      error = function(e) y)
           })
           
+setMethod("[<-", c(x="DataFrameConstr"),
+          function(x, i, j, value) {
+            # callNextMethod() causes problems
+            y <- callGeneric(data.frame(x), i, j, value=value)
+            new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
+          })
+
 
 setMethod("[[<-", c(x="DataFrameConstr", i="ANY", j="missing", value="ANY"),
           function(x, i, j, value) {
@@ -235,17 +248,6 @@ setMethod("cbind2", "DataFrameConstr",
           function(x, y, ...) {
             z <- cbind(as(x, "data.frame"), as(y, "data.frame"), ...)
             new("DataFrameConstr", z, x@columns, x@exclusive, x@constraints)
-          })
-
-setMethod("show", "DataFrameConstr",
-          function(object) {
-            cat("Data frame with constraints\n")
-            print(as(object, "data.frame"))
-            cat("Required columns:\n")
-            mapply(function(x, y) cat(sprintf("$ %s: %s\n", x, y)),
-                   names(object@columns), object@columns)
-            cat("Constraints:\n")
-            show(object@constraints)
           })
 
 
