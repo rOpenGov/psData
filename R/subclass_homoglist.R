@@ -1,4 +1,6 @@
+#' @include package.R
 #' @include homoglist.R
+#' @export subclass_data_frame
 NULL
 
 #' Create a subclass of HomogList
@@ -11,7 +13,6 @@ NULL
 #' all elements must inherit from. This is tested with \code{is}.
 #' @param where Passed to \code{\link{setClass}}.
 #'
-#' @export
 #' @examples
 #' FunctionList <-
 #'   subclass_homog_list("FunctionList", "function")

@@ -1,3 +1,15 @@
+#' @include package.R
+#' @exportClass HomogList
+#' @exportMethod [<-
+#' @exportMethod [[<-
+#' @exportMethod $<-
+#' @exportMethod c
+NULL
+
+setClassUnion("charOrNumeric", c("character", "numeric"))
+
+#' @export HomogList
+
 #' Homogenous List
 #'
 #' An S4 subclass of \code{list} in which all elements of the
@@ -111,8 +123,6 @@ setMethod("[<-", signature="HomogList",
             }
             new("HomogList", y, classtype=x@classtype)
           })
-
-setClassUnion("charOrNumeric", c("character", "numeric"))
 
 setMethod("[[<-", signature=c(x="HomogList", i="charOrNumeric", j="missing", value="ANY"),
           function(x, i, j, ..., value) {

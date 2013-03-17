@@ -1,6 +1,13 @@
+#' @include package.R
 #' @include dataframeconstr.R
+#' @export contrained_data_frame
 NULL
 
+# Create new data frame
+#
+# @param columns Named \code{character} vector. List of
+# of columns and types. Use \code{ANY} to allow a class
+# to be anything.
 new_data_frame <- function(columns=character()) {
   .data <- data.frame()
   for (i in seq_along(columns)) {
@@ -25,7 +32,8 @@ new_data_frame <- function(columns=character()) {
 #' @param Class \code{character} Name of the new class.
 #' @param columns Named \code{character} vector. The names are
 #' the names of required columns; the values are the classes
-#' of those columns.
+#' of those columns.  Use \code{ANY} to allow a class
+#' to be anything.
 #' @param exclusive \code{logical} If \code{TRUE}, then
 #' the data frame can only contain the columns in \code{columns}.
 #' @param constraints \code{list} of functions. Each function should
@@ -35,7 +43,6 @@ new_data_frame <- function(columns=character()) {
 #' @return Invisibly returns a constructor function for the
 #' new class.
 #'
-#' @export
 #' @examples
 #' Foo <-
 #'   constrained_data_frame("Foo",

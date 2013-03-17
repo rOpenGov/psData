@@ -1,4 +1,13 @@
+#' @include package.R
 #' @include subclass_homoglist.R
+#' @export DataFrameConstr
+#' @exportClass DataFrameConstr
+#' @exportMethod [<-
+#' @exportMethod [[<-
+#' @exportMethod $<-
+#' @exportMethod [
+#' @exportMethod cbind2
+#' @exportMethod rbind2
 NULL
 
 FunctionList <- subclass_homog_list("FunctionList", "function")
@@ -33,7 +42,6 @@ FunctionList <- subclass_homog_list("FunctionList", "function")
 #' try(validate_data_frame(iris,
 #'                     columns=c(foo="ineger")))
 #'
-#' @export
 validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constraints=list()) {
   constraints <- FunctionList(constraints)
   if (length(columns)) {
@@ -128,8 +136,6 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases rbind2,DataFrameConstr,ANY-method
 #' @aliases cbind2,DataFrameConstr,ANY-method
 #' @aliases initialize,DataFrameConstr-method
-#' @exportClass DataFrameConstr
-#' @export
 #' @examples
 #' foo <- 
 #'   DataFrameConstr(data.frame(a = runif(3), b = runif(3), c = letters[1:3]),
@@ -183,7 +189,6 @@ setMethod("initialize", "DataFrameConstr",
             .Object
           })
 
-#' @export
 setMethod("[<-", c(x="DataFrameConstr"),
           function(x, i, j, value) {
             # callNextMethod() causes problems
@@ -191,7 +196,6 @@ setMethod("[<-", c(x="DataFrameConstr"),
             new("DataFrameConstr", y,  x@columns, x@exclusive, x@constraints)
           })
 
-#' @export
 setMethod("[", c(x="DataFrameConstr"),
           function(x, i, j, drop) {
             y <- callGeneric(data.frame(x), i, j, drop)
@@ -200,7 +204,6 @@ setMethod("[", c(x="DataFrameConstr"),
           })
           
 
-#' @export
 setMethod("[[<-", c(x="DataFrameConstr", i="ANY", j="missing", value="ANY"),
           function(x, i, j, value) {
             y <- data.frame(x)
@@ -215,28 +218,24 @@ setMethod("[[<-", c(x="DataFrameConstr", i="ANY", j="ANY", value="ANY"),
             new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints)
           })
 
-#' @export
 setMethod("$<-", "DataFrameConstr",
           function(x, name, value) {
             y <- callNextMethod()
             new("DataFrameConstr", y, x@columns, x@exclusive, x@constraints)
           })
 
-#' @export
 setMethod("rbind2", "DataFrameConstr",
           function(x, y, ...) {
             z <- rbind(as(x, "data.frame"), as(y, "data.frame"), ...)
             new("DataFrameConstr", z, x@columns, x@exclusive, x@constraints)
           })
 
-#' @export
 setMethod("cbind2", "DataFrameConstr",
           function(x, y, ...) {
             z <- cbind(as(x, "data.frame"), as(y, "data.frame"), ...)
             new("DataFrameConstr", z, x@columns, x@exclusive, x@constraints)
           })
 
-#' @export
 setMethod("show", "DataFrameConstr",
           function(object) {
             cat("Data frame with constraints\n")
