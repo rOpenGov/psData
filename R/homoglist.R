@@ -92,16 +92,23 @@ setMethod("c", signature="HomogList",
 
 #' @export
 setMethod("[", signature="HomogList",
-          def=function(x, i, j, ...) {
-              new("HomogList",
-                  x@.Data[i],
-                  classtype=x@classtype)
+          def=function(x, i, j, ...., drop) {
+            if (missing(i)) {
+              x
+            } else {
+              y <- callGeneric(as(x, "namedList"), i=i)
+              new("HomogList", y, classtype=x@classtype)
+            }
           })
 
 #' @export
 setMethod("[<-", signature="HomogList",
           function(x, i, j, ..., value) {
-            y <- callGeneric(as(x, "namedList"), i=i, value=value)
+            if (missing(i)) {
+              y <- callGeneric(as(x, "namedList"), value=value)
+            } else {
+              y <- callGeneric(as(x, "namedList"), i=i, value=value)
+            }
             new("HomogList", y, classtype=x@classtype)
           })
 
@@ -109,7 +116,11 @@ setClassUnion("charOrNumeric", c("character", "numeric"))
 
 setMethod("[[<-", signature=c(x="HomogList", i="charOrNumeric", j="missing", value="ANY"),
           function(x, i, j, ..., value) {
-            y <- callGeneric(as(x, "namedList"), i=i, value=value)
+            if (missing(i)) {
+              y <- callGeneric(as(x, "namedList"), value=value)
+            } else {
+              y <- callGeneric(as(x, "namedList"), i=i, value=value)
+            }
             new("HomogList", y, classtype=x@classtype)
           })
 
