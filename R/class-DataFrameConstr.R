@@ -223,7 +223,7 @@ setMethod("show", "DataFrameConstr",
 # [-method
 setMethod("[", c(x="DataFrameConstr", i="missing", j="missing"),
           function(x, i, j, drop=TRUE) {
-            if (ncol(x) == 1) {
+            if (drop && ncol(x) == 1) {
               x[[1]]
             } else {
               x

@@ -88,52 +88,48 @@ constrained_data_frame <- function(Class, columns=character(),
                              )
             }, where=where)
 
-  setMethod("$<-", c(x=Class),
-            function(x, name, value) {
-              y <- callNextMethod()
-              new(Class, y)
+  setMethod("show", Class,
+            function(object) {
+              cat(sprintf("An object of class %s\n", dQuote(Class)))
+              callGeneric(as(object, "DataFrameConstr"))
             }, where=where)
 
-  setMethod("[<-", c(x=Class),
-            function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
-              new(Class, y)
-            }, where=where)
+  # [-method
+  setMethod("[", c(x=Class, i="missing", j="missing"),
+            function(x, i, j, drop=TRUE) {
+              if (drop && ncol(x) == 1) {
+                x[[1]]
+              } else {
+                x
+              }
+            }, where = where)
 
-  setMethod("[", c(x=Class),
-            function(x, i, j, drop) {
+  setMethod("[", c(x=Class, i = "missing", j = "ANY"), 
+            function(x, i, j, drop=TRUE) {
+              y <- callGeneric(as(x, "DataFrameConstr"), , j, drop=drop)
+              if (is(y, "DataFrameConstr")) {
+                y <- new(Class, y)
+              }
+              y
+            }, where = where)
+  
+  setMethod("[", c(x=Class, i = "ANY", j = "missing"), 
+            function(x, i, j, drop=TRUE) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, , drop=drop)
+              if (is(y, "DataFrameConstr")) {
+                y <- new(Class, y)
+              }
+              y
+            }, where = where)
+
+  setMethod("[", c(x=Class, i = "ANY", j = "ANY"), 
+            function(x, i, j, drop=TRUE) {
               y <- callGeneric(as(x, "DataFrameConstr"), i, j, drop=drop)
               if (is(y, "DataFrameConstr")) {
-                new(Class, y)
-              } else {
-                y
+                y <- new(Class, y)
               }
-            }, where=where)
-  
-  ## Need to be explicitly set
-  setMethod("[[<-", c(x=Class, i="ANY", j="missing", value="ANY"),
-            function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, value=value)
-              new(Class, y)
-            }, where=where)
-
-  setMethod("[[<-", c(x=Class, i="ANY", j="ANY", value="ANY"),
-            function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
-              new(Class, y)
-            }, where=where)
-  
-  setMethod("rbind2", Class,
-            function(x, y, ...) {
-              z <- callNextMethod()
-              new(Class, z)
-            }, where=where)
-
-  setMethod("cbind2", Class,
-            function(x, y, ...) {
-              z <- callNextMethod()
-              new(Class, z)
-            }, where=where)
+              y
+            }, where = where)
   
   setAs("data.frame", Class,
         function(from, to) new(Class, from), where=where)
