@@ -1,7 +1,7 @@
 Package: DataFrameConstr
 Maintainer: Jeffrey Arnold <jeffrey.arnold@gmail.com>
 Author: Jeffrey Arnold <jeffrey.arnold@gmail.com>
-Version: 0.8-0
+Version: 1.0-0
 License: GPL-3
 Title: Constrained data frames and homogenous list classes
 Description: Defines two utility S4 classes. DataFrameConstr: extends data
