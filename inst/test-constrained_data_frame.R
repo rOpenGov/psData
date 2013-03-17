@@ -53,4 +53,42 @@ test_that("[,DataFrameConstr,integer,mssing: test #3", {
   expect_equal(foo[1:2, c("a", "b"), drop=FALSE], expected)
 })
 
-### 
+########
+context("Subclass of DataFrameConstr [<- method")
+
+test_that("[<-,Foo,missing,missing: working", {
+  foo[] <- 1
+  expected <- Foo(data.frame(a=rep(1, 5), b=rep(1, 5)))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,Foo,missing,ANY: working", {
+  foo[ , "b"] <- 11:15
+  expected <- Foo(data.frame(a=1:5, b=11:15))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,Foo,missing,ANY: error", {
+  expect_error(foo[ , "b"] <- "a", "invalid class")
+})
+
+test_that("[<-,Foo,ANY,missing: works", {
+  foo[1, ] <- 100
+  expected <- Foo(data.frame(a=c(100, 2:5), b=c(100, 7:10)))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,Foo,missing,ANY: error", {
+  expect_error(foo[1] <- "a", "invalid class")
+})
+
+test_that("[<-,Foo,ANY,ANY: works", {
+  foo[1, "a"] <- 100
+  expected <- Foo(data.frame(a=c(100, 2:5), b=6:10))
+  expect_equal(foo, expected)
+})
+
+test_that("[<-,Foo,ANY,ANY: error", {
+  expect_error(foo[1, "a"] <- "a", "invalid class")
+})
+

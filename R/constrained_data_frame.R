@@ -131,6 +131,31 @@ constrained_data_frame <- function(Class, columns=character(),
               y
             }, where = where)
   
+  # [<- method
+  setMethod("[<-", c(x=Class, i="missing", j="missing"),
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), , , value=value)
+              new(Class, y)
+            }, where=where)
+  
+  setMethod("[<-", c(x=Class, i="missing", j="ANY"),
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), , j, value=value)
+              new(Class, y)
+            }, where=where)
+  
+  setMethod("[<-", c(x=Class, i="ANY", j="missing"),
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, , value=value)
+              new(Class, y)
+            }, where=where)
+  
+  setMethod("[<-", c(x=Class, i="ANY", j="ANY"),
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
+              new(Class, y)
+            }, where=where)
+  
   setAs("data.frame", Class,
         function(from, to) new(Class, from), where=where)
   
