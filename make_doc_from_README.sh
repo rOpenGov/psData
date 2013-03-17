@@ -3,7 +3,7 @@ pandoc --variable=author:"Jeffrey B.Arnold" \
     --variable=title:"DataFrameConstr" \
     --variable=date:"$DATE" \
     --toc \
-    -o inst/doc/README.pdf \
+    -o inst/doc/DataFrameConstr.pdf \
     README.md
 
 
