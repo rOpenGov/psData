@@ -3,7 +3,7 @@ Maintainer: Jeffrey Arnold <jeffrey.arnold@gmail.com>
 Author: Jeffrey Arnold <jeffrey.arnold@gmail.com>
 Version: 0.8-0
 License: GPL-3
-Title: Constrained data frames and list classes
+Title: Constrained data frames and homogenous list classes
 Description: Defines two utility S4 classes. DataFrameConstr: extends data
     frames with column and general constraints. HomogList: a list in which all
     elements to have the same class.
