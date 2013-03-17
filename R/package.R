@@ -18,3 +18,6 @@
 #' @name DataFramePlus
 #' @docType package
 NULL
+
+setGeneric("colnames<-", base::`colnames<-`)
+setGeneric("colnames<-", base::`rownames<-`)
