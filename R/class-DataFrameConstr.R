@@ -18,14 +18,14 @@ FunctionList <- subclass_homog_list("FunctionList", "function")
 
 #' Validate \code{data.frame}: column names, classes, and arbitrary constraints
 #'
-#' Check that at \code{data.frame} has columns of specified classtypes, and
+#' Check that a \code{data.frame} has columns with specified names and classtypes, or
 #' satisfies arbitrary constraints.
 #'
 #' @param object \code{data.frame} to be validated.
-#' @param columns Named \code{character} vector. Names are required
+#' @param columns Named \code{character} vector. Names are column names, values are
+#' the required classes for those columns.
 #' @param exclusive \code{logical} If \code{TRUE}, then \code{object}
 #' cannot contain any columns other than those in \code{columns}
-#' columns in \code{x}, values are the classes of those columns.
 #' @param constraints \code{list} of functions. Each function should
 #' take only one argument, and return \code{logical}.
 #' 
@@ -35,7 +35,7 @@ FunctionList <- subclass_homog_list("FunctionList", "function")
 #' @examples
 #' data(iris)
 #' # check that the iris dataset has numeric column Sepal.Length
-#' # and factor Species.
+#' # and factor column Species.
 #' validate_data_frame(iris,
 #'                     columns=c(Sepal.Length="numeric",
 #'                               Species="factor"))
@@ -45,7 +45,6 @@ FunctionList <- subclass_homog_list("FunctionList", "function")
 #' # Error because Sepal.Length is not an integer
 #' try(validate_data_frame(iris,
 #'                     columns=c(foo="ineger")))
-#'
 validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constraints=list()) {
   constraints <- FunctionList(constraints)
   if (length(columns)) {
@@ -105,13 +104,15 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #'
 #' @section Methods:
 #'
-#' Replace methods are defined to return \code{"DataFrameConstr"} objects where appropriate.
+#' Methods commonly used with data frames are defined to return \code{"DataFrameConstr"}
+#' objects where appropriate, or throw errors if they would create an invalid
+#' \code{"DataFrameConstr"} object.
 #'
 #' \describe{
 #'   \item{[<-}{\code{signature(x = "DataFrameConstr")}: }
 #'   \item{[[<-}{\code{signature(x = "DataFrameConstr")}: }
 #'   \item{[}{\code{signature(object = "DataFrameConstr")}:
-#'   Returns \linkS4class{DataFrameConstr} if it is a valid object,
+#'   Returns \linkS4class{DataFrameConstr} if the returned object is valid,
 #'   otherwise returns a \code{data.frame}.
 #'   }
 #'   \item{$<-}{\code{signature(x = "DataFrameConstr")}: }

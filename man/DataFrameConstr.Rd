@@ -55,15 +55,17 @@
 }
 
 \section{Methods}{
-  Replace methods are defined to return
-  \code{"DataFrameConstr"} objects where appropriate.
+  Methods commonly used with data frames are defined to
+  return \code{"DataFrameConstr"} objects where
+  appropriate, or throw errors if they would create an
+  invalid \code{"DataFrameConstr"} object.
 
   \describe{ \item{[<-}{\code{signature(x =
   "DataFrameConstr")}: } \item{[[<-}{\code{signature(x =
   "DataFrameConstr")}: } \item{[}{\code{signature(object =
   "DataFrameConstr")}: Returns
-  \linkS4class{DataFrameConstr} if it is a valid object,
-  otherwise returns a \code{data.frame}.  }
+  \linkS4class{DataFrameConstr} if the returned object is
+  valid, otherwise returns a \code{data.frame}.  }
   \item{$<-}{\code{signature(x = "DataFrameConstr")}: }
   \item{cbind2}{\code{signature(x = "DataFrameConstr")}:}
   \item{rbind2}{\code{signature(x = "DataFrameConstr")}:

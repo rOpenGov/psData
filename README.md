@@ -1,5 +1,8 @@
 # DataFrameConst
 
+
+
+
 This **R** package defines two S4 classes 
 
 - `HomogList`: a list in which all elements must be the same class
@@ -19,6 +22,8 @@ library("devtools")
 install_github("ggthemes", "jrnold")
 ```
 
+# Classes
+
 ## HomogList
 
 Create a list in which all elements must be functions
@@ -26,19 +31,20 @@ Create a list in which all elements must be functions
 
 ```r
 library("DataFrameConstr")
-foo <- HomogList(list(sum = sum, max = max, min = min), "function")
+foo <- HomogList(list(sum = sum, max = max, min = min), 
+    "function")
 print(foo)
 ```
 
 ```
-## List of "function" objects:
-## [[1]]
+## List of "function" objects
+## $sum
 ## function (..., na.rm = FALSE)  .Primitive("sum")
 ## 
-## [[2]]
+## $max
 ## function (..., na.rm = FALSE)  .Primitive("max")
 ## 
-## [[3]]
+## $min
 ## function (..., na.rm = FALSE)  .Primitive("min")
 ```
 
@@ -70,20 +76,20 @@ print(foo)
 ```
 
 ```
-## List of "function" objects:
-## [[1]]
+## List of "function" objects
+## $sum
 ## function (..., na.rm = FALSE)  .Primitive("sum")
 ## 
-## [[2]]
+## $max
 ## function (..., na.rm = FALSE)  .Primitive("max")
 ## 
-## [[3]]
+## $min
 ## function (..., na.rm = FALSE)  .Primitive("min")
 ## 
-## [[4]]
+## $mean
 ## function (x, ...) 
 ## UseMethod("mean")
-## <bytecode: 0x1b986f8>
+## <bytecode: 0x51d8278>
 ## <environment: namespace:base>
 ```
 
@@ -95,8 +101,8 @@ foo[["a"]] <- 1
 ```
 
 ```
-## Error: invalid class "HomogList" object: Not all elements have class
-## function
+## Error: invalid class "HomogList" object: Not all
+## elements have class function
 ```
 
 The methods
@@ -112,7 +118,15 @@ For example, the following creates a new class "FunctionList", in
 which all elements must be `function` objects.
 
 ```r
-FunctionList <- subclass_homog_list("FunctionList", "function")
+FunctionList <- subclass_homog_list("FunctionList", 
+    "function")
+```
+
+```
+## Error: package slot missing from signature for
+## generic '[' and classes FunctionList, ANY, ANY
+## cannot use with duplicate class names (the
+## package may need to be re-installed)
 ```
 
 
@@ -123,15 +137,7 @@ FunctionList(list(sum = sum, mean = mean))
 ```
 
 ```
-## List of "function" objects:
-## [[1]]
-## function (..., na.rm = FALSE)  .Primitive("sum")
-## 
-## [[2]]
-## function (x, ...) 
-## UseMethod("mean")
-## <bytecode: 0x1b986f8>
-## <environment: namespace:base>
+## Error: could not find function "FunctionList"
 ```
 
 or, more verbosely,
@@ -141,14 +147,15 @@ new("FunctionList", list(sum = sum, mean = mean))
 ```
 
 ```
-## List of "function" objects:
-## [[1]]
+## An object of class "FunctionList"
+## List of "function" objects
+## $sum
 ## function (..., na.rm = FALSE)  .Primitive("sum")
 ## 
-## [[2]]
+## $mean
 ## function (x, ...) 
 ## UseMethod("mean")
-## <bytecode: 0x1b986f8>
+## <bytecode: 0x51d8278>
 ## <environment: namespace:base>
 ```
 
@@ -161,20 +168,26 @@ FunctionList(list(a = 1))
 ```
 
 ```
-## Error: invalid class "FunctionList" object: Not all elements have class
-## function
+## Error: could not find function "FunctionList"
 ```
 
 or when updating an existing object,
 
 ```r
 foo <- FunctionList(list(sum = sum, mean = mean))
+```
+
+```
+## Error: could not find function "FunctionList"
+```
+
+```r
 foo[["a"]] <- 1
 ```
 
 ```
-## Error: invalid class "HomogList" object: Not all elements have class
-## function
+## Error: invalid class "HomogList" object: Not all
+## elements have class function
 ```
 
 
@@ -202,10 +215,11 @@ values of `"a"` are positive.
 
 
 ```r
-foo <- DataFrameConstr(data.frame(a = runif(3), b = runif(3), c = letters[1:3]), 
-    columns = c(a = "numeric", b = "ANY", c = "factor"), constraints = list(function(x) {
-        x$a > 0
-    }))
+foo <- DataFrameConstr(data.frame(a = runif(3), b = runif(3), 
+    c = letters[1:3]), columns = c(a = "numeric", b = "ANY", 
+    c = "factor"), constraints = list(function(x) {
+    x$a > 0
+}))
 ```
 
 
@@ -216,10 +230,10 @@ print(foo)
 ```
 
 ```
-##        a      b c
-## 1 0.5837 0.9933 a
-## 2 0.9352 0.8535 b
-## 3 0.6958 0.8593 c
+##        a       b c
+## 1 0.6748 0.47035 a
+## 2 0.1708 0.79275 b
+## 3 0.2248 0.02178 c
 ```
 
 ```r
@@ -227,13 +241,13 @@ summary(foo)
 ```
 
 ```
-##        a               b         c    
-##  Min.   :0.584   Min.   :0.854   a:1  
-##  1st Qu.:0.640   1st Qu.:0.856   b:1  
-##  Median :0.696   Median :0.859   c:1  
-##  Mean   :0.738   Mean   :0.902        
-##  3rd Qu.:0.816   3rd Qu.:0.926        
-##  Max.   :0.935   Max.   :0.993
+##        a               b          c    
+##  Min.   :0.171   Min.   :0.0218   a:1  
+##  1st Qu.:0.198   1st Qu.:0.2461   b:1  
+##  Median :0.225   Median :0.4703   c:1  
+##  Mean   :0.357   Mean   :0.4283        
+##  3rd Qu.:0.450   3rd Qu.:0.6315        
+##  Max.   :0.675   Max.   :0.7927
 ```
 
 
@@ -245,8 +259,8 @@ foo$a <- as.character(foo$a)
 ```
 
 ```
-## Error: invalid class "DataFrameConstr" object: column a does not inherit
-## from numeric
+## Error: invalid class "DataFrameConstr" object:
+## column a does not inherit from numeric
 ```
 
 This returns an error because `a` is constrained to be strictly positive,
@@ -256,14 +270,15 @@ foo["a", 1] <- -1
 ```
 
 ```
-## Error: invalid class "DataFrameConstr" object: Constraint failed: function
-## (x) { x$a > 0 }
+## Error: invalid class "DataFrameConstr" object:
+## Constraint failed: function (x) { x$a > 0 }
 ```
 
 ```r
-# Unfortunately, this syntax, does not work, and alters foo foo[['a']][1]
-# <- -1 I can't figure out how to avoid that, so if anyone knows, can you
-# let me know?
+# Unfortunately, this syntax, does not work, and
+# alters foo foo[['a']][1] <- -1 I can't figure
+# out how to avoid that, so if anyone knows, can
+# you let me know?
 ```
 
 
@@ -290,7 +305,8 @@ foo$a <- NULL
 ```
 
 ```
-## Error: invalid class "DataFrameConstr" object: column a not in 'object'
+## Error: invalid class "DataFrameConstr" object:
+## column a not in 'object'
 ```
 
 
@@ -302,15 +318,15 @@ of `DataFrameConstr`. For example, to create a class, which I'll call `"Foo"`, w
 has the same columns and constraints as the `foo` object previously created,
 
 ```r
-Foo <- constrained_data_frame("Foo", columns = c(a = "numeric", b = "ANY", c = "factor"), 
-    constraints = list(function(x) {
-        x$a > 0
-    }))
+Foo <- constrained_data_frame("Foo", columns = c(a = "numeric", 
+    b = "ANY", c = "factor"), constraints = list(function(x) {
+    x$a > 0
+}))
 ```
 
 ```
-## Error: trying to get slot "target" from an object of a basic class
-## ("environment") with no slots
+## Error: trying to get slot "target" from an object
+## of a basic class ("environment") with no slots
 ```
 
 Now there is a new class, `"Foo"`, which inherits from `DataFrameConstr`,
@@ -323,12 +339,15 @@ showClass("Foo")
 ## Class "Foo" [in ".GlobalEnv"]
 ## 
 ## Slots:
-##                                                                   
-## Name:                .Data             columns           exclusive
-## Class:                list           character             logical
-##                                                                   
-## Name:          constraints               names           row.names
-## Class:        FunctionList           character data.frameRowLabels
+##                                               
+## Name:                .Data             columns
+## Class:                list           character
+##                                               
+## Name:            exclusive         constraints
+## Class:             logical        FunctionList
+##                                               
+## Name:                names           row.names
+## Class:           character data.frameRowLabels
 ##                           
 ## Name:             .S3Class
 ## Class:           character
@@ -348,14 +367,6 @@ Then create a new object, `bar` of class `Foo`,
 bar <- Foo(data.frame(a = runif(3), b = runif(3), c = letters[1:3]))
 ```
 
-```
-## [1] "not missing"
-##         a      b c
-## 1 0.01305 0.9868 a
-## 2 0.86750 0.8165 b
-## 3 0.66116 0.4577 c
-```
-
 This new object will validate any new data, so the following will produce errors,
 
 ```r
@@ -363,8 +374,8 @@ bar[["a"]] <- as.character(bar[["a"]])
 ```
 
 ```
-## Error: invalid class "DataFrameConstr" object: column a does not inherit
-## from numeric
+## Error: invalid class "DataFrameConstr" object:
+## column a does not inherit from numeric
 ```
 
 ```r
@@ -372,8 +383,8 @@ bar[["a"]] <- -1
 ```
 
 ```
-## Error: invalid class "DataFrameConstr" object: Constraint failed: function
-## (x) { x$a > 0 }
+## Error: invalid class "DataFrameConstr" object:
+## Constraint failed: function (x) { x$a > 0 }
 ```
 
 ```r
@@ -381,7 +392,8 @@ bar[["a"]] <- NULL
 ```
 
 ```
-## Error: invalid class "DataFrameConstr" object: column a not in 'object'
+## Error: invalid class "DataFrameConstr" object:
+## column a not in 'object'
 ```
 
 
@@ -393,15 +405,8 @@ Foo(data.frame(a = runif(3)))
 ```
 
 ```
-## [1] "not missing"
-##         a
-## 1 0.04970
-## 2 0.05677
-## 3 0.89883
-```
-
-```
-## Error: invalid class "Foo" object: column b not in 'object'
+## Error: invalid class "Foo" object: column b not
+## in 'object'
 ```
 
 
