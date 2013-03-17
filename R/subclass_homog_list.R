@@ -53,13 +53,13 @@ subclass_homog_list <- function(Class, classtype="ANY",
                 callGeneric(as(object, "HomogList"))
               }, where=where)
 
-    setMethod("[", signature = c(x = Class, i = "missing"), 
-              function(x, i, j, ...., drop) {
+    setMethod("[", signature = c(x = Class, i = "missing", j="ANY"), 
+              function(x, i, j, drop) {
                 x
               }, where=where)
     
-    setMethod("[", signature = c(x = Class, i = "ANY"), 
-              function(x, i, j, ...., drop) {
+    setMethod("[", signature = c(x = Class, i = "ANY", j="ANY"), 
+              function(x, i, j, drop) {
                 y <- callGeneric(as(x, "HomogList"), i=i)
                 new(Class, y)
               }, where = where)

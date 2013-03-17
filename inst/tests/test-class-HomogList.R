@@ -1,4 +1,4 @@
-context("testing list-of-classes")
+context("HomogList-class")
 
 test_that("new(\"HomogList\", ...) with args works", {
     foo <- new("HomogList", list(a=1, b=2, c=3), classtype = "numeric")
@@ -46,7 +46,7 @@ foo <- new("HomogList", list(a=1, b=2, c=3), classtype="numeric")
 
 #######
 
-context("HomogList c-method")
+context("c,HomogList method")
 
 test_that("c-method: Homoglist,Homoglist works", {
   bar <- new("HomogList", list(d=4), classtype="numeric")
@@ -68,7 +68,7 @@ test_that("c-method: Homoglist,list throws error if bad", {
 
 #######
 
-context("HomogList [-method")
+context("[,HomogList method")
 
 test_that("[-method HomogList,integer works", {
   expect_equal(foo[2], new("HomogList", list(b=2), classtype="numeric"))
@@ -84,7 +84,7 @@ test_that("[-method HomogList,missing works", {
 
 #######
 
-context("[<- method")
+context("[<-,HomogList method")
 
 test_that("[<- with HomogList,missing,vector works", {
   foo[] <- 3
@@ -123,6 +123,7 @@ test_that("[<- with HomogList,integer: test #2", {
 })
 
 ##########
+context("[[<-,HomogList method")
 
 test_that("[[<- with HomogList, missing throws error", {
   expect_error({foo[[]] <- 1}, regexp="missing subscript")
@@ -150,7 +151,7 @@ test_that("[[<-,HomogList,numeric: test #2", {
 
 #########
 
-context("$<- method")
+context("$<-,HomogList method")
 
 test_that("$<-,HomogList works", {
   foo$a <- 100
@@ -159,7 +160,7 @@ test_that("$<-,HomogList works", {
 
 ########
 
-context("names<- method")
+context("names<-,HomogList method")
 
 test_that("names<- with character works", {
   names(foo) <- c("d", "e", "f")
@@ -173,7 +174,7 @@ test_that("names<- with NULL works", {
 
 ###########
 
-context("length<- method")
+context("length<-,HomogList method")
 
 test_that("length<- works with value < length(object)", {
   length(foo) <- 1

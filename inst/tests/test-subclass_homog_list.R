@@ -29,7 +29,7 @@ foo <- Foo(list(a=1, b=2))
 
 #######
 
-context("HomogList c-method")
+context("Subclass of HomogList c method")
 
 test_that("c-method: test #1", {
   bar <- Foo(list(c=3))
@@ -51,7 +51,7 @@ test_that("c-method: test #3", {
 
 #######
 
-context("HomogList [-method")
+context("Subclass of HomogList [ method")
 
 test_that("[-method integer works", {
   expect_equal(foo[2], Foo(list(b=2)))
@@ -67,7 +67,7 @@ test_that("[-method missing works", {
 
 #######
 
-context("[<- method")
+context("Subclass of HomogList [<- method")
 
 test_that("[<- with missing,vector works", {
   foo[] <- 3
@@ -94,7 +94,7 @@ test_that("[<- with integer: test #1", {
 })
 
 ##########
-context("[[<- method")
+context("Subclass of HomogList [[<- method")
 
 test_that("[[<- with missing throws error", {
   expect_error({foo[[]] <- 1}, regexp="missing subscript")
@@ -112,7 +112,7 @@ test_that("[[<- with numeric", {
 
 #########
 
-context("$<- method")
+context("Subclass of HomogList $<- method")
 
 test_that("$<-,HomogList works", {
   foo$a <- 100
@@ -121,7 +121,7 @@ test_that("$<-,HomogList works", {
 
 ########
 
-context("names<- method")
+context("subclass HomogList names<- method")
 
 test_that("names<- with character works", {
   names(foo) <- c("d", "e")
@@ -135,7 +135,7 @@ test_that("names<- with NULL works", {
 
 ###########
 
-context("length<- method")
+context("subclass HomogList length<- method")
 
 test_that("length<- works with value < length(object)", {
   length(foo) <- 1

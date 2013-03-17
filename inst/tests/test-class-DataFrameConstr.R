@@ -119,7 +119,7 @@ test_that("[,DataFrameConstr,integer,mssing: test #3", {
 })
 
 ########
-context("[<- method")
+context("[<-,DataFrameConstr method")
 
 test_that("[<-,DataFrameConstr,missing,missing: working", {
   foo[] <- 1
@@ -166,7 +166,7 @@ test_that("[<-,DataFrameConstr,ANY,ANY: error", {
 })
 
 ####
-context("[[<- method")
+context("[[<-,DataFrameConstr method")
 
 test_that("[[<-,DataFrameConstr,missing,missing error", {
   expect_error(foo[[]] <- 1, "missing subscript")
@@ -209,7 +209,7 @@ test_that("[[<-,DataFrameConstr,ANY,ANY error", {
 })
 
 ####
-context("$<- method")
+context("$<-,DataFrameConstr method")
 
 test_that("$<-,DataFrameConstr works", {
   foo$a <- 11:15
@@ -223,7 +223,7 @@ test_that("$<-,DataFrameConstr error", {
 })
 
 ####
-context("colnames<- method")
+context("colnames<-,DataFrameConstr method")
 
 test_that("colnames<- error", {
   expect_error(colnames(foo) <- c("d", "b"))
@@ -235,7 +235,7 @@ test_that("colnames<- works", {
 })
 
 ####
-context("rownames<- method")
+context("rownames<-,DataFrameConstr method")
 
 test_that("rownames<- works", {
   rownames(foo) <- letters[1:5]
@@ -248,7 +248,7 @@ test_that("rownames<- with NULL works", {
 })
 
 ####
-context("names<- method")
+context("names<-,DataFrameConstr method")
 
 test_that("names<- works", {
   names(foo) <- c("a", "b")
@@ -260,7 +260,7 @@ test_that("names<- error", {
 })
 
 ####
-context("dimnames<- method")
+context("dimnames<-,DataFrameConstr method")
 
 test_that("dimnames<- works", {
   dimnames(foo) <- list(1:5, c("a", "b"))

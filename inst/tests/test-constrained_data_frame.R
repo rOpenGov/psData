@@ -96,10 +96,6 @@ test_that("[<-,Foo,ANY,ANY: error", {
 
 context("subclass of DataFrameConstr [[<- methods")
 
-test_that("[[<-,Foo,missing,missing error", {
-  expect_error(foo[[]] <- 1, "missing subscript")
-})
-
 test_that("[[<-,Foo,integer,missing works", {
   foo[[1]] <- 100
   expected <- Foo(data.frame(a=rep(100, 5), b=6:10))
@@ -149,7 +145,7 @@ test_that("$<-,DataFrameConstr error", {
 
 ### cbind2
 
-context("subclass of DataFrameConstr cbind2 works")
+context("subclass of DataFrameConstr cbind2 method")
 
 test_that("cbind2,Foo works", {
   bar <- cbind2(foo, data.frame(c=11:15))
@@ -157,7 +153,7 @@ test_that("cbind2,Foo works", {
 })
 
 ### rbind2
-context("subclass of DataFrameConstr rbind2 works")
+context("subclass of DataFrameConstr rbind2 method")
 
 test_that("rbind2,Foo works", {
   bar <- rbind2(foo, data.frame(a=6, b=11))
@@ -165,7 +161,7 @@ test_that("rbind2,Foo works", {
 })
 
 ### colnames<-
-context("colnames<- method")
+context("subclass of DataFrameConstr colnames<- method")
 
 test_that("colnames<- error", {
   expect_error(colnames(foo) <- c("d", "b"))
@@ -177,7 +173,7 @@ test_that("colnames<- works", {
 })
 
 ####
-context("rownames<- method")
+context("subclass of DataFrameConstr rownames<- method")
 
 test_that("rownames<- works", {
   rownames(foo) <- letters[1:5]
@@ -190,7 +186,7 @@ test_that("rownames<- with NULL works", {
 })
 
 ####
-context("names<- method")
+context("subclass of DataFrameConstr names<- method")
 
 test_that("names<- works", {
   names(foo) <- c("a", "b")
@@ -202,7 +198,7 @@ test_that("names<- error", {
 })
 
 ####
-context("dimnames<- method")
+context("subclass of DataFrameConstr dimnames<- method")
 
 test_that("dimnames<- works", {
   dimnames(foo) <- list(1:5, c("a", "b"))
