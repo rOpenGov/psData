@@ -1,13 +1,8 @@
 #' @include package.R
-#' @include dataframeconstr.R
+#' @include class-DataFrameConstr.R
 #' @export contrained_data_frame
 NULL
 
-# Create new data frame
-#
-# @param columns Named \code{character} vector. List of
-# of columns and types. Use \code{ANY} to allow a class
-# to be anything.
 new_data_frame <- function(columns=character()) {
   .data <- data.frame()
   for (i in seq_along(columns)) {

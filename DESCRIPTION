@@ -14,9 +14,9 @@ Suggests:
     roxygen2
 Collate:
     'package.R'
-    'homoglist.R'
+    'class-HomogList.R'
     'subclass_homoglist.R'
-    'dataframeconstr.R'
+    'class-DataFrameConstr.R'
     'constrained_data_frame.R'
 URL: https://github.com/jrnold/DataFrameConstr
 BugReports: https://github.com/jrnold/DataFrameConstr

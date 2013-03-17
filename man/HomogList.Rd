@@ -3,9 +3,12 @@
 \alias{$<-,HomogList-method}
 \alias{HomogList}
 \alias{HomogList-class}
-\alias{[,HomogList-method}
-\alias{[<-,HomogList-method}
-\alias{[[<-,HomogList,charOrNumeric,missing-method}
+\alias{[,HomogList,ANY-method}
+\alias{[,HomogList,missing-method}
+\alias{[<-,HomogList,ANY-method}
+\alias{[<-,HomogList,missing-method}
+\alias{[[<-,HomogList,ANY-method}
+\alias{[[<-,HomogList,missing-method}
 \alias{c,HomogList-method}
 \alias{show,HomogList-method}
 \title{Homogenous List}

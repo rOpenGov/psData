@@ -1,5 +1,5 @@
 #' @include package.R
-#' @include homoglist.R
+#' @include class-HomogList.R
 #' @export subclass_data_frame
 NULL
 
@@ -55,7 +55,7 @@ subclass_homog_list <- function(Class, classtype="ANY",
                 new(Class, y)
               }, where=where)
 
-    setMethod("[[<-", c(x=Class, i="charOrNumeric", j="missing", value="ANY"),
+    setMethod("[[<-", c(x=Class, i="ANY", j="missing", value="ANY"),
               function(x, i, j, ..., value) {
                 y <- callGeneric(as(x, "HomogList"), i=i, value=value)
                 new(Class, y)

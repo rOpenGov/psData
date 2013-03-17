@@ -11,7 +11,8 @@
 
   \item{columns}{Named \code{character} vector. The names
   are the names of required columns; the values are the
-  classes of those columns.}
+  classes of those columns.  Use \code{ANY} to allow a
+  class to be anything.}
 
   \item{exclusive}{\code{logical} If \code{TRUE}, then the
   data frame can only contain the columns in
