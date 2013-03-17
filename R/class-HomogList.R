@@ -53,8 +53,8 @@ is_or_null <- function(object, class2) {
 #' @aliases HomogList
 #' @aliases [,HomogList,missing,ANY-method
 #' @aliases [,HomogList,ANY,ANY-method
-#' @aliases [<-,HomogList,missing-method
-#' @aliases [<-,HomogList,ANY-method
+#' @aliases [<-,HomogList,missing,ANY-method
+#' @aliases [<-,HomogList,ANY,ANY-method
 #' @aliases [[<-,HomogList,missing,ANY-method
 #' @aliases [[<-,HomogList,ANY,ANY-method
 #' @aliases $<-,HomogList-method

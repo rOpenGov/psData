@@ -134,7 +134,7 @@ test_that("[<-,DataFrameConstr,missing,missing: error", {
 
 test_that("[<-,DataFrameConstr,missing,ANY: working", {
   foo[ , "b"] <- 11:15
-  expected <- DataFrameConstr(data.frame(a=rep(1, 5), b=11:15),
+  expected <- DataFrameConstr(data.frame(a=1:5, b=11:15),
                               columns=c(a="numeric", b="numeric"))
   expect_equal(foo, expected)
 })
@@ -213,7 +213,7 @@ context("$<- method")
 
 test_that("$<-,DataFrameConstr works", {
   foo$a <- 11:15
-  expected <- DataFrameConstr(data.frame(a=c(100, 2:5), b=6:10),
+  expected <- DataFrameConstr(data.frame(a=11:15, b=6:10),
                               columns=c(a="numeric", b="numeric"))
   expect_equal(foo, expected)
 })
@@ -269,5 +269,5 @@ test_that("dimnames<- works", {
 
 test_that("dimnames<- error", {
   expect_error(dimnames(foo) <- list(1:5, c("d", "b")), "invalid class")
-}
+})
 

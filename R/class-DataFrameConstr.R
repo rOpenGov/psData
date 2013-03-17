@@ -117,8 +117,10 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #'   \item{$<-}{\code{signature(x = "DataFrameConstr")}: }
 #'   \item{cbind2}{\code{signature(x = "DataFrameConstr")}:}
 #'   \item{rbind2}{\code{signature(x = "DataFrameConstr")}: ... }
-#'   \item{show}{\code{signature(object = "DataFrameConstr")}: }
-#'   \item{[}{\code{signature(object = "DataFrameConstr")}: }
+#'   \item{names<-}{\code{signature(x = "DataFrameConstr")}: ... }
+#'   \item{colnames<-}{\code{signature(object = "DataFrameConstr")}: }
+#'   \item{rownames<-}{\code{signature(object = "DataFrameConstr")}: }
+#'   \item{dimnames<-}{\code{signature(object = "DataFrameConstr")}: }
 #' }
 #'
 #' @section Extends:
@@ -147,7 +149,7 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, constrain
 #' @aliases cbind2,DataFrameConstr,ANY-method
 #' @aliases colnames<-,DataFrameConstr-method
 #' @aliases rownames<-,DataFrameConstr,ANY-method
-#' @aliases rownames<-,DataFrameConstr,missing-method
+#' @aliases rownames<-,DataFrameConstr,NULL-method
 #' @aliases names<-,DataFrameConstr,ANY-method
 #' @aliases dimnames<-,DataFrameConstr,list-method
 #' @aliases initialize,DataFrameConstr-method
