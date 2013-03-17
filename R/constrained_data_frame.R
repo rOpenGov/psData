@@ -155,6 +155,63 @@ constrained_data_frame <- function(Class, columns=character(),
               y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
               new(Class, y)
             }, where=where)
+
+  setMethod("[[<-", c(x=Class, i="ANY", j="missing", value="ANY"),
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, , value=value)
+              new(Class, y)
+            }, where=where)
+  
+  setMethod("[[<-", c(x=Class, i="ANY", j="ANY", value="ANY"),
+            function(x, i, j, value) {
+              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
+              new(Class, y)
+          }, where=where)
+
+  setMethod("$<-", c(x=Class),
+            function(x, name, value) {
+              y <- callNextMethod()
+              new(Class, y)
+            }, where=where)
+
+  setMethod("rbind2", Class,
+          function(x, y, ...) {
+            z <- callNextMethod()
+            new(Class, z)
+          }, where=where)
+
+  setMethod("cbind2", Class,
+            function(x, y, ...) {
+              z <- callNextMethod()
+              new(Class, z)
+            }, where=where)
+
+  # colnames<-
+  setMethod("colnames<-", "DataFrameConstr",
+            function(x, value) {
+              y <- callNextMethod()
+              new(Class, y)
+            }, where=where)
+  
+  # rownames<-
+  setMethod("rownames<-", c(x = "DataFrameConstr"), 
+            function(x, value) {
+              callNextMethod()
+            }, where=where)
+  
+  # names<-
+  setMethod("names<-", "DataFrameConstr",
+            function(x, value) {
+              y <- callNextMethod()
+              new(Class, y)
+            }, where=where)
+
+  # names<-
+  setMethod("dimnames<-", c(x="DataFrameConstr", value="list"),
+            function(x, value) {
+              y <- callNextMethod()
+              new(Class, y)
+            }, where=where)
   
   setAs("data.frame", Class,
         function(from, to) new(Class, from), where=where)
