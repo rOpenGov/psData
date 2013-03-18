@@ -1,2 +1,3 @@
-README.Rmd
-make_doc_from_README.sh
+README.Rmd$
+make_doc_from_README.sh$
+inst/doc/auto
