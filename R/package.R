@@ -20,4 +20,4 @@
 NULL
 
 setGeneric("colnames<-", base::`colnames<-`)
-setGeneric("colnames<-", base::`rownames<-`)
+setGeneric("rownames<-", base::`rownames<-`)
