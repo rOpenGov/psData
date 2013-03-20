@@ -1,7 +1,7 @@
 devtools 1.1-1
 -----------------
 
-* depends on R >= 2.15
+* depends on R >= 2.15.0
 
 devtools 1.1-0
 -----------------
