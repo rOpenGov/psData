@@ -1,0 +1,22 @@
+Package: psData
+Type: Package
+Title: A package to download regularly maintained political science data sets
+    and make commonly used, but infrequently updated variables.
+Description: This R package includes functions for gathering commonly used and
+    regularly maintained data set in political science. It also includes
+    functions for combining components from these data sets into variables that
+    have been suggested in the literature, but are not regularly maintained.
+Version: 0.1
+Date: 2014-01-30
+Author: Christopher Gandrud
+Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
+URL: http://christophergandrud.github.io/psData/
+BugReports: https://github.com/christophergandrud/psData/issues
+Depends:
+    R (>= 3.0.2)
+License: GPL-2 | GPL-3
+Imports:
+    foreign,
+    countrycode,
+    DataCombine
+LazyData: TRUE
