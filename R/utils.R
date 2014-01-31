@@ -34,7 +34,7 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c'){
 #' @keywords internals
 #' @export
 
-DropNA.psData <- function(data, Var, ID)
+DropNA.psData <- function(data, Var)
 {
   # Find term number
   DataNames <- names(data)

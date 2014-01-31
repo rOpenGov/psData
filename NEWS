@@ -1,0 +1,9 @@
+Version 0.1
+
+First development version of **psData**. The package includes the following main functions:
+
+- `DpiGet`
+
+- `PolityGet`
+
+- `Wincreator`

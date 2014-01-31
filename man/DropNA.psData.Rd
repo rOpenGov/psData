@@ -6,7 +6,7 @@ Largely based on \code{DropNA} from the
 \code{\link{DataCombine}} package.
 }
 \usage{
-DropNA.psData(data, Var, ID)
+DropNA.psData(data, Var)
 }
 \arguments{
   \item{data}{a data frame object.}

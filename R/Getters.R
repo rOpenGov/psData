@@ -28,9 +28,15 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav', va
     download.file(url, tmpfile)
     PolityData <- read.spss(tmpfile, to.data.frame = TRUE)  
     unlink(tmpfile)
+    
+    # Ensure that vars are in the data frame
 
     # Clean up
+    # Ensure that vars are in the data frame
     if (!is.null(vars)){
+      if (!all(vars %in% names(PolityData))){
+        stop('Specified variables not found in data.')
+      }
     	Vars <- c('country', 'year', vars)
     	PolityData <- PolityData[, Vars] 
     } 
@@ -80,6 +86,9 @@ DpiGet <- function(url = 'http://siteresources.worldbank.org/INTRES/Resources/46
 
     # Clean up
     if (!is.null(vars)){
+        if (!all(vars %in% names(DpiData))){
+          stop('Specified variables not found in data.')
+        }
         Vars <- c('countryname', 'year', vars)
         DpiData <- DpiData[, Vars] 
     } 
