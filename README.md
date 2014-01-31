@@ -21,7 +21,7 @@ Functions include:
 
 ## Examples 
 
-To create **winset** and **selectorate** data use the following code:
+To create **winset** (**W**) and **selectorate** (**ModS**) data use the following code:
 
 
 ```r
@@ -43,7 +43,9 @@ head(WinData)
 ```
 
 
-To download only the *polity2* variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
+Note that the **iso2c** variable refers to the [ISO two letter country code country ID](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This can be changed with the `OutCountryID` argument.
+
+To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
 
 
 ```r
@@ -67,7 +69,7 @@ head(PolityData)
 
 ## Suggestions
 
-Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page]()
+Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/christophergandrud/psData/issues)
 
 ---
 
