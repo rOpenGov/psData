@@ -21,7 +21,7 @@ Functions include:
 
 ## Examples 
 
-To create winset and selectorate data use the following code:
+To create **winset** and **selectorate** data use the following code:
 
 ```
 WinData <- WinsetCreator()

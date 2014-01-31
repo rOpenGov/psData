@@ -22,7 +22,7 @@ York: CSA Publications.
 \usage{
 WinsetCreator(PolityUrl = "http://www.systemicpeace.org/inscr/p4v2012.sav",
   DpiUrl = "http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/DPI2012.dta",
-  OutCountryID = "iso2c")
+  OutCountryID = "iso2c", na.rm = TRUE)
 }
 \arguments{
   \item{PolityUrl}{character string. The URL for the Polity
@@ -31,12 +31,16 @@ WinsetCreator(PolityUrl = "http://www.systemicpeace.org/inscr/p4v2012.sav",
 
   \item{DpiUrl}{character string. The URL for the Database
   of Political Institutions data set you would like to
-  download.}
+  download. Note: the link must be to a Stata formated
+  file.}
 
   \item{OutCountryID}{character string. The type of country
   ID you would like to include in the output file along
   with the country name. See \code{\link{countrycode}} for
   available options.}
+
+  \item{na.rm}{logical. Drop observations where
+  \code{OutCountryID} is \code{NA}.}
 }
 \value{
 Returns a data frame with the following columns: \itemize{

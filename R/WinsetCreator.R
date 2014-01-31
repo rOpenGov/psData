@@ -3,8 +3,9 @@
 #' Creates the winset (W) and a modified version of the selectorate (S) variable from Bueno de Mesquita et al. (2003) using the most recent data available from Polity IV and the Database of Political Institutions.
 #' 
 #' @param PolityUrl character string. The URL for the Polity IV data set you would like to download. Note: it must be for the SPSS version of the file.
-#' @param DpiUrl character string. The URL for the Database of Political Institutions data set you would like to download. 
+#' @param DpiUrl character string. The URL for the Database of Political Institutions data set you would like to download. Note: the link must be to a Stata formated file.
 #' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.
+#' @param na.rm logical. Drop observations where \code{OutCountryID} is \code{NA}.
 #' 
 #' @return Returns a data frame with the following columns:
 #' \itemize{
@@ -29,39 +30,26 @@
 #' Modified so that military regime is take from Database of Political Institutions (\url{http://go.worldbank.org/2EAGGLRZ40}), rather than Banks, Arthur S. 1996. Political Handbook of the World. New York: CSA Publications.
 #' 
 #' @seealso \code{\link{countrycode}}
-#' 
-#' @importFrom foreign read.spss
-#' @importFrom foreign read.dta
-#' @import countrycode
 #' @importFrom DataCombine MoveFront
+#' @import countrycode
 #' @export
 
-WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v2012.sav', DpiUrl = 'http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/DPI2012.dta', OutCountryID = 'iso2c'){  
+WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v2012.sav', DpiUrl = 'http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/DPI2012.dta', OutCountryID = 'iso2c', na.rm = TRUE){  
   # CRAN finess
   xrcomp <- xropen <- parcomp <- military <- NULL
-  # Download underlying Polity IV data 
-  tmpfile <- tempfile()
-  download.file(PolityUrl, tmpfile)
-  PolityData <- read.spss(tmpfile, to.data.frame = TRUE)  
-  unlink(tmpfile)
+
+  # Specify component variables to keeps 
+  PolityComps <- c('xrcomp', 'xropen', 'parcomp')
+  DpiComps <- c('military', 'liec')
+
+  # Download underlying Polity IV data
+  PolityData <- PolityGet(url = PolityUrl, vars = PolityComps, na.rm = na.rm)
   
-  # Download underlying military data from DPI
-  tmpfile <- tempfile()
-  download.file(DpiUrl, tmpfile)
-  DpiData <- read.dta(tmpfile)
-  unlink(tmpfile)
+  # Download underlying DPI data
+  DpiData <- DpiGet(url = DpiUrl, vars = DpiComps, na.rm = na.rm)
   
   # Clean for merging
-  #countrycode_data <- data(countrycode_data, envir = environment())
-  PolityData$iso2c <- countrycode(PolityData$country, origin = 'country.name',
-                                  destination = 'iso2c')
-  PolitySub <- PolityData[, c('iso2c', 'year', 'xrcomp', 'xropen', 'parcomp')]
-  
-  DpiData$iso2c <- countrycode(DpiData$countryname, origin = 'country.name',
-                               destination = 'iso2c')
-  DpiSub <- DpiData[, c('iso2c', 'year', 'military', 'liec')]
-  
-  Comb <- merge(PolitySub, DpiSub, by = c('iso2c', 'year'))
+  Comb <- merge(PolityData, DpiData, by = c('iso2c', 'year'))
   
   # Remove observations with missing values for the components of W
   Comb <- subset(Comb, (xrcomp >= 0 & xropen >= 0 & parcomp >= 0 & military >= 0))
@@ -104,11 +92,14 @@ WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v201
   
   # Clean up
   Out <- Comb[, c('iso2c', 'year', 'W', 'ModS')]
-  Out$country <- countrycode(Out$iso2c, origin = 'iso2c', destination = 'country.name')
+  Out$country <- countrycode(Out$iso2c, origin = 'iso2c',
+                    destination = 'country.name')
   if (OutCountryID != 'iso2c'){
-    Out[, OutCountryID] <- countrycode(Out$iso2c, origin = 'iso2c', 
-                                       destination = OutCountryID)
+    Out[, OutCountryID] <- countrycode(Out$iso2c, 
+                    origin = 'iso2c', 
+                    destination = OutCountryID)
   }
   Out <- Out[, c(OutCountryID, 'country', 'year', 'W', 'ModS')]
+  Out <- Out[order(Out[, OutCountryID], Out[, 'year']), ]
   return(Out)
 }

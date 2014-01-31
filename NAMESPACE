@@ -1,3 +1,7 @@
+export(CountryID)
+export(DpiGet)
+export(DropNA.psData)
+export(PolityGet)
 export(WinsetCreator)
 import(countrycode)
 importFrom(DataCombine,MoveFront)
