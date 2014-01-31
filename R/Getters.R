@@ -63,7 +63,7 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav', va
 #' 
 #' # Create data frame with only the military variable
 #' DpiSub <- DpiGet(vars = 'military', 
-#'                          OutCountryID = 'imf')
+#'                  OutCountryID = 'imf')
 #'  
 #' @seealso \code{\link{countrycode}}
 #'

@@ -23,8 +23,7 @@ Functions include:
 
 To create **winset** and **selectorate** data use the following code:
 
-
-```r
+```{r, message=FALSE}
 library(psData)
 
 WinData <- WinsetCreator()
@@ -32,42 +31,19 @@ WinData <- WinsetCreator()
 head(WinData)
 ```
 
-```
-##    iso2c     country year    W ModS
-## 1     AF Afghanistan 1975 0.25    0
-## 2     AF Afghanistan 1976 0.25    0
-## 3     AF Afghanistan 1977 0.25    0
-## 15    AF Afghanistan 1989 0.50    0
-## 16    AF Afghanistan 1990 0.50    0
-## 17    AF Afghanistan 1991 0.50    0
-```
-
-
 To download only the *polity2* variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
 
-
-```r
-PolityData <- PolityGet(vars = "polity2")
+```{r, message=FALSE}
+PolityData <- PolityGet(vars = 'polity2')
 
 head(PolityData)
-```
-
-```
-##   iso2c     country year polity2
-## 1    AF Afghanistan 1800      -6
-## 2    AF Afghanistan 1801      -6
-## 3    AF Afghanistan 1802      -6
-## 4    AF Afghanistan 1803      -6
-## 5    AF Afghanistan 1804      -6
-## 6    AF Afghanistan 1805      -6
-```
-
+``` 
 
 --- 
 
 ## Suggestions
 
-Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page]()
+Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/christophergandrud/psData/issues)
 
 ---
 
