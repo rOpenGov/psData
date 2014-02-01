@@ -1,3 +1,8 @@
+Version 0.1.1
+
+Added ability to report and inspect duplicated values created by standardising country names in `CountryID`, `PolityGet`, and `DpiGet`. Also added a choice to these variables of whether or not to standardise country names along with IDs.
+
+
 Version 0.1
 
 First development version of **psData**. The package includes the following main functions:

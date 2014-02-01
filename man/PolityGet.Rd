@@ -3,7 +3,8 @@
 \title{Downloads Polity IV}
 \usage{
 PolityGet(url = "http://www.systemicpeace.org/inscr/p4v2012.sav",
-  vars = NULL, OutCountryID = "iso2c", na.rm = TRUE)
+  vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE,
+  na.rm = TRUE, duplicates = "message", fromLast = FALSE)
 }
 \arguments{
   \item{url}{character string. The URL for the Polity IV
@@ -20,8 +21,23 @@ PolityGet(url = "http://www.systemicpeace.org/inscr/p4v2012.sav",
   with the country name. See \code{\link{countrycode}} for
   available options.}
 
+  \item{standardCountryName}{logical. Whether or not to
+  standardise the country names variable based on
+  \code{country.name} from \code{\link{countrycode}}.}
+
   \item{na.rm}{logical. Drop observations where
   \code{OutCountryID} is \code{NA}.}
+
+  \item{duplicates}{character specifying how to handle
+  duplicated country-year observations. Can be set to
+  \code{none} to do nothing, \code{message} to simply
+  report duplicates, \code{drop} to report and drop
+  duplicates, and \code{return} to return a data frame with
+  only duplicated observations (see also \code{fromLast}).}
+
+  \item{fromLast}{logical indicating if duplication should
+  be considered from the reverse side. Only relevant if
+  \code{duplicates = 'drop'} or \code{duplicates = 'out'}.}
 }
 \description{
 Downloads the Polity IV data set. It keeps specified
