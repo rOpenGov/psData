@@ -43,10 +43,12 @@ WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v201
   DpiComps <- c('military', 'liec')
 
   # Download underlying Polity IV data
-  PolityData <- PolityGet(url = PolityUrl, vars = PolityComps, na.rm = na.rm)
+  PolityData <- PolityGet(url = PolityUrl, vars = PolityComps, 
+                          na.rm = na.rm, duplicates = 'drop')
   
   # Download underlying DPI data
-  DpiData <- DpiGet(url = DpiUrl, vars = DpiComps, na.rm = na.rm)
+  DpiData <- DpiGet(url = DpiUrl, vars = DpiComps, 
+                    na.rm = na.rm, duplicates = 'drop')
   
   # Clean for merging
   Comb <- merge(PolityData, DpiData, by = c('iso2c', 'year'))
