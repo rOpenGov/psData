@@ -1,4 +1,4 @@
-#' Country code translation data frame. This data set and the following documentation is taken directly from Vincent Arel-Bundock \code{\link{countrycode}} package version 0.17.
+#' Country code translation data frame. This data set and the following documentation is take from Vincent Arel-Bundock \code{\link{countrycode}} package version 0.17 with modifications.
 #' 
 #' A data frame with 262 observations on the following 14 variables.
 #' Used internally by the \code{countrycode()} function.
