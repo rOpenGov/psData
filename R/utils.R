@@ -65,7 +65,8 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c', stan
 
     # Output
     if (duplicates == 'message'){
-      message(paste(DifDups, 'duplicated values were created when standardising the country ID with', OutCountryID, '. \n To inspect duplicated rows set duplicates = "out".\n'))
+      message(paste0(DifDups, ' duplicated values were created when standardising the country ID with ', OutCountryID, '.'))
+      if (DifDups > 0){paste('\nTo inspect duplicated rows set duplicates = "out".\n')}
     }
     else if (duplicates == 'drop'){
       data <- data[!duplicated(data[, Var2], fromLast = fromLast), ]
