@@ -15,6 +15,11 @@
 #' @export
 
 CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c', standardCountryName = TRUE, duplicates = 'message', timeVar = NULL, fromLast = FALSE){
+  # Ensure that the countryVar is in the data frame
+  if (!(countryVar %in% names(data))){
+    stop(paste('A variable called', countryVar, 'is not in the data frame. \n Please enter a countryVar that is in the data frame.'))
+  }
+  
   # Copy data set for duplicates reporting
   OriginalData <- data
 
