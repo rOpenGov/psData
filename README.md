@@ -7,7 +7,7 @@ psData
 
 ---
 
-This [R](http://www.r-project.org/) package includes functions for gathering commonly used and regularly maintained data set in political science. It also includes functions for combining components from these data sets into variables that have been suggested in the literature, but are not regularly maintained. 
+This [R](http://www.r-project.org/) package includes functions for gathering commonly used and regularly maintained political science data sets. It also includes functions for combining components from these data sets into variables that have been suggested in the literature, but are not regularly maintained. 
 
 Functions include:
 
