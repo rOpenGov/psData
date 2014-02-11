@@ -1,7 +1,10 @@
+Version 0.1.2
+
+Added `RRCrisisGet` for gathering and cleaning Reinhart and Rogoff (2010) financial crisis dummy variables.
+
 Version 0.1.1
 
 Added ability to report and inspect duplicated values created by standardising country names in `CountryID`, `PolityGet`, and `DpiGet`. Also added a choice to these variables of whether or not to standardise country names along with IDs.
-
 
 Version 0.1
 

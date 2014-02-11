@@ -1,0 +1,56 @@
+\name{RRCrisisGet}
+\alias{RRCrisisGet}
+\title{Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into one data frame}
+\source{
+Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial
+Crash to Debt Crisis,'' NBER Working Paper 15795, March
+2010. Forthcoming in American Economic Review.
+}
+\usage{
+
+  RRCrisisGet(urls = c("http://www.carmenreinhart.com/user_uploads/data/22_data.xls",
+  "http://www.carmenreinhart.com/user_uploads/data/35_data.xls",
+  "http://www.carmenreinhart.com/user_uploads/data/23_data.xls",
+  "http://www.carmenreinhart.com/user_uploads/data/25_data.xls"),
+  OutCountryID = "iso2c", standardCountryName = TRUE)
+}
+\arguments{
+  \item{urls}{URLs for each Excel file in the Reinhart and
+  Rogoff data set. See
+  \url{http://www.carmenreinhart.com/data/browse-by-topic/topics/7/}.}
+
+  \item{OutCountryID}{character string. The type of country
+  ID you would like to include in the output file along
+  with the country name. See \code{\link{countrycode}} for
+  available options.}
+
+  \item{standardCountryName}{logical. Whether or not to
+  standardise the country names variable based on
+  \code{country.name} from \code{\link{countrycode}}.}
+}
+\value{
+Returns a data frame with the following columns: \itemize{
+\item{\code{iso2c}: }{The ISO two letter country code
+identifying the country. This can be changed to another
+country ID system using \code{OutCountryID}}
+\item{\code{country}: }{Country names.} \item{\code{year}:
+}{The year.} \item{\code{RR_Independence}: }{Year of
+independence.} \item{\code{RR_CurrencyCrisis}: }{Currency
+crisis.} \item{\code{RR_InflationCrisis}: }{Inflation
+crisis.} \item{\code{RR_StockMarketCrash}: }{Stock market
+crash.} \item{\code{RR_SovDebtCrisisDom}: }{Domestic
+sovereign debt crisis.} \item{\code{RR_SovDebtCrisisExt}:
+}{External sovereign debt crisis.}
+\item{\code{RR_BankingCrisis}: }{Banking crisis.}
+\item{\code{RR_YearlyCrisisTally}: }{Total number of crises
+per year.} }
+}
+\description{
+Download and combine Reinhart and Rogoff's (2010) crisis
+dummy variables into one data frame
+}
+\examples{
+## dontrun
+ # RRDummies <- RRCrisisGest()
+}
+

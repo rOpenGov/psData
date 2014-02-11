@@ -90,7 +90,7 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c', stan
 #' @param data a data frame object.
 #' @param Var a character vector naming the variables you would like to have only non-missing (NA) values.
 #' 
-#' @source Largely based on \code{DropNA} from the \code{\link{DataCombine}} package.
+#' @source Largely based on \code{DropNA} from the \code{DataCombine} package.
 #'
 #' @keywords internals
 #' @export

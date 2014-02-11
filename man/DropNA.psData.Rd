@@ -2,8 +2,8 @@
 \alias{DropNA.psData}
 \title{Drop rows from a data frame with missing values in the OutCountryID variable.}
 \source{
-Largely based on \code{DropNA} from the
-\code{\link{DataCombine}} package.
+Largely based on \code{DropNA} from the \code{DataCombine}
+package.
 }
 \usage{
 DropNA.psData(data, Var)
