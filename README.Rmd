@@ -15,11 +15,11 @@ Functions include:
 
 - `PolityGet`: a function to download the [Polity IV](http://www.systemicpeace.org/polity/polity4.htm) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
-- `RRCrisisGet`: download and combine Reinhart and Rogoff's (2010) crisis dummy variables into one data frame.
+- `RRCrisisGet`: download and combine [Reinhart and Rogoff's (2010)](http://www.carmenreinhart.com/data/browse-by-topic/topics/7/) crisis dummy variables into one data frame.
 
 - `WinsetCreator`: Creates the winset (W) and a modified version of the selectorate (S) variable from [Bueno de Mesquita et al. (2003)](http://www.nyu.edu/gsas/dept/politics/data/bdm2s2/Logic.htm) using the most recent data available from Polity IV and the Database of Political Institutions.
 
-Other functions that might be useful to people working with political science data:
+Other functions included that might be useful to people working with political science data:
 
 - `CountryID`: Function for creating standardised country names and ID variables. This builds on [countrycode](https://github.com/vincentarelbundock/countrycode) and includes extra capabilities for reporting and dealing with duplicates.
 
