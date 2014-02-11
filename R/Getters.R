@@ -217,5 +217,10 @@ RRCrisisGet <- function(urls = c(
   OutData <- CountryID(data = OutData, OutCountryID = OutCountryID,
                        timeVar = 'year', standardCountryName = standardCountryName)
   OutData <- OutData[order(OutData[, OutCountryID], OutData[, 'year']), ]
+  
+  # Clean year
+  OutData$year <- as.character(OutData$year)
+  OutData$year <- as.numeric(OutData$year)
+  
   return(OutData)
 }
