@@ -1,0 +1,10 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{psData Markdown Vignette made with knitr}
+-->
+
+psData Motivation and Tutorial
+
+===
+
+A lot of progress has been made on increasing the availability of political science data sets 
