@@ -12,14 +12,16 @@
 #'   
 #'    
 #' @examples
+#' \dontrun{
 #' # Download full data set
 #' PolityData <- PolityGet()
 #' 
 #' # Create data frame with only the main Polity democracy variable (polity2)
 #' Polity2Data <- PolityGet(vars = 'polity2', 
 #'                          OutCountryID = 'imf')
+#' }
 #'  
-#' @seealso \code{\link{countrycode}}
+#' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
 #'
 #' @importFrom foreign read.spss
 #'    
@@ -70,25 +72,28 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 #' @param na.rm logical. Drop observations where \code{OutCountryID} is \code{NA}.
 #' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
+#'
+#' @details Note: a bit.ly URL is used to shorten the Stata formatted data set's URL due to CRAN requirements.
 #'   
 #'    
 #' @examples
+#' \dontrun{
 #' # Download full data set
 #' DpiData <- DpiGet()
 #' 
 #' # Create data frame with only the military variable
 #' DpiSub <- DpiGet(vars = 'military', 
 #'                  OutCountryID = 'imf')
+#' }
 #'  
-#' @seealso \code{\link{countrycode}}
+#' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
 #'
 #' @importFrom foreign read.dta
 #'    
 #' @export
 
-DpiGet <- function(url = 
-                   'http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/DPI2012.dta', 
-                   vars = NULL, OutCountryID = 'iso2c', standardCountryName = TRUE, na.rm = TRUE, 
+DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'iso2c', 
+                   standardCountryName = TRUE, na.rm = TRUE, 
                    duplicates = 'message', fromLast = FALSE){
     # Download underlying Dpi IV data 
     tmpfile <- tempfile()

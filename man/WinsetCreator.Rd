@@ -21,8 +21,7 @@ York: CSA Publications.
 }
 \usage{
 WinsetCreator(PolityUrl = "http://www.systemicpeace.org/inscr/p4v2012.sav",
-  DpiUrl = "http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/DPI2012.dta",
-  OutCountryID = "iso2c", na.rm = TRUE)
+  DpiUrl = "http://bit.ly/1jZ3nmM", OutCountryID = "iso2c", na.rm = TRUE)
 }
 \arguments{
   \item{PolityUrl}{character string. The URL for the Polity
@@ -70,10 +69,13 @@ selectorate (S) variable from Bueno de Mesquita et al.
 and the Database of Political Institutions.
 }
 \examples{
+\dontrun{
 # Create winset data using default options
 WinsetData <- WinsetCreator()
 }
+}
 \seealso{
-\code{\link{countrycode}}
+\code{\link{countrycode}}, \code{\link{CountryID}},
+\code{\link{DpiGet}}, \code{\link{PolityGet}}
 }
 

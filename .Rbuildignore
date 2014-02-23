@@ -1,4 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-README.md
 README.Rmd
+
+# Git related
+./.git*
+
+# Travis scripts
+.travis.yml

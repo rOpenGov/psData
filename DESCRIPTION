@@ -8,7 +8,7 @@ Description: This R package includes functions for gathering commonly used and
     functions for combining components from these data sets into variables that
     have been suggested in the literature, but are not regularly maintained.
 Version: 0.1.2
-Date: 2014-02-11
+Date: 2014-02-23
 Author: Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
 URL: http://christophergandrud.github.io/psData/

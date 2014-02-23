@@ -17,8 +17,10 @@
 #' }
 #' 
 #' @examples
+#' \dontrun{
 #' # Create winset data using default options
 #' WinsetData <- WinsetCreator()
+#' }
 #'
 #'@source
 #' See Bueno de Mesquita Bruce, Alastair Smith, Randolph M. Siverson, and James D. Morrow. 2003. The Logic of Political Survival. Cambridge, MA: MIT Press.
@@ -29,12 +31,12 @@
 #'
 #' Modified so that military regime is take from Database of Political Institutions (\url{http://go.worldbank.org/2EAGGLRZ40}), rather than Banks, Arthur S. 1996. Political Handbook of the World. New York: CSA Publications.
 #' 
-#' @seealso \code{\link{countrycode}}
+#' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{DpiGet}}, \code{\link{PolityGet}}
 #' @importFrom DataCombine MoveFront
 #' @import countrycode
 #' @export
 
-WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v2012.sav', DpiUrl = 'http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/DPI2012.dta', OutCountryID = 'iso2c', na.rm = TRUE){  
+WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v2012.sav', DpiUrl = 'http://bit.ly/1jZ3nmM', OutCountryID = 'iso2c', na.rm = TRUE){  
   # CRAN finess
   xrcomp <- xropen <- parcomp <- military <- NULL
 

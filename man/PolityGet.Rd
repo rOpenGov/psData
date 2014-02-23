@@ -45,6 +45,7 @@ variables and creates a standard country ID variable that
 can be used for merging the data with other data sets.
 }
 \examples{
+\dontrun{
 # Download full data set
 PolityData <- PolityGet()
 
@@ -52,7 +53,9 @@ PolityData <- PolityGet()
 Polity2Data <- PolityGet(vars = 'polity2',
                          OutCountryID = 'imf')
 }
+}
 \seealso{
-\code{\link{countrycode}}
+\code{\link{countrycode}}, \code{\link{CountryID}},
+\code{\link{WinsetCreator}}
 }
 

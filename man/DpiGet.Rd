@@ -2,10 +2,9 @@
 \alias{DpiGet}
 \title{Downloads the Database of Political Institutions (DPI)}
 \usage{
-
-  DpiGet(url = "http://siteresources.worldbank.org/INTRES/Resources/469232-1107449512766/DPI2012.dta",
-  vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE,
-  na.rm = TRUE, duplicates = "message", fromLast = FALSE)
+DpiGet(url = "http://bit.ly/1jZ3nmM", vars = NULL, OutCountryID = "iso2c",
+  standardCountryName = TRUE, na.rm = TRUE, duplicates = "message",
+  fromLast = FALSE)
 }
 \arguments{
   \item{url}{character string. The URL for the Polity IV
@@ -46,7 +45,12 @@ set. It keeps specified variables and creates a standard
 country ID variable that can be used for merging the data
 with other data sets.
 }
+\details{
+Note: a bit.ly URL is used to shorten the Stata formatted
+data set's URL due to CRAN requirements.
+}
 \examples{
+\dontrun{
 # Download full data set
 DpiData <- DpiGet()
 
@@ -54,7 +58,9 @@ DpiData <- DpiGet()
 DpiSub <- DpiGet(vars = 'military',
                  OutCountryID = 'imf')
 }
+}
 \seealso{
-\code{\link{countrycode}}
+\code{\link{countrycode}}, \code{\link{CountryID}},
+\code{\link{WinsetCreator}}
 }
 
