@@ -20,5 +20,6 @@ Imports:
     foreign,
     countrycode,
     DataCombine,
-    xlsx
+    xlsx,
+    xlsxjars
 LazyData: TRUE
