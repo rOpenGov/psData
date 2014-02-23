@@ -13,7 +13,7 @@ This [R](http://www.r-project.org/) package includes functions for gathering com
 
 #### Getters
 
-- `DpiGet`: a function to download the [Database of Political Institutions](http://go.worldbank.org/2EAGGLRZ40) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
+- `DpiGet`: a function to download the [Database of Political Institutions](http://econ.worldbank.org/WBSITE/EXTERNAL/EXTDEC/EXTRESEARCH/0,,contentMDK:20649465~pagePK:64214825~piPK:64214943~theSitePK:469382,00.html) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
 - `PolityGet`: a function to download the [Polity IV](http://www.systemicpeace.org/polity/polity4.htm) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
@@ -37,7 +37,23 @@ Most of the Getter functions currently included in *psData* download data from a
 
 If you notice an updated version of one of the data sets, feel free to submit a [Pull Request](https://help.github.com/articles/using-pull-requests) with the new URL. It would be great if you make sure that the function still works, as the data set's authors may change the format breaking the Getter function. 
 
+## Suggestions
+
+Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/christophergandrud/psData/issues).
+
+---
+
 ## Examples 
+
+To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
+
+```{r, message=FALSE}
+PolityData <- PolityGet(vars = 'polity2')
+
+head(PolityData)
+``` 
+
+Note that the **iso2c** variable refers to the [ISO two letter country code country ID](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This standardised country identifier could be used to easily merge the Polity IV data with another data set. Another country ID can be selected with the `OutCountryID` argument. See the package documentation for details.
 
 To create **winset** (**W**) and **selectorate** (**ModS**) data use the following code:
 
@@ -49,27 +65,11 @@ WinData <- WinsetCreator()
 head(WinData)
 ```
 
-Note that the **iso2c** variable refers to the [ISO two letter country code country ID](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This can be changed with the `OutCountryID` argument.
-
-To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
-
-```{r, message=FALSE}
-PolityData <- PolityGet(vars = 'polity2')
-
-head(PolityData)
-``` 
-
---- 
-
-## Suggestions
-
-Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/christophergandrud/psData/issues)
-
 ---
 
 ## Install
 
-**pdData** will be on [CRAN](http://cran.r-project.org/) soon, but while it is in the development stage you can install it with the [devtools](https://github.com/hadley/devtools) package:
+*psData* will be on [CRAN](http://cran.r-project.org/) soon, but while it is in the development stage you can install it with the [devtools](https://github.com/hadley/devtools) package:
 
 ```
 devtools::install_github('psData', 'christophergandrud')
