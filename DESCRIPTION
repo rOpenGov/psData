@@ -20,7 +20,6 @@ Imports:
     countrycode,
     DataCombine,
     foreign,
-    knitr,
     xlsx
 LazyData: TRUE
 VignetteBuilder: knitr
