@@ -146,9 +146,10 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'i
 #'  }
 #'  
 #'  @examples
-#'  ## dontrun
+#'  \dontrun{
 #'  # RRDummies <- RRCrisisGest()
-#'  
+#'  }
+#'
 #'  @source
 #'  Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American Economic Review.  
 #' 

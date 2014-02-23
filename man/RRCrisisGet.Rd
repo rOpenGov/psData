@@ -50,7 +50,8 @@ Download and combine Reinhart and Rogoff's (2010) crisis
 dummy variables into one data frame
 }
 \examples{
-## dontrun
+\dontrun{
  # RRDummies <- RRCrisisGest()
+ }
 }
 
