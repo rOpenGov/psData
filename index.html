@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>psData by christophergandrud</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>psData</h1>
+        <p>An R package to download regularly maintained political science data sets and make commonly used, but infrequently updated variables based on this data.</p>
+
+        <p class="view"><a href="https://github.com/christophergandrud/psData">View the Project on GitHub <small>christophergandrud/psData</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/christophergandrud/psData/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/christophergandrud/psData/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/christophergandrud/psData">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>psData</p>
+
+<h3>
+<a name="christopher-gandrud" class="anchor" href="#christopher-gandrud"><span class="octicon octicon-link"></span></a>Christopher Gandrud</h3>
+
+<h3>
+<a name="version-012" class="anchor" href="#version-012"><span class="octicon octicon-link"></span></a>Version 0.1.2</h3>
+
+<hr><p>This <a href="http://www.r-project.org/">R</a> package includes functions for gathering commonly used and regularly maintained political science data sets. It also includes functions for combining components from these data sets into variables that have been suggested in the political science literature, but are not regularly updated. </p>
+
+<p><em>psData</em> includes two primary function types: <strong>Getters</strong> and <strong>Variable Builders</strong>. Getter functions automate the gathering and cleaning of particular data sets so that they can easily be merged with other data. They do not transform the underlying data. Variable Builders use Getters to gather data and then transform it into new variables suggested by the political science literature. The functions currently part of <em>psData</em> include:</p>
+
+<h4>
+<a name="getters" class="anchor" href="#getters"><span class="octicon octicon-link"></span></a>Getters</h4>
+
+<ul>
+<li><p><code>DpiGet</code>: a function to download the <a href="http://econ.worldbank.org/WBSITE/EXTERNAL/EXTDEC/EXTRESEARCH/0,,contentMDK:20649465%7EpagePK:64214825%7EpiPK:64214943%7EtheSitePK:469382,00.html">Database of Political Institutions</a> data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.</p></li>
+<li><p><code>PolityGet</code>: a function to download the <a href="http://www.systemicpeace.org/polity/polity4.htm">Polity IV</a> data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.</p></li>
+<li><p><code>RRCrisisGet</code>: download and combine <a href="http://www.carmenreinhart.com/data/browse-by-topic/topics/7/">Reinhart and Rogoff's (2010)</a> crisis dummy variables into one data frame.</p></li>
+</ul><h4>
+<a name="variable-builders" class="anchor" href="#variable-builders"><span class="octicon octicon-link"></span></a>Variable Builders</h4>
+
+<ul>
+<li>
+<code>WinsetCreator</code>: Creates the winset (W) and a modified version of the selectorate (S) variable from <a href="http://www.nyu.edu/gsas/dept/politics/data/bdm2s2/Logic.htm">Bueno de Mesquita et al. (2003)</a> using the most recent data available from Polity IV and the Database of Political Institutions.</li>
+</ul><h4>
+<a name="others" class="anchor" href="#others"><span class="octicon octicon-link"></span></a>Others</h4>
+
+<p>Other functions included that might be useful to people working with political science data:</p>
+
+<ul>
+<li>
+<code>CountryID</code>: Function for creating standardised country names and ID variables. This builds on <a href="https://github.com/vincentarelbundock/countrycode">countrycode</a> and includes extra capabilities for reporting and dealing with duplicates.</li>
+</ul><hr><h2>
+<a name="updates" class="anchor" href="#updates"><span class="octicon octicon-link"></span></a>Updates</h2>
+
+<p>Most of the Getter functions currently included in <em>psData</em> download data from a specific URL that links to a data file. Hopefully, the data sets' authors will keep their data up-to-date. When they make updates, they will likely link to the updated file with a new URL. All of the functions in <em>psData</em> that gather data from a file at a specific URL allow the user to specify a new URL, if they want to. </p>
+
+<p>If you notice an updated version of one of the data sets, feel free to submit a <a href="https://help.github.com/articles/using-pull-requests">Pull Request</a> with the new URL. It would be great if you make sure that the function still works, as the data set's authors may change the format breaking the Getter function. </p>
+
+<h2>
+<a name="suggestions" class="anchor" href="#suggestions"><span class="octicon octicon-link"></span></a>Suggestions</h2>
+
+<p>Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's <a href="https://github.com/christophergandrud/psData/issues">Issues page</a></p>
+
+<hr><h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>To create <strong>winset</strong> (<strong>W</strong>) and <strong>selectorate</strong> (<strong>ModS</strong>) data use the following code:</p>
+
+<div class="highlight highlight-r"><pre><span class="c">library(psData)</span>
+
+<span class="c">WinData &lt;- WinsetCreator()</span>
+
+<span class="c">head(WinData)</span>
+</pre></div>
+
+<pre><code>##    iso2c     country year    W ModS
+## 1     AF Afghanistan 1975 0.25    0
+## 2     AF Afghanistan 1976 0.25    0
+## 3     AF Afghanistan 1977 0.25    0
+## 15    AF Afghanistan 1989 0.50    0
+## 16    AF Afghanistan 1990 0.50    0
+## 17    AF Afghanistan 1991 0.50    0
+</code></pre>
+
+<p>Note that the <strong>iso2c</strong> variable refers to the <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO two letter country code country ID</a>. This can be changed with the <code>OutCountryID</code> argument.</p>
+
+<p>To download only the <strong>polity2</strong> variable from <a href="http://www.systemicpeace.org/polity/polity4.htm">Polity IV</a>:</p>
+
+<div class="highlight highlight-r"><pre><span class="c">PolityData &lt;- PolityGet(vars = "polity2")</span>
+
+<span class="c">head(PolityData)</span>
+</pre></div>
+
+<pre><code>##   iso2c     country year polity2
+## 1    AF Afghanistan 1800      -6
+## 2    AF Afghanistan 1801      -6
+## 3    AF Afghanistan 1802      -6
+## 4    AF Afghanistan 1803      -6
+## 5    AF Afghanistan 1804      -6
+## 6    AF Afghanistan 1805      -6
+</code></pre>
+
+<hr><h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<p><em>psData</em> is on <a href="http://cran.r-project.org/web/packages/psData/index.html">CRAN</a>. You can also download the development version with the <a href="https://github.com/hadley/devtools">devtools</a> package:</p>
+
+<pre><code>devtools::install_github('psData', 'christophergandrud')
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/christophergandrud">christophergandrud</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
