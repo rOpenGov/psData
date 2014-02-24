@@ -93,8 +93,6 @@ head(PolityData)
 
 ## Install
 
-## Install
-
 *psData* is on [CRAN](http://cran.r-project.org/web/packages/psData/index.html). You can also download the development version with the [devtools](https://github.com/hadley/devtools) package:
 
 ```
