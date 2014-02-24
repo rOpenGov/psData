@@ -1,5 +1,5 @@
 psData
-==========
+
 
 ### Christopher Gandrud
 
@@ -93,7 +93,9 @@ head(PolityData)
 
 ## Install
 
-**pdData** will be on [CRAN](http://cran.r-project.org/) soon, but while it is in the development stage you can install it with the [devtools](https://github.com/hadley/devtools) package:
+## Install
+
+*psData* is on [CRAN](http://cran.r-project.org/web/packages/psData/index.html). You can also download the development version with the [devtools](https://github.com/hadley/devtools) package:
 
 ```
 devtools::install_github('psData', 'christophergandrud')
