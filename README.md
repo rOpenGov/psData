@@ -1,9 +1,9 @@
 psData
 ==========
 
-### Christopher Gandrud
-
 ### Version 0.1.2
+
+### Started by Christopher Gandrud
 
 ---
 
@@ -90,8 +90,6 @@ head(PolityData)
 
 
 ---
-
-## Install
 
 ## Install
 
