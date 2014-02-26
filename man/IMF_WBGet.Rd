@@ -1,0 +1,92 @@
+\name{IMF_WBGet}
+\alias{IMF_WBGet}
+\title{Downloads Dreher's data set of IMF programs and World Bank projects (1970-2011)}
+\source{
+Data website:
+\url{http://www.uni-heidelberg.de/fakultaeten/wiso/awi/professuren/intwipol/datasets_en.html}.
+
+When using the IMF data, please cite:
+
+Dreher, Axel, 2006, IMF and Economic Growth: The Effects of
+Programs, Loans, and Compliance with Conditionality, World
+Development 34, 5: 769-788.
+
+When using the World Bank data, please cite:
+
+Boockmann, Bernhard and Axel Dreher, 2003, The Contribution
+of the IMF and the World Bank to Economic Freedom, European
+Journal of Political Economy 19, 3: 633-649.
+}
+\usage{
+IMF_WBGet(url = "http://axel-dreher.de/Dreher\%20IMF\%20and\%20WB.xls",
+  sheets = c("WB other agreed", "WB environment agreed"),
+  OutCountryID = "iso2c", message = TRUE, standardCountryName = TRUE)
+}
+\arguments{
+  \item{url}{character string. The URL for the Dreher data
+  set you would like to download. Note: it must be for the
+  xlx version of the file. Currently only the 1970-2011
+  version is supported.}
+
+  \item{sheets}{character vector of the Excel sheets
+  (variables) that you would like to return. See Details
+  for more information.}
+
+  \item{OutCountryID}{character string. The type of country
+  ID you would like to include in the output file along
+  with the country name. See \code{\link{countrycode}} for
+  available options.}
+
+  \item{standardCountryName}{logical. Whether or not to
+  standardise the country names variable based on
+  \code{country.name} from \code{\link{countrycode}}.#'}
+
+  \item{message}{logical. Whether or not to notify you
+  which of sheets are being cleaned and organised.}
+}
+\value{
+a data frame
+}
+\description{
+Downloads Dreher's data set of IMF programs and World Bank
+projects (1970-2011). It keeps specified variables and
+creates a standard country ID variable that can be used for
+merging the data with other data sets.
+}
+\details{
+Using the \code{sheets} argument you can select which
+variables to download from their individual workbook seets
+in the original data set. These include: \itemize{
+\item{\code{WB other agreed}: }{Number of World Bank
+projects agreed, other than technical or adjustment.}
+\item{\code{WB technical agreed}: }{Number of World Bank
+technical projects agreed.} \item{\code{WB adjustment
+agreed}: }{Number of World Bank adjustment projects
+agreed.} \item{\code{WB environment agreed}: }{Number of
+World Bank environmental projects agreed.} \item{\code{WB
+adjustment 5}: }{Number of World Bank adjustment projects
+in effect for at least 5 months in a particular year.}
+\item{\code{IMF SBA}: }{IMF Standby Arrangement agreed,
+dummy.} \item{\code{IMF EFF}: }{IMF Extended Fund Facility
+Arrangement agreed, dummy.} \item{\code{IMF SAF}: }{IMF
+Structural Adjustment Facility Arrangement agreed, dummy.}
+\item{\code{IMF PRGF}: }{IMF Poverty Reduction and Growth
+Facility Arrangement agreed, dummy.} \item{\code{IMF SBA
+5}: }{IMF Standby Arrangement in effect for at least 5
+months in a particular year, dummy.} \item{\code{IMF EFF
+5}: }{IMF Extended Fund Facility Arrangement in effect for
+at least 5 months in a particular year, dummy.}
+\item{\code{IMF SAF 5}: }{IMF Structural Adjustment
+Facility Arrangement in effect for at least 5 months in a
+particular year, dummy.} \item{\code{IMF PRGF 5}: }{IMF
+Poverty Reduction and Growth Facility Arrangement in effect
+for at least 5 months in a particular year, dummy.} }
+}
+\examples{
+\dontrun{
+# Download 'WB other agreed', 'WB environment agreed'
+# These are the default sheets to gather
+WBPrograms <- IMF_WBGet()
+}
+}
+

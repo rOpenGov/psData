@@ -1,7 +1,7 @@
 psData
 ==========
 
-### Version 0.1.2
+### Version 0.1.3
 
 ### Started by Christopher Gandrud
 
@@ -18,6 +18,8 @@ This [R](http://www.r-project.org/) package includes functions for gathering com
 - `PolityGet`: a function to download the [Polity IV](http://www.systemicpeace.org/polity/polity4.htm) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
 - `RRCrisisGet`: download and combine [Reinhart and Rogoff's (2010)](http://www.carmenreinhart.com/data/browse-by-topic/topics/7/) crisis dummy variables into one data frame.
+
+- `WB_IMFGet` downloads [Axel Dreher's data set of IMF programs and World Bank projects](http://www.uni-heidelberg.de/fakultaeten/wiso/awi/professuren/intwipol/datasets_en.html) (1970-2011). It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
 #### Variable Builders
 

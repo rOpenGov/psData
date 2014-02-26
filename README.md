@@ -1,7 +1,7 @@
 psData
 ==========
 
-### Version 0.1.2
+### Version 0.1.3
 
 ### Started by Christopher Gandrud
 
@@ -18,6 +18,8 @@ This [R](http://www.r-project.org/) package includes functions for gathering com
 - `PolityGet`: a function to download the [Polity IV](http://www.systemicpeace.org/polity/polity4.htm) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
 - `RRCrisisGet`: download and combine [Reinhart and Rogoff's (2010)](http://www.carmenreinhart.com/data/browse-by-topic/topics/7/) crisis dummy variables into one data frame.
+
+- `WB_IMFGet` downloads [Axel Dreher's data set of IMF programs and World Bank projects](http://www.uni-heidelberg.de/fakultaeten/wiso/awi/professuren/intwipol/datasets_en.html) (1970-2011). It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
 #### Variable Builders
 
@@ -47,6 +49,28 @@ Also feel free to make a pull request with a new **Getter** or **Variable Builde
 
 ## Examples 
 
+To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
+
+
+```r
+PolityData <- PolityGet(vars = "polity2")
+
+head(PolityData)
+```
+
+```
+##   iso2c     country year polity2
+## 1    AF Afghanistan 1800      -6
+## 2    AF Afghanistan 1801      -6
+## 3    AF Afghanistan 1802      -6
+## 4    AF Afghanistan 1803      -6
+## 5    AF Afghanistan 1804      -6
+## 6    AF Afghanistan 1805      -6
+```
+
+
+Note that the **iso2c** variable refers to the [ISO two letter country code country ID](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This standardised country identifier could be used to easily merge the Polity IV data with another data set. Another country ID can be selected with the `OutCountryID` argument. See the package documentation for details.
+
 To create **winset** (**W**) and **selectorate** (**ModS**) data use the following code:
 
 
@@ -66,28 +90,6 @@ head(WinData)
 ## 15    AF Afghanistan 1989 0.50    0
 ## 16    AF Afghanistan 1990 0.50    0
 ## 17    AF Afghanistan 1991 0.50    0
-```
-
-
-Note that the **iso2c** variable refers to the [ISO two letter country code country ID](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This can be changed with the `OutCountryID` argument.
-
-To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
-
-
-```r
-PolityData <- PolityGet(vars = "polity2")
-
-head(PolityData)
-```
-
-```
-##   iso2c     country year polity2
-## 1    AF Afghanistan 1800      -6
-## 2    AF Afghanistan 1801      -6
-## 3    AF Afghanistan 1802      -6
-## 4    AF Afghanistan 1803      -6
-## 5    AF Afghanistan 1804      -6
-## 6    AF Afghanistan 1805      -6
 ```
 
 

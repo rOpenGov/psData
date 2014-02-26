@@ -1,6 +1,6 @@
 ## Version 0.1.3
 
-- Added `IMFDreherGet` to download Axel Dreher's data set of IMF programs and World Bank projects (1970-2011).
+- Added `IMF_WBGet` to download Axel Dreher's data set of IMF programs and World Bank projects (1970-2011).
 
 - Improved message control for `RRCrisisGet`.
 
