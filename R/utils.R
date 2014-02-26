@@ -5,7 +5,7 @@
 #' @param countryVar character string naming the country.name variable. See \code{\link{countrycode}}.
 #' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options. 
 #' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.
-#' @param duplicates character specifying how to handle duplicated country or country-time observations (for the latter see \code{timeVar}). Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
+#' @param duplicates character string specifying how to handle duplicated country or country-time observations (for the latter see \code{timeVar}). Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
 #' @param timeVar character string indicating the name of a time variable. For example, country time series often have separate rows based on a \code{year} variable. This is used solely to determine if there are duplicated country-time values.
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
 #'

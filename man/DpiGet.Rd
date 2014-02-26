@@ -39,6 +39,9 @@ DpiGet(url = "http://bit.ly/1jZ3nmM", vars = NULL, OutCountryID = "iso2c",
   be considered from the reverse side. Only relevant if
   \code{duplicates = 'drop'} or \code{duplicates = 'out'}.}
 }
+\value{
+a data frame
+}
 \description{
 Downloads the Database of Political Institutions (DPI) data
 set. It keeps specified variables and creates a standard

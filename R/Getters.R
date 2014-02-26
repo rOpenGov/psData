@@ -9,12 +9,13 @@
 #' @param na.rm logical. Drop observations where \code{OutCountryID} is \code{NA}.
 #' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
-#'   
+#'
+#' @return a data frame   
 #'    
 #' @examples
 #' \dontrun{
 #' # Download full data set
-#' PolityData <- PolityGet()
+#' PolityData <- PolityGet() 
 #' 
 #' # Create data frame with only the main Polity democracy variable (polity2)
 #' Polity2Data <- PolityGet(vars = 'polity2', 
@@ -74,7 +75,8 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
 #'
 #' @details Note: a bit.ly URL is used to shorten the Stata formatted data set's URL due to CRAN requirements.
-#'   
+#'
+#' @return a data frame   
 #'    
 #' @examples
 #' \dontrun{
@@ -128,6 +130,7 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'i
 #' 
 #' @param urls URLs for each Excel file in the Reinhart and Rogoff data set. See \url{http://www.carmenreinhart.com/data/browse-by-topic/topics/7/}.
 #' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options. 
+#' @param message logical. Whether or not to notify you which of sheets are being cleaned and organised.
 #' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.
 #' 
 #' @return Returns a data frame with the following columns:
@@ -165,15 +168,15 @@ RRCrisisGet <- function(urls = c(
   'http://www.carmenreinhart.com/user_uploads/data/35_data.xls', 
   'http://www.carmenreinhart.com/user_uploads/data/23_data.xls',
   'http://www.carmenreinhart.com/user_uploads/data/25_data.xls'), 
-  OutCountryID = 'iso2c', 
+  OutCountryID = 'iso2c', message = TRUE,
   standardCountryName = TRUE){
   
   OutData <- data.frame()
   
   for (i in urls){
-    tmp <- tempfile()
-    download.file(i, tmp)
-    WB <- getSheets(loadWorkbook(tmp))
+    tmpfile <- tempfile()
+    download.file(i, tmpfile)
+    WB <- getSheets(loadWorkbook(tmpfile))
     
     # Load workbook and find relevant sheet names
     WBNames <- names(WB)
@@ -181,7 +184,7 @@ RRCrisisGet <- function(urls = c(
     WBNames <- WBNames[!is.element(WBNames, Droppers)]
     
     for (u in WBNames){
-      Temp <- read.xlsx(tmp, u)
+      Temp <- read.xlsx(tmpfile, u)
       # Keep only the year and crisis indicators
       Temp <- Temp[13:nrow(Temp), c(1:9)]
       
@@ -203,8 +206,9 @@ RRCrisisGet <- function(urls = c(
       names(Temp) <- c('country', 'year', 'RR_Independence', 'RR_CurrencyCrisis', 'RR_InflationCrisis',
                        'RR_StockMarketCrash', 'RR_SovDebtCrisisDom', 'RR_SovDebtCrisisExt',
                        'RR_BankingCrisis', 'RR_YearlyCrisisTally')
-      
-      message(paste0('Cleaning up Excel sheet for ', u, '.\n'))
+      if (isTRUE(message)){
+        message(paste0('Cleaning up Excel sheet for ', u, '.\n'))
+      }
       Temp <- DropNA(Temp, c('year', 'RR_BankingCrisis'), message = FALSE)
       OutData <- rbind(OutData, Temp)
     }
@@ -231,3 +235,106 @@ RRCrisisGet <- function(urls = c(
   
   return(OutData)
 }
+
+#' Downloads Dreher's data set of IMF programs and World Bank projects (1970-2011)
+#'
+#' @param url character string. The URL for the Dreher data set you would like to download. Note: it must be for the xlx version of the file. Currently only the 1970-2011 version is supported.
+#' @param sheets character vector of the Excel sheets (variables) that you would like to return. See Details for more information.
+#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options. 
+#' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.#' @param message logical. Whether or not to notify you which of sheets are being cleaned and organised.
+#'
+#' @details Using the \code{sheets} argument you can select which 
+#' 
+#' 
+#' 
+#' 
+#' 
+#' @return a data frame
+#'
+#' @source Data website: \url{http://www.uni-heidelberg.de/fakultaeten/wiso/awi/professuren/intwipol/datasets_en.html}.
+#'
+#' When using the IMF data, please cite:
+#' Dreher, Axel, 2006, IMF and Economic Growth: The Effects of Programs, Loans, and Compliance with Conditionality, World Development 34, 5: 769-788.
+#'
+#' When using the World Bank data, please cite:
+#' Boockmann, Bernhard and Axel Dreher, 2003, The Contribution of the IMF and the World Bank to Economic Freedom, European Journal of Political Economy 19, 3: 633-649.
+#'
+#' @importFrom xlsx loadWorkbook
+#' @importFrom xlsx getSheets
+#' @importFrom xlsx read.xlsx
+#' @importFrom DataCombine VarDrop
+#' @importFrom reshape2 melt
+#' @export
+
+IMFDreherGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
+                   sheets = c('WB other agreed', 'WB environment agreed'), OutCountryID = 'iso2c', message = TRUE, standardCountryName = TRUE){
+  # Download full Dreher IMF program data set
+  tmpfile <- tempfile()
+  download.file(url, tmpfile)
+
+  # Select sheet
+  WB <- getSheets(loadWorkbook(tmpfile)) 
+  WBNames <- names(WB)
+
+  # Error if desired sheet is not in the data set.
+  TestExist <- sheets %in% WBNames
+  if (!all(TestExist)){
+    stop("Sheets(s) not found in the data set.")
+  }
+
+  FullDF <- data.frame()
+  for (i in sheets){
+    VarName <- gsub(' ', '.', i)
+    if (isTRUE(message)){
+      message(paste0('Cleaning: ', VarName, '.\n'))
+    }
+    if (i != 'WB environment agreed'){
+      # Extract sheet
+      OneSheet <- read.xlsx(tmpfile, i)
+      OneSheet <- melt(OneSheet, id.vars = c('Country.Code', 'Country.Name'))
+
+      # Clean 
+      OneSheet$variable <- gsub('X', '', as.character(OneSheet$variable))
+      OneSheet$variable <- as.numeric(OneSheet$variable)
+      if (class(OneSheet$value) == 'character'){
+        OneSheet$value <- gsub('.', '', OneSheet$value)
+        OneSheet$value <- as.numeric(OneSheet$value)
+      }
+
+      OneSheet <- CountryID(data = OneSheet, OutCountryID = OutCountryID,
+                   countryVar = 'Country.Name', duplicates = 'none',
+                   standardCountryName = standardCountryName)
+      OneSheet <- VarDrop(OneSheet, 'Country.Code')
+      names(OneSheet) <- c(OutCountryID, 'country', 'year', VarName)
+
+    }
+    else if (i == 'WB environment agreed'){ # originally in country-year format
+      # Extract sheet
+      OneSheet <- read.xlsx(tmpfile, i)
+
+      OneSheet <- CountryID(data = OneSheet, OutCountryID = OutCountryID,
+                   countryVar = 'country', duplicates = 'none',
+                   standardCountryName = standardCountryName)
+      OneSheet <- VarDrop(OneSheet, 'code')
+      names(OneSheet) <- c(OutCountryID, 'country', 'year', VarName)
+    }
+    # Merge data frames together
+    if (ncol(FullDF) == 0){
+      FullDF <- OneSheet
+    }
+    else if (ncol(FullDF) != 0) {
+      FullDF <- merge(FullDF, OneSheet, by = c('country', 'year'))
+      if (paste0(OutCountryID, '.x') %in% names(FullDF)){
+        FullDF <- FullDF[, !(names(FullDF) %in% paste0(OutCountryID, '.y'))]
+        FullDF <- MoveFront(FullDF, paste0(OutCountryID, '.x'))
+        FinalNames <- names(FullDF)
+        FinalNames <- FinalNames[-1]
+        names(FullDF) <- c(OutCountryID, FinalNames)
+      }
+    }
+  }
+  # Final Clean
+  FullDF <- FullDF[order(FullDF[, OutCountryID], FullDF[, 'year']), ]
+  return(FullDF)
+}
+

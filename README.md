@@ -39,7 +39,9 @@ If you notice an updated version of one of the data sets, feel free to submit a 
 
 ## Suggestions
 
-Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/christophergandrud/psData/issues)
+Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/christophergandrud/psData/issues).
+
+Also feel free to make a pull request with a new **Getter** or **Variable Builder**. Please make the pull request on a branch other than the `master`.
 
 ---
 

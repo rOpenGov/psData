@@ -21,13 +21,13 @@ CountryID(data, countryVar = "country", OutCountryID = "iso2c",
   standardise the country names variable based on
   \code{country.name} from \code{\link{countrycode}}.}
 
-  \item{duplicates}{character specifying how to handle
-  duplicated country or country-time observations (for the
-  latter see \code{timeVar}). Can be set to \code{none} to
-  do nothing, \code{message} to simply report duplicates,
-  \code{drop} to report and drop duplicates, and
-  \code{return} to return a data frame with only duplicated
-  observations (see also \code{fromLast}).}
+  \item{duplicates}{character string specifying how to
+  handle duplicated country or country-time observations
+  (for the latter see \code{timeVar}). Can be set to
+  \code{none} to do nothing, \code{message} to simply
+  report duplicates, \code{drop} to report and drop
+  duplicates, and \code{return} to return a data frame with
+  only duplicated observations (see also \code{fromLast}).}
 
   \item{timeVar}{character string indicating the name of a
   time variable. For example, country time series often

@@ -12,7 +12,7 @@ Crash to Debt Crisis,'' NBER Working Paper 15795, March
   "http://www.carmenreinhart.com/user_uploads/data/35_data.xls",
   "http://www.carmenreinhart.com/user_uploads/data/23_data.xls",
   "http://www.carmenreinhart.com/user_uploads/data/25_data.xls"),
-  OutCountryID = "iso2c", standardCountryName = TRUE)
+  OutCountryID = "iso2c", message = TRUE, standardCountryName = TRUE)
 }
 \arguments{
   \item{urls}{URLs for each Excel file in the Reinhart and
@@ -23,6 +23,9 @@ Crash to Debt Crisis,'' NBER Working Paper 15795, March
   ID you would like to include in the output file along
   with the country name. See \code{\link{countrycode}} for
   available options.}
+
+  \item{message}{logical. Whether or not to notify you
+  which of sheets are being cleaned and organised.}
 
   \item{standardCountryName}{logical. Whether or not to
   standardise the country names variable based on

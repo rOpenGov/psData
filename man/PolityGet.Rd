@@ -39,6 +39,9 @@ PolityGet(url = "http://www.systemicpeace.org/inscr/p4v2012.sav",
   be considered from the reverse side. Only relevant if
   \code{duplicates = 'drop'} or \code{duplicates = 'out'}.}
 }
+\value{
+a data frame
+}
 \description{
 Downloads the Polity IV data set. It keeps specified
 variables and creates a standard country ID variable that
