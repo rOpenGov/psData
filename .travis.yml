@@ -1,22 +1,16 @@
-language: ruby
-rvm:
-- 2.1.0
-- 2.0.0
-- 1.9.3
+language: c
 branches:
   only:
-  - site-development
-jdk:
-  - openjdk7
-script: rake projects:convert_tutorials
+  - master
+script: ./travis-tool.sh run_tests
 before_script:
   - sudo apt-get update
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
-  - ./travis-tool.sh install_r knitr
-  - ./travis-tool.sh github_package devtools
   - sudo R CMD javareconf
+  - ./travis-tool.sh install_deps
+  - ./travis-tool.sh github_package testthat
 notifications:
   email:
-    - joona.lehtomaki@gmail.com
+    - christopher.gandrud@gmail.com
