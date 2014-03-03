@@ -1,10 +1,10 @@
 \name{constrained_data_frame}
 \alias{constrained_data_frame}
-\title{Create subclasss of \code{DataFrameConstr}}
+\title{Create subclasss of \code{psData}}
 \usage{
-  constrained_data_frame(Class, columns = character(),
-    exclusive = FALSE, constraints = list(),
-    where = topenv(parent.frame()))
+constrained_data_frame(Class, columns = character(), exclusive = FALSE,
+  constraints = list(), design = list(), meta = list(),
+  where = topenv(parent.frame()))
 }
 \arguments{
   \item{Class}{\code{character} Name of the new class.}
@@ -26,14 +26,12 @@
   to store the definition. See \code{\link{setClass}}.}
 }
 \value{
-  Invisibly returns a constructor function for the new
-  class.
+Invisibly returns a constructor function for the new class.
 }
 \description{
-  This function creates a class which directly extends
-  \code{DataFrameConstr} with the requirement that the
-  slots (\code{columns}, and \code{exclusive} take specific
-  values.
+This function creates a class which directly extends
+\code{psData} with the requirement that the slots
+(\code{columns}, and \code{exclusive} take specific values.
 }
 \examples{
 Foo <-

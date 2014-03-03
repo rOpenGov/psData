@@ -2,8 +2,8 @@
 \alias{subclass_homog_list}
 \title{Create a subclass of HomogList}
 \usage{
-  subclass_homog_list(Class, classtype = "ANY",
-    where = topenv(parent.frame()))
+subclass_homog_list(Class, classtype = "ANY",
+  where = topenv(parent.frame()))
 }
 \arguments{
   \item{Class}{\code{character} string name of the new
@@ -16,8 +16,8 @@
   \item{where}{Passed to \code{\link{setClass}}.}
 }
 \description{
-  Creates a new subclass of \code{HomogList} for a specific
-  class.
+Creates a new subclass of \code{HomogList} for a specific
+class.
 }
 \examples{
 NumericList <-

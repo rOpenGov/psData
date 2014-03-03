@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{DataFrameConstr README}
+%\VignetteIndexEntry{psData README}
 \documentclass{article}
 \begin{document}
 \end{document}

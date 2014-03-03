@@ -2,8 +2,8 @@
 \alias{validate_data_frame}
 \title{Validate \code{data.frame}: column names, classes, and arbitrary constraints}
 \usage{
-  validate_data_frame(object, columns = NULL,
-    exclusive = FALSE, constraints = list())
+validate_data_frame(object, columns = NULL, exclusive = FALSE,
+  constraints = list())
 }
 \arguments{
   \item{object}{\code{data.frame} to be validated.}
@@ -21,12 +21,12 @@
   \code{logical}.}
 }
 \value{
-  If valid, then \code{TRUE}, else \code{character} with an
-  error message.
+If valid, then \code{TRUE}, else \code{character} with an
+error message.
 }
 \description{
-  Check that a \code{data.frame} has columns with specified
-  names and classtypes, or satisfies arbitrary constraints.
+Check that a \code{data.frame} has columns with specified
+names and classtypes, or satisfies arbitrary constraints.
 }
 \examples{
 data(iris)

@@ -1,4 +1,4 @@
-#' DataFrameConstr package
+#' psData package
 #'
 #' This package defines two S4 classes 
 #'
@@ -13,7 +13,7 @@
 #' \code{$<-}, \code{c}, \code{cbind2}, \code{rbind2} for these classes so that the constraints
 #' are checked when data in the objects are updated.
 #'
-#' See \url{https://github.com/jrnold/DataFrameConstr} for example code.
+#' See \url{https://github.com/jrnold/psData} for example code.
 #' 
 #' @name DataFramePlus
 #' @docType package

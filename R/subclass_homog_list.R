@@ -49,7 +49,7 @@ subclass_homog_list <- function(Class, classtype="ANY",
     
     setMethod("show", Class,
               function(object) {
-                cat(sprintf("An object of class %s\n", dQuote(Class)))
+#                 cat(sprintf("An object of class %s\n", dQuote(Class)))
                 callGeneric(as(object, "HomogList"))
               }, where=where)
 

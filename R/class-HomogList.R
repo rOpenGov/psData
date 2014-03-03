@@ -106,7 +106,7 @@ setMethod("initialize", "HomogList",
 
 setMethod("show", "HomogList",
           function(object) {
-            cat(sprintf("List of %s objects\n", dQuote(object@classtype)))
+#             cat(sprintf("List of %s objects\n", dQuote(object@classtype)))
             print(structure(object@.Data, names = object@names))
           })
 

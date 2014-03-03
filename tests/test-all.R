@@ -1,4 +1,4 @@
 library("testthat")
-library("DataFrameConstr")
+library("psData")
 
-test_package("DataFrameConstr")
+test_package("psData")

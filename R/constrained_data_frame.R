@@ -1,5 +1,5 @@
 #' @include package.R
-#' @include class-DataFrameConstr.R
+#' @include class-psData.R
 #' @export constrained_data_frame
 NULL
 
@@ -17,10 +17,10 @@ new_data_frame <- function(columns=character()) {
   .data
 }
 
-#' Create subclasss of \code{DataFrameConstr}
+#' Create subclasss of \code{psData}
 #'
 #' This function creates a class which directly extends
-#' \code{DataFrameConstr} with the requirement that the slots
+#' \code{psData} with the requirement that the slots
 #' (\code{columns}, and \code{exclusive}
 #' take specific values.
 #'
@@ -62,20 +62,26 @@ new_data_frame <- function(columns=character()) {
 constrained_data_frame <- function(Class, columns=character(),
                                      exclusive=FALSE,
                                      constraints=list(),
+                                     design=list(),
+                                     meta=list(),
                                      where=topenv(parent.frame())) {
 
   constraints <- FunctionList(constraints)
+  design <- CharacterList(design)
+  meta <- CharacterList(meta)
   
-  setClass(Class, contains="DataFrameConstr",
+  setClass(Class, contains="psData",
            prototype=
            prototype(x=new_data_frame(columns), columns=columns,
                      exclusive=exclusive,
-                     constraints=constraints),
+                     constraints=constraints,
+                     design=design,
+                     meta=meta),
            where=where)
   
   setValidity(Class,
               function(object) {
-                validObject(as(object, "DataFrameConstr"))
+                validObject(as(object, "psData"))
               },
               where=where)
 
@@ -84,14 +90,16 @@ constrained_data_frame <- function(Class, columns=character(),
               callNextMethod(.Object, x=x,
                              columns=columns,
                              exclusive=exclusive,
-                             constraints=constraints
+                             constraints=constraints,
+                             design=design,
+                             meta=meta
                              )
             }, where=where)
 
   setMethod("show", Class,
             function(object) {
               cat(sprintf("An object of class %s\n", dQuote(Class)))
-              callGeneric(as(object, "DataFrameConstr"))
+              callGeneric(as(object, "psData"))
             }, where=where)
 
   # [-method
@@ -106,8 +114,8 @@ constrained_data_frame <- function(Class, columns=character(),
 
   setMethod("[", c(x=Class, i = "missing", j = "ANY"), 
             function(x, i, j, drop=TRUE) {
-              y <- callGeneric(as(x, "DataFrameConstr"), , j, drop=drop)
-              if (is(y, "DataFrameConstr")) {
+              y <- callGeneric(as(x, "psData"), , j, drop=drop)
+              if (is(y, "psData")) {
                 y <- new(Class, y)
               }
               y
@@ -115,8 +123,8 @@ constrained_data_frame <- function(Class, columns=character(),
   
   setMethod("[", c(x=Class, i = "ANY", j = "missing"), 
             function(x, i, j, drop=TRUE) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, , drop=drop)
-              if (is(y, "DataFrameConstr")) {
+              y <- callGeneric(as(x, "psData"), i, , drop=drop)
+              if (is(y, "psData")) {
                 y <- new(Class, y)
               }
               y
@@ -124,8 +132,8 @@ constrained_data_frame <- function(Class, columns=character(),
 
   setMethod("[", c(x=Class, i = "ANY", j = "ANY"), 
             function(x, i, j, drop=TRUE) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, j, drop=drop)
-              if (is(y, "DataFrameConstr")) {
+              y <- callGeneric(as(x, "psData"), i, j, drop=drop)
+              if (is(y, "psData")) {
                 y <- new(Class, y)
               }
               y
@@ -134,37 +142,37 @@ constrained_data_frame <- function(Class, columns=character(),
   # [<- method
   setMethod("[<-", c(x=Class, i="missing", j="missing"),
             function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), , , value=value)
+              y <- callGeneric(as(x, "psData"), , , value=value)
               new(Class, y)
             }, where=where)
   
   setMethod("[<-", c(x=Class, i="missing", j="ANY"),
             function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), , j, value=value)
+              y <- callGeneric(as(x, "psData"), , j, value=value)
               new(Class, y)
             }, where=where)
   
   setMethod("[<-", c(x=Class, i="ANY", j="missing"),
             function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, , value=value)
+              y <- callGeneric(as(x, "psData"), i, , value=value)
               new(Class, y)
             }, where=where)
   
   setMethod("[<-", c(x=Class, i="ANY", j="ANY"),
             function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
+              y <- callGeneric(as(x, "psData"), i, j, value=value)
               new(Class, y)
             }, where=where)
 
   setMethod("[[<-", c(x=Class, i="ANY", j="missing", value="ANY"),
             function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, , value=value)
+              y <- callGeneric(as(x, "psData"), i, , value=value)
               new(Class, y)
             }, where=where)
   
   setMethod("[[<-", c(x=Class, i="ANY", j="ANY", value="ANY"),
             function(x, i, j, value) {
-              y <- callGeneric(as(x, "DataFrameConstr"), i, j, value=value)
+              y <- callGeneric(as(x, "psData"), i, j, value=value)
               new(Class, y)
           }, where=where)
 
@@ -187,27 +195,27 @@ constrained_data_frame <- function(Class, columns=character(),
             }, where=where)
 
   # colnames<-
-  setMethod("colnames<-", "DataFrameConstr",
+  setMethod("colnames<-", "psData",
             function(x, value) {
               y <- callNextMethod()
               new(Class, y)
             }, where=where)
   
   # rownames<-
-  setMethod("rownames<-", c(x = "DataFrameConstr"), 
+  setMethod("rownames<-", c(x = "psData"), 
             function(x, value) {
               callNextMethod()
             }, where=where)
   
   # names<-
-  setMethod("names<-", "DataFrameConstr",
+  setMethod("names<-", "psData",
             function(x, value) {
               y <- callNextMethod()
               new(Class, y)
             }, where=where)
 
   # names<-
-  setMethod("dimnames<-", c(x="DataFrameConstr", value="list"),
+  setMethod("dimnames<-", c(x="psData", value="list"),
             function(x, value) {
               y <- callNextMethod()
               new(Class, y)

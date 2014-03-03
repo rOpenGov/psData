@@ -1,3 +1,5 @@
 README.Rmd$
 make_doc_from_README.sh$
 inst/doc/auto
+^.*\.Rproj$
+^\.Rproj\.user$

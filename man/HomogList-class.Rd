@@ -1,34 +1,19 @@
 \docType{class}
-\name{HomogList}
-\alias{$<-,HomogList-method}
-\alias{HomogList}
+\name{HomogList-class}
 \alias{HomogList-class}
-\alias{[,HomogList,ANY,ANY-method}
-\alias{[,HomogList,missing,ANY-method}
-\alias{[<-,HomogList,ANY,ANY-method}
-\alias{[<-,HomogList,missing,ANY-method}
-\alias{[[<-,HomogList,ANY,ANY-method}
-\alias{[[<-,HomogList,missing,ANY-method}
-\alias{c,HomogList-method}
-\alias{length<-,HomogList,numeric-method}
-\alias{names<-,HomogList,NULL-method}
-\alias{show,HomogList-method}
 \title{Homogenous List}
-\usage{
-  HomogList(...)
-}
 \arguments{
   \item{...}{Passed onto generic functions.}
 }
 \description{
-  An S4 subclass of \code{list} in which all elements of
-  the list to be the same class.
+An S4 subclass of \code{list} in which all elements of the
+list to be the same class.
 }
 \details{
-  This is similar to the 'atomic lists' in R in that all
-  elements of the vector must be the same class, but the
-  \code{HomogList} supports arbitrary classes. \code{NULL}
-  values are also valid.
+This is similar to the 'atomic lists' in R in that all
+elements of the vector must be the same class, but the
+\code{HomogList} supports arbitrary classes. \code{NULL}
+values are also valid.
 }
 \section{Slots}{
   \describe{ \item{\code{.Data}}{Object of class
