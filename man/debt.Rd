@@ -4,7 +4,7 @@
 \title{Data related to the Reinhart and Rogoff study of debt and GDP growth}
 \format{data frame with 1171 rows and 4 variables}
 \usage{
-data(debt)
+debt
 }
 \description{
 The data is taken from Cosma Shalizi's UDA course:

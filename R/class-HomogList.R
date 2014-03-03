@@ -1,4 +1,4 @@
-#' @include package.R
+#' @include package.r
 #' @exportClass HomogList
 #' @export HomogList
 #' @exportMethod [

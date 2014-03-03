@@ -3,7 +3,8 @@
 \title{Create subclasss of \code{psData}}
 \usage{
 constrained_data_frame(Class, columns = character(), exclusive = FALSE,
-  constraints = list(), design = list(), where = topenv(parent.frame()))
+  constraints = list(), design = list(), meta = list(),
+  where = topenv(parent.frame()))
 }
 \arguments{
   \item{Class}{\code{character} Name of the new class.}

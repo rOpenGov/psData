@@ -12,7 +12,7 @@
 #' @docType data
 #' @keywords datasets
 #' @name debt
-#' @usage data(debt)
+#' @usage debt
 #' @format data frame with 1171 rows and 4 variables
 #' @references
 #' Carmen M. Reinhart and Kenneth S. Rogoff, "Growth in a Time

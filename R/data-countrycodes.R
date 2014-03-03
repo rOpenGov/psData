@@ -43,8 +43,8 @@
 #'     VIET NAM: cown 816, cowc DRV
 #' @docType data
 #' @keywords datasets internal
-#' @name countrycode_data 
-#' @usage countrycode_data
-#' @format A data frame with 260 rows and 11 columns
+#' @name countrycodes 
+#' @usage countrycodes
+#' @format data frame with 260 rows and 11 columns
 NULL
 

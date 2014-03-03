@@ -1,5 +1,5 @@
-#' @include package.R
-#' @include class-psData.R
+#' @include package.r
+#' @include class-psData.r
 #' @export constrained_data_frame
 NULL
 
@@ -64,6 +64,7 @@ constrained_data_frame <- function(Class, columns=character(),
                                      exclusive=FALSE,
                                      constraints=list(),
                                      design=list(),
+                                     meta=list(),
                                      where=topenv(parent.frame())) {
 
   constraints <- FunctionList(constraints)

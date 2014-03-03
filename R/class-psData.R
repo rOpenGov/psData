@@ -1,5 +1,5 @@
-#' @include package.R
-#' @include subclass_homog_list.R
+#' @include package.r
+#' @include subclass_homog_list.r
 #' @export psData
 #' @export validate_data_frame
 #' @exportClass psData
@@ -228,11 +228,11 @@ setMethod("show", "psData",
           function(object) {
             cat(object@meta$name, "\nPanel data frame [", 
                 nrow(object), "rows x ", ncol(object), "columns,",
-                length(unique(as.data.frame(object)[, object@design$panel])), 
-                object@design$panel, 
+                length(unique(as.data.frame(object)[, object@design$panel[1]])), 
+                object@design$panel[1], 
                 "x", 
-                length(unique(as.data.frame(object)[, object@design$time])), 
-                object@design$time, "]\n\n")
+                length(unique(as.data.frame(object)[, object@design$time[1]])), 
+                object@design$time[1], "]\n\n")
             print(head(as(object, "data.frame")))
             if(length(object@columns) > 0) {
               cat("Required columns:\n")

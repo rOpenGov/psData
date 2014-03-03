@@ -1,5 +1,5 @@
-#' @include package.R
-#' @include class-HomogList.R
+#' @include package.r
+#' @include class-HomogList.r
 #' @export subclass_homog_list
 NULL
 

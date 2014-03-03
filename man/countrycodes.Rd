@@ -1,10 +1,10 @@
 \docType{data}
-\name{countrycode_data}
-\alias{countrycode_data}
+\name{countrycodes}
+\alias{countrycodes}
 \title{Country code translation data frame. This data set and the following documentation is take from Vincent Arel-Bundock \code{\link{countrycode}} package version 0.17 with modifications.}
-\format{A data frame with 260 rows and 11 columns}
+\format{data frame with 260 rows and 11 columns}
 \usage{
-countrycode_data
+countrycodes
 }
 \description{
 A data frame with 262 observations on the following 14
