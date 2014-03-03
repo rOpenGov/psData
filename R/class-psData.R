@@ -229,7 +229,7 @@ setMethod("show", "psData",
                 "x", 
                 length(unique(as.data.frame(object)[, object@design$time])), 
                 object@design$time, "]\n\n")
-            print(as(object, "data.frame"))
+            print(head(as(object, "data.frame")))
             if(length(object@columns) > 0) {
               cat("Required columns:\n")
               mapply(function(x, y) cat(sprintf("$ %s: %s\n", x, y)),
