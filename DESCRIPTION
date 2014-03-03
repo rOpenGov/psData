@@ -8,6 +8,9 @@ Description: try data(debt); psdata(debt)
 Depends:
     methods,
     R (>= 2.15.0)
+Imports:
+    downloader,
+    foreign
 Suggests:
     testthat,
     roxygen2

@@ -47,11 +47,11 @@ CharacterList <- subclass_homog_list("CharacterList", "character")
 #' try(validate_data_frame(iris,
 #'                     columns=c(foo="ineger")))
 validate_data_frame <- function(object, columns=NULL, exclusive=FALSE, 
-                                constraints=list()) {
+                                constraints=list(), design = list()) {
   constraints <- FunctionList(constraints)
 
   # if these become compulsory
-  # design <- CharacterList(design)
+  design <- CharacterList(design)
   # meta <- CharacterList(meta)
 
   if (length(columns)) {
@@ -81,6 +81,11 @@ validate_data_frame <- function(object, columns=NULL, exclusive=FALSE,
     if (!all(rc)) {
       return(sprintf("Constraint failed:\n%s", paste(deparse(f), collapse="\n")))
     }
+  }
+  for (g in names(design)) {
+    if(g %in% c("panel", "time") & any(!object@design[[g]] %in% names(object)))
+      return(sprintf("missing panel variable(s): %s", 
+                     paste0(object@design[[g]][ !object@design[[g]] %in% names(object) ], collapse=", ")))
   }
   TRUE
 }
@@ -188,18 +193,17 @@ psData <-
                      exclusive=FALSE,
                      constraints=FunctionList(),
                      design = CharacterList(),
-                     meta = CharacterList()))
-
-setValidity("psData",
-            function(object) {
-              rc <- validate_data_frame(object, columns = object@columns,
+                     meta = CharacterList()),
+           validity = function(object) {
+             rc <- validate_data_frame(object, columns = object@columns,
                                         exclusive=object@exclusive,
-                                        constraints = object@constraints)
-              if (is.character(rc)) {
-                return(rc)
-              }
-              TRUE
-            })
+                                        constraints = object@constraints,
+                                        design = object@design)
+             if (is.character(rc)) {
+               return(rc)
+               }
+             TRUE
+             })
 
 setMethod("initialize", "psData",
           function(.Object,
@@ -382,3 +386,29 @@ setMethod("dimnames<-", c(x="psData", value="list"),
             x
           })
 
+# setGeneric("foo", function(x, y, ...) standardGeneric("foo"))
+# setMethod("foo", c( x = "psData", y = "psData" ),
+#           function(x, y, ...) {
+#             message("hello")
+#             if( !identical( x@design$format[1], y@design$format[1] ) ){
+#               stop(sprintf("incompatible panel units, cannot merge '%s' and '%s'",
+#                            x@design$format[1], y@design$format[1]))
+#             }
+#             if( !identical( x@design$date[1], y@design$date[1] ) ){
+#               stop(sprintf("incompatible panel units, cannot merge '%s' and '%s'",
+#                            x@design$date[1], y@design$date[1]))
+#             }
+#             merge(data.frame(x), data.frame(y), 
+#                   by.x = c(x@design$panel[1], x@design$time[1]),
+#                   by.y = c(y@design$panel[1], y@design$time[1]), ...)
+#           })
+
+# setMethod("merge", c("psData", "psData"), function(x, y, ...) {
+#   head(merge(as.data.frame(x), as.data.frame(y), ...))
+# })
+# setMethod("merge", c("data.frame", "psData"), function(x, y, ...) {
+#   head(merge(x, as.data.frame(y), ...))
+# })
+# setMethod("merge", c("psData", "data.frame"), function(x, y, ...) {
+#   head(merge(as.data.frame(x), y, ...))
+# })
