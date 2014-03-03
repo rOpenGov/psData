@@ -19,8 +19,9 @@
 #' \itemize{
 #'   \item \code{\link{get_polity4}}. Polity IV data
 #'   \item \code{\link{get_dpi}}. DPI data
+#'   \item \code{\link{get_qog}}. QOG data (untested, also produces cross-section standard data frames)
 #' }
-#' @return a data frame
+#' @return a data frame, possibly of \code{\link{class-psData}} (expected output)
 #' @importFrom downloader download
 #' @export
 get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv", vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE, na.rm = TRUE, duplicates = 'message', fromLast = FALSE, args = NULL) {
@@ -39,12 +40,41 @@ get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv",
   message("Downloading: ", url)
   download(url, tmpfile, mode = "wb", quiet = TRUE)
   
-  args = as.list(args[ !names(args) %in% c("file", "to.data.frame") ])
-  args$file = tmpfile
-  if(read == "spss") args$to.data.frame = TRUE
-  print(args)
-  data = do.call(paste0("read.", read), args = args)
-  
+  args = list(file = file, ...)
+
+  # table args
+  if(!grepl(".dat$|.txt$|.tab$", url) | read == "table") {
+    read = "read.table"
+    if(is.null(unlist(args["sep"])))
+      args["sep"] = " "
+    if(grepl(".tab$", url))
+      args["sep"] = "\t"
+  }
+  # csv args
+  if(!grepl(".csv$", url) | read == "csv") {
+    read = "read.csv"
+    if(is.null(unlist(args["sep"])))
+      args["sep"] = ","
+  }
+  if(!grepl(".tsv$", url) | read == "tsv") {
+    read = "read.csv"
+    if(is.null(unlist(args["sep"])))
+      args["sep"] = "\t"
+  }
+  # stata args
+  if(grepl(".dta$", url) | read == "dta" | read == "Stata") {
+    read = "read.dta"
+    if(is.null(unlist(args["warn.missing.labels"])))
+      args["warn.missing.labels"] = FALSE
+  }
+  # spss args
+  if(grepl(".sav$", file) | read == "spss" | read == "SPSS") {
+    read = "read.spss"
+    if(is.null(unlist(args["to.data.frame"])))
+      args["to.data.frame"] = TRUE
+  }
+  data = do.call(read, args = args)
+
   unlink(tmpfile)
   
   # Ensure that vars are in the data frame
