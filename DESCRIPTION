@@ -10,16 +10,23 @@ Depends:
     R (>= 2.15.0)
 Imports:
     downloader,
+    countrycode,
     foreign
 Suggests:
     testthat,
-    roxygen2
+    roxygen2,
+    knitr
 Collate:
     'package.R'
     'class-HomogList.R'
     'subclass_homog_list.R'
     'class-psData.R'
     'constrained_data_frame.R'
+    'data-countrycodes.R'
     'data-debt.r'
+    'getters.R'
+    'utils.R'
 URL: https://github.com/briatte/psData
 BugReports: https://github.com/briatte/psData
+LazyData: TRUE
+VignetteBuilder: knitr

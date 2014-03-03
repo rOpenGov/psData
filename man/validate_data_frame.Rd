@@ -3,7 +3,7 @@
 \title{Validate \code{data.frame}: column names, classes, and arbitrary constraints}
 \usage{
 validate_data_frame(object, columns = NULL, exclusive = FALSE,
-  constraints = list())
+  constraints = list(), design = list())
 }
 \arguments{
   \item{object}{\code{data.frame} to be validated.}

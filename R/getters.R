@@ -16,8 +16,7 @@
 #' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
 #' @return a data frame
-#' @importFrom downloader
-#'    
+#' @importFrom downloader download
 #' @export
 get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv", vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE, na.rm = TRUE, duplicates = 'message', fromLast = FALSE) {
   
@@ -26,7 +25,7 @@ get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv",
   try_require("foreign")
   
   tmpfile <- tempfile()
-  downloader::download(url, tmpfile, mode = "wb")
+  download(url, tmpfile, mode = "wb")
   
   args = NULL
   if(method == "spss") args = c("to.data.frame" = TRUE)

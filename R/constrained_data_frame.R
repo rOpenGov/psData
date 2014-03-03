@@ -33,6 +33,7 @@ new_data_frame <- function(columns=character()) {
 #' the data frame can only contain the columns in \code{columns}.
 #' @param constraints \code{list} of functions. Each function should
 #' take only one argument, and return \code{logical}.
+#' @param design \code{list} of \code{\link{psData-class}} panel attributes.
 #' @param where \code{environment}. The environment in which to store
 #' the definition. See \code{\link{setClass}}.
 #' @return Invisibly returns a constructor function for the
@@ -63,7 +64,6 @@ constrained_data_frame <- function(Class, columns=character(),
                                      exclusive=FALSE,
                                      constraints=list(),
                                      design=list(),
-                                     meta=list(),
                                      where=topenv(parent.frame())) {
 
   constraints <- FunctionList(constraints)
