@@ -85,7 +85,7 @@
 
 get_qog = function(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
                     version = "std", format = "cs", 
-                    variables = NULL, years = NULL, ...) {
+                    variables = NULL, years = NULL, date = "15may13", ...) {
   try_require("foreign")
   #
   # currently available
@@ -107,9 +107,10 @@ get_qog = function(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
   #
   if(format == "csyom") {
     version = "std"
-    if(!grepl(".csv$|.txt$", file))
-      file = gsub("(\\.|\\w){4}$", ".csv", file)
+#     if(!grepl(".csv$|.txt$", file)) {
+#       file = gsub("(\\.|\\w){4}$", ".csv", file)
   }
+      
   if(!format %in% unlist(versions[version])) {
     stop("Invalid format: use one of ", 
          paste0(unlist(versions[version]), collapse = ", "))
@@ -121,11 +122,11 @@ get_qog = function(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
     file = paste0("qog_", 
                   version, 
                   "_", 
-                  format, 
-                  ifelse(version == "std", 
-                         paste0("_", "15May13.csv"), 
-                         ".dta")
-    )
+                  format,
+#                   ifelse(version == "std", 
+#                          paste0("_", date, ".dta"), 
+#                          ".dta")
+    ".dta")
   }
   else {
     if(is.character(file) & version != "std" & !grepl(".dta$", file)) {
@@ -139,14 +140,13 @@ get_qog = function(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
   #
   # online source
   #
-  link = paste0("http://www.qogdata.pol.gu.se/data/",
-                ifelse(version == "std", "QoG", "qog"),
-                "_", version, "_", format, 
-                ifelse(version == "std", paste0("_", "15May13"), ""),
-                ifelse(version == "std" & grepl("csv|dta|sav", file), 
-                       substring(file, nchar(file) - 3),
-                       ".dta")
-  )
+  link = paste0("http://www.qogdata.pol.gu.se/data/qog_",
+                version, "_", format, 
+#                 ifelse(version == "std", paste0("_", date), ""),
+#                 ifelse(version == "std" & grepl("csv|dta|sav", file), 
+#                        substring(file, nchar(file) - 3),
+#                        ".dta")
+  ifelse(format == "csyom", "_15may13.csv", ".dta"))
   if(is.logical(file)) {
     return(link)
   }
