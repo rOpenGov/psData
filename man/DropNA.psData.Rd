@@ -18,5 +18,5 @@ DropNA.psData(data, Var)
 Drop rows from a data frame with missing values in the
 OutCountryID variable.
 }
-\keyword{internals}
+\keyword{internal}
 

@@ -23,6 +23,7 @@
 #' }
 #' @return a data frame, possibly of \code{\link{class-psData}} (expected output)
 #' @importFrom downloader download
+#' @keywords get data download
 #' @export
 get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv", vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE, na.rm = TRUE, duplicates = 'message', fromLast = FALSE, args = NULL) {
   

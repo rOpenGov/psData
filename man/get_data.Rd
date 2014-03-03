@@ -79,4 +79,7 @@ contains the following \code{get} presets: \itemize{ \item
 \code{\link{get_qog}}. QOG data (untested, also produces
 cross-section standard data frames) }
 }
+\keyword{data}
+\keyword{download}
+\keyword{get}
 

@@ -3,7 +3,8 @@
 \title{Get Quality of Government datasets in \code{xtdata} format}
 \usage{
 get_qog(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
-  version = "std", format = "cs", variables = NULL, years = NULL, ...)
+  version = "std", format = "cs", variables = NULL, years = NULL,
+  date = "15may13", ...)
 }
 \arguments{
   \item{file}{a filename to save the dataset at. If set to
@@ -31,7 +32,7 @@ get_qog(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
   full list of specifications. Defaults to \code{cs}.}
 
   \item{codebook}{whether to download the codebook. Calls
-  \code{qogbook} by passing the \code{codebook},
+  \code{get_qogbook} by passing the \code{codebook},
   \code{version} and \code{path} arguments to it, where
   \code{codebook} is treated as the filename for the
   codebook. Defaults to \code{FALSE}.}
@@ -106,8 +107,13 @@ get_qog(version = "soc", format = "tsl")
 Francois Briatte \email{f.briatte@ed.ac.uk}
 }
 \seealso{
-\code{\link{qogbook}}, \code{\link[foreign]{read.dta}},
+\code{\link{get_qogbook}}, \code{\link[foreign]{read.dta}},
 \code{\link[foreign]{read.spss}}
 }
+\keyword{csts}
+\keyword{data}
+\keyword{dpi}
+\keyword{polity}
 \keyword{qog}
+\keyword{wdi}
 

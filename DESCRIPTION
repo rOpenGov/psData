@@ -19,6 +19,7 @@ Suggests:
     roxygen2,
     knitr
 Collate:
+    'CountryID.r'
     'MoveFront.r'
     'package.r'
     'class-HomogList.r'
@@ -27,11 +28,13 @@ Collate:
     'constrained_data_frame.r'
     'data-countrycodes.r'
     'data-debt.r'
+    'data-qog.demo.r'
     'get_data.r'
     'get_dpi.r'
     'get_gwpt.r'
     'get_polity4.r'
     'get_qog.r'
+    'panel.r'
     'utils.r'
 URL: https://github.com/briatte/psData
 BugReports: https://github.com/briatte/psData

@@ -19,7 +19,7 @@
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
 #'
 #' @importFrom foreign read.dta
-#' @keywords dpi, data, csts
+#' @keywords dpi data csts
 #'    
 #' @export
 get_dpi = function(url = "http://bit.ly/1jZ3nmM", 

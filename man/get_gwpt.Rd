@@ -84,4 +84,10 @@ Instances of Coups from 1950 to 2010: A New Dataset.".
 \emph{Journal of Peace Research} 48(2): 249-259,
 \url{http://www.uky.edu/~clthyn2/coup_data/home.htm}.
 }
+\keyword{csts}
+\keyword{data}
+\keyword{gleditsch}
+\keyword{powell}
+\keyword{thyne}
+\keyword{ward}
 

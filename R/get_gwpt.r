@@ -51,7 +51,7 @@
 #'     labs(x = NULL)
 #' }
 #' @export
-#' @keywords gleditsch, ward, powell, thyne, data, csts
+#' @keywords gleditsch ward powell thyne data csts
 get_gwpt = function(start = 1945, end = 2013, independence = "gw_indep", coups = "pt_coup") {
   message("Downloading data for years ", start, "-", end, "...")
   

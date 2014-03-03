@@ -19,7 +19,7 @@
 #' @importFrom foreign read.spss
 #'    
 #' @export
-#' @keywords polity, data, csts
+#' @keywords polity data csts
 get_polity4 = function(url = "http://www.systemicpeace.org/inscr/p4v2012.sav", 
                        var.n = "country", var.t = "year", read = "spss", ...) {
   return(get_data(url, var.n, var.t, read, ...))

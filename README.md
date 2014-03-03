@@ -109,3 +109,9 @@ Source: Cosma Shalizi  2013-04-29
 ```
 
 The class can be used to assign panel methods to `summarize`, `merge`, `subset`, `plot` and to other relevant methods for panel data aggregation, description and plotting.
+
+## TODO
+
+* rewrite `DropNA.psData` as `setMethod("na.omit", "psData")`?
+* get `merge` to work
+* convert `xtsubset`

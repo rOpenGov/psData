@@ -35,4 +35,7 @@ DpiSub <- get_dpi(vars = 'military', OutCountryID = 'imf')
 \code{\link{countrycode}}, \code{\link{CountryID}},
 \code{\link{WinsetCreator}}
 }
+\keyword{csts}
+\keyword{data}
+\keyword{dpi}
 

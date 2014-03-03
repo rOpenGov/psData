@@ -33,11 +33,11 @@ command.
 }
 \examples{
 # Show the URL to the QOG Standard dataset codebook.
-qogbook()
+get_qogbook()
 ## Download QOG Standard codebook with default filename (not run).
-# qogbook(file = TRUE)
+# get_qogbook(file = TRUE)
 ## Download QOG Basic dataset codebook to specific filename (not run).
-# qogbook(file = "qog.basic.codebook.pdf", version = "bas")
+# get_qogbook(file = "qog.basic.codebook.pdf", version = "bas")
 }
 \author{
 Francois Briatte \email{f.briatte@ed.ac.uk}
@@ -45,5 +45,6 @@ Francois Briatte \email{f.briatte@ed.ac.uk}
 \seealso{
 \code{\link{rQog}}
 }
-\keyword{qog}
+\keyword{codebooks}
+\keyword{qog,}
 

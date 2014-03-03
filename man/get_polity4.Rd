@@ -30,4 +30,7 @@ Polity2Data <- get_polity(vars = 'polity2', OutCountryID = 'imf')
 \code{\link{countrycode}}, \code{\link{CountryID}},
 \code{\link{WinsetCreator}}
 }
+\keyword{csts}
+\keyword{data}
+\keyword{polity}
 
