@@ -81,7 +81,7 @@ get_gwpt = function(start = 1945, end = 2013, independence = "gw_indep", coups =
   
   for(i in 1:nrow(d)) {
     m = which(x[, "ccode"] == d[i, "ccode"])
-    if(length(m))
+    if(length(m) > 0)
       d[i, independence] = d[i, "year"] %in% seq(x$start[m], x$end[m])
   }
   d[, independence] = as.numeric(d[, independence])
@@ -90,7 +90,7 @@ get_gwpt = function(start = 1945, end = 2013, independence = "gw_indep", coups =
   d[, coups] = 0
   for(i in 1:nrow(y)) {
     m = which(d[, "ccode"] == y[i, "ccode"] & d[, "year"] == y[i, "year"])
-    if(length(m))
+    if(length(m) > 0)
       d[m, coups] = y[i, coups]
     else
       message("Excluding ", y[i, "country.name"], " ", y[i, "year"], " (out of time period)")
@@ -110,17 +110,16 @@ get_gwpt = function(start = 1945, end = 2013, independence = "gw_indep", coups =
   m = which(d[, "country.name"] == "Yemen People's Republic; S. Yemen")
   d[m, "ccode"] = 720
   d[, "country.name"] = NULL
-    d = psData(d,
-               design = list(
-                 panel = c("ccode", "ccodegw"),
-                 format = c(ccode = "iso3n", ccodegw = "ccodegw"),
-                 time = c("year"),
-                 date = c(year = "%Y")),
-               meta = list(
-                 name = "Coups and independence state-level data",
-                 meta = c(aut = "Gleditsch and Ward", aut = "Powell and Thyne"),
-                 date = "",
-                 url = "http://www.uky.edu/~clthyn2/coup_data/"
-               ))
-  return(d)
+  return(psData(d,
+                design = list(
+                  panel = c("ccode", "ccodegw"),
+                  format = c(ccode = "iso3n", ccodegw = "ccodegw"),
+                  time = c("year"),
+                  date = c(year = "%Y")),
+                meta = list(
+                  name = "Coups and independence state-level data",
+                  meta = c(aut = "Gleditsch and Ward", aut = "Powell and Thyne"),
+                  date = "",
+                  url = "http://www.uky.edu/~clthyn2/coup_data/"
+                )))
 }

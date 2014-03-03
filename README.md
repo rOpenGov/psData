@@ -1,11 +1,18 @@
-`psdata` (a very early draft) manipulates panel/time series data frames. It is built on top of Jeffrey Arnold's [DataFrameConstr](https://github.com/jrnold/DataFrameConstr) and accepts the same arguments, plus two optional lists of settings:
+## `psData` creates data frames with attributes that makes it easy to manipulate panel/time series data frames.
+
+The `psData` S4 class is built on top of Jeffrey Arnold's [DataFrameConstr](https://github.com/jrnold/DataFrameConstr) and accepts the same arguments, plus two optional lists of settings:
 
 * `design` to specify a panel design for the data
 * `meta` to add metadata (authors, URL, etc.)
 
-[goal] The package understands country codes from `countrycode` (ISO, COW), region codes (NUTS-2/3), U.S. states, and dates in all formats supported by `lubridate`. It can deal with other forms of dyadic data with multilevel designs.
+The goals of the associated `psData` package are:
 
-All objects created by `psdata` are manipulable as data frames.
+* to offer simple download methods for panel datasets;
+* to offer simple panel data methods by handling common panel units, like the `countrycode` taxonomies;
+* to offer simple time series functions by handling time units from the `lubridate` package;
+* to handle other forms of dyadic data, _k_-adic and multilevel designs from the same class
+
+## DEMO
 
 ```{S}
 # install
@@ -16,7 +23,7 @@ library(psData)
 data(debt)
 ```
 
-This data so far conform to the `data.frame` method:
+The object is of class `data.frame`:
 
 ```
 > head(debt)
@@ -29,7 +36,7 @@ This data so far conform to the `data.frame` method:
 6 Australia 1951  4.272612  87.09448
 ```
 
-We now convert the data to `psData`:
+Add panel design and metadat to create a `psData` object from the data:
 
 ```
 # convert
@@ -53,7 +60,7 @@ debt = psData(debt,
               ))
 ```
 
-By default, a `psData` object shows its panel settings, the head of the data and its source:
+In the spirit of how `dplyr` shows SQL data, the `show` method for `psData` objects prints the panel settings, the head of the data and the data source:
 
 ```
 > debt
@@ -72,7 +79,7 @@ Source: Cosma Shalizi  2013-04-29
  http://www.stat.cmu.edu/~cshalizi/uADA/13/hw/11/debt.csv
 ```
 
-All `data.frame` operations are supported:
+`psData` objects contain the `data.frame` class and uses similar subscripting:
 
 ```
 > summary(debt[sample(1:nrow(debt), nrow(debt) %/% 2), "growth"])
@@ -100,3 +107,5 @@ Source: Cosma Shalizi  2013-04-29
 758  New Zealand 1951  -7.635102  91.75113
 1108          US 1946 -10.942159 121.25207
 ```
+
+The class can be used to assign panel methods to `summarize`, `merge`, `subset`, `plot` and to other relevant methods for panel data aggregation, description and plotting.
