@@ -31,6 +31,7 @@ Collate:
     'get_dpi.r'
     'get_gwpt.r'
     'get_polity4.r'
+    'get_qog.r'
     'utils.r'
 URL: https://github.com/briatte/psData
 BugReports: https://github.com/briatte/psData

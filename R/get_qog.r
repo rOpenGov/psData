@@ -23,7 +23,7 @@
 #' @param format the QOG format, usually \code{cs} for cross-sectional data
 #' or \code{ts} for time series in the \code{std} and \code{bas} versions. 
 #' See 'Details' for the full list of specifications. Defaults to \code{cs}.
-#' @param codebook whether to download the codebook. Calls \code{qogbook} by 
+#' @param codebook whether to download the codebook. Calls \code{get_qogbook} by 
 #' passing the \code{codebook}, \code{version} and \code{path} arguments to it, 
 #' where \code{codebook} is treated as the filename for the codebook. 
 #' Defaults to \code{FALSE}.
@@ -67,7 +67,7 @@
 #' sets \code{version} to \code{std} and requires \code{file} to end
 #' in \code{.csv}. Filenames with inadequate extensions will be modified to 
 #' conform to these expectations if they do not.
-#' @seealso \code{\link{qogbook}}, \code{\link[foreign]{read.dta}}, \code{\link[foreign]{read.spss}}
+#' @seealso \code{\link{get_qogbook}}, \code{\link[foreign]{read.dta}}, \code{\link[foreign]{read.spss}}
 #' @author Francois Briatte \email{f.briatte@@ed.ac.uk}
 #' @examples
 #' # Show URL to QOG Standard cross-section.
@@ -81,7 +81,7 @@
 #' # QOG = get_qog(tempfile(fileext = ".csv"), format = "csyom")
 #' ## Show QOG years of measurement for Gini coefficient (not run).
 #' # table(QOG$wdi_gini)
-#' @keywords qog
+#' @keywords qog, data, csts, wdi, dpi, polity
 
 get_qog = function(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
                     version = "std", format = "cs", 
@@ -224,20 +224,96 @@ get_qog = function(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
   # grab codebook
   #
   if(isTRUE(codebook) || grepl(".pdf", codebook))
-    qogbook(codebook, version, path, replace)
+    get_qogbook(codebook, version, path, replace)
   #
   # psData class
   #
-  pids = uids[pids] 
   if(format == "ts" | format == "tsl") {
-    data = psData(data, 
-                 design = list(panel = pids[1], format = c(pids[1] = "iso3n"),
-                               time = "year", date = c(year = "%Y")), 
-                 meta = list(name = "Quality of Government, time series data"))
+    
+    # get country identifiers
+    pids = uids[pids]
+
+    # stick format attributes
+    formats = c(ccode = "iso3n", ccodealp = "iso3c", cname = "name", ccodecow = "cown", ccodewb = "wb")
+    formats = formats[ pids ]
+    
+    data <- psData(data, 
+                 design = list(panel = pids[1],
+                                          format = formats,
+                                          time = "year",
+                                          date = c(year = "%Y")),
+                 meta = list(name = "Quality of Government time series data",
+                             url = "http://www.qog.pol.gu.se/")
     )
   }
   #
   # finish line
   #
   return(data)
+}
+
+#' Download Quality of Government codebooks
+#'
+#' Function to download Quality of Government (QOG) codebooks. Please visit 
+#' the QOG Institute website at \url{http://www.qog.pol.gu.se/} for a 
+#' presentation of QOG research.
+#'
+#' @export
+#' @param file a filename to save the codebook at. 
+#' If set to \code{TRUE}, the name of the codebook on the QOG server will be used. 
+#' If set to \code{FALSE} (the default), the function only returns the link to 
+#' the dataset. The filename must end in \code{.pdf}.
+#' @param replace whether to download the dataset even if a file already exists 
+#' at the download location. Defaults to \code{FALSE}.
+#' @param path a folder path to append to the filename.
+#' @param version the QOG version: \code{std} (Standard), 
+#' \code{soc} (Social Policy), \code{bas} (Basic) or \code{exp} (Expert). 
+#' Defaults to \code{std}.
+#' @details The function mimics Richard Svensson's \code{qogbook} Stata command.
+#' @seealso \code{\link{rQog}}
+#' @author Francois Briatte \email{f.briatte@@ed.ac.uk}
+#' @examples
+#' # Show the URL to the QOG Standard dataset codebook.
+#' get_qogbook()
+#' ## Download QOG Standard codebook with default filename (not run).
+#' # get_qogbook(file = TRUE)
+#' ## Download QOG Basic dataset codebook to specific filename (not run).
+#' # get_qogbook(file = "qog.basic.codebook.pdf", version = "bas")
+#' @keywords qog, codebooks
+
+get_qogbook = function(file = FALSE, version = "std", path = "", replace = FALSE) {
+  if(!version %in% c("std", "bas"))
+    stop("Codebook available only for versions bas, std")
+  
+  link = "http://www.qogdata.pol.gu.se/data/Codebook_QoG_Std15May13.pdf"
+  if(version == "bas") {
+    link = "http://www.qogdata.pol.gu.se/codebook/codebook_basic_20120608.pdf"
+  }
+  if(isTRUE(file) & version == "bas") {
+    file = "codebook_basic_20120608.pdf"
+  }
+  else if(isTRUE(file)) {
+    file = "Codebook_QoG_Std15May13.pdf"
+  }
+  #
+  # path
+  #
+  if(is.character(path))
+    if(nchar(path) > 0) file = paste(path, file, sep = "/")
+  #
+  # download
+  #
+  if(is.logical(file)) {
+    return(link)
+  }
+  else if(!grepl(".pdf$", file)) {
+    stop("Please specify a .pdf codebook filename or set file = TRUE.")
+  }
+  else {  
+    if(replace || !file.exists(file)) {
+      message("Downloading codebook to ", file, "...")
+      download.file(link, file, mode = "wb", quiet = TRUE)
+    }
+    message("Codebook: ", file)
+  }
 }

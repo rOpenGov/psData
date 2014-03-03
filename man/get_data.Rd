@@ -59,7 +59,8 @@ get_data(url = NULL, var.n = "country", var.t = "year", read = "csv",
   correctly.}
 }
 \value{
-a data frame
+a data frame, possibly of \code{\link{class-psData}}
+(expected output)
 }
 \description{
 The get_data function requires a URL, a read method ('csv'
@@ -74,6 +75,8 @@ The \code{get} method scrapes an online locator
 and time (\code{var.t}) to be imported. The \code{psData}
 contains the following \code{get} presets: \itemize{ \item
 \code{\link{get_polity4}}. Polity IV data \item
-\code{\link{get_dpi}}. DPI data }
+\code{\link{get_dpi}}. DPI data \item
+\code{\link{get_qog}}. QOG data (untested, also produces
+cross-section standard data frames) }
 }
 
