@@ -78,6 +78,7 @@ All `data.frame` operations are supported:
 > summary(debt[sample(1:nrow(debt), nrow(debt) %/% 2), "growth"])
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
  -9.922   1.934   3.315   3.454   5.059  15.220
+
 > subset(debt, growth < -5)
 Reinhart and Rogoff data, edited from Herndon et al.'s script. 
 Panel data frame [ 9 rows x  4 columns, 7 Country x 5 Year ]
@@ -92,6 +93,7 @@ Panel data frame [ 9 rows x  4 columns, 7 Country x 5 Year ]
 
 Source: Cosma Shalizi  2013-04-29 
  http://www.stat.cmu.edu/~cshalizi/uADA/13/hw/11/debt.csv
+
 > print(subset(debt, growth < -7.5))
          Country Year     growth     ratio
 755  New Zealand 1948  -9.922099 117.20596
