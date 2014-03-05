@@ -130,7 +130,7 @@ get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv"
   }
 
   if (!is.null(file)){
-    save(data, file)
+    save(data, file = file)
   }
   return(data)
 }
