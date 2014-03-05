@@ -3,7 +3,7 @@ psData
 
 ### Version 0.1.3
 
-### Started by Christopher Gandrud
+## Note: Development has moved to the [devPanel](https://github.com/rOpenGov/psData/tree/devPanel) branch. (Thanks to @briatte for great work moving this forward!)
 
 ---
 
