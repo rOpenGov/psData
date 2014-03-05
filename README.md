@@ -35,16 +35,16 @@ Add `quiet = TRUE` to display the country-year format detection reports.
 
 ## TODO
 
-[ ] add `setMethod("sample")` (sample on panel units? on time units?)
-[ ] add `setMethod("summarize")` (see `xtsum` and `xtdes` in `qogdata` or Stata)
-[ ] add `xtcountry` capabilities (fuse to `CountryID`)
-[ ] fix `setMethod("merge")` (not working yet, S4 declaration contains bugs)
-[ ] harmonize variable scheme of `get` methods and document
-[ ] improve `setMethod("design")` (allow assignment as with `V()` in `igraph`)
-[ ] improve `setMethod("meta")` (provide output for DataPackage, or route to `pander`)
-[ ] rewrite `DropNA.psData` as `setMethod("na.omit", "psData")`?
-[ ] switch from panel-time method to generic dyadic method, and later _k_-adic
-[?] add `find` and `names` method to find and label variables
-[?] assign both `data.frame` and `psData` classes, as in `data.table`
-[?] more subtle country/time matchers
-[x] add `xtsubset` capabilities
+- [ ] add `setMethod("sample")` (sample on panel units? on time units?)
+- [ ] add `setMethod("summarize")` (see `xtsum` and `xtdes` in `qogdata` or Stata)
+- [ ] add `xtcountry` capabilities (fuse to `CountryID`)
+- [ ] fix `setMethod("merge")` (not working yet, S4 declaration contains bugs)
+- [ ] harmonize variable scheme of `get` methods and document
+- [ ] improve `setMethod("design")` (allow assignment as with `V()` in `igraph`)
+- [ ] improve `setMethod("meta")` (provide output for DataPackage, or route to `pander`)
+- [ ] rewrite `DropNA.psData` as `setMethod("na.omit", "psData")`?
+- [ ] switch from panel-time method to generic dyadic method, and later _k_-adic
+- [?] add `find` and `names` method to find and label variables
+- [?] assign both `data.frame` and `psData` classes, as in `data.table`
+- [?] more subtle country/time matchers
+- [x] add `xtsubset` capabilities
