@@ -1,7 +1,6 @@
 export(CountryID)
 export(DropNA.psData)
 export(HomogList)
-export(MoveFront)
 export(as.panel)
 export(as.psData)
 export(constrained_data_frame)

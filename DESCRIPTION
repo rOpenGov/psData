@@ -9,7 +9,7 @@ Description: Functions to use on panel data or times series, plus
     for political science.
 Depends:
     methods,
-    R (>= 2.15.0)
+    R (>= 3.0.2)
 Imports:
     downloader,
     countrycode,
@@ -18,6 +18,10 @@ Suggests:
     testthat,
     roxygen2,
     knitr
+URL: https://github.com/rOpenGov/psData/tree/devPanel
+BugReports: https://github.com/rOpenGov/psData/issues
+LazyData: TRUE
+VignetteBuilder: knitr
 Collate:
     'CountryID.r'
     'MoveFront.r'
@@ -35,7 +39,3 @@ Collate:
     'get_qog.r'
     'panel.r'
     'utils.r'
-URL: https://github.com/briatte/psData
-BugReports: https://github.com/briatte/psData
-LazyData: TRUE
-VignetteBuilder: knitr
