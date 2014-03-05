@@ -1,6 +1,6 @@
 \name{get_qog}
 \alias{get_qog}
-\title{Get Quality of Government datasets in \code{xtdata} format}
+\title{Get Quality of Government datasets in \code{\link{psData-class}} format}
 \usage{
 get_qog(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
   version = "std", format = "cs", variables = NULL, years = NULL,
@@ -52,13 +52,14 @@ get_qog(file = FALSE, replace = FALSE, codebook = FALSE, path = "",
   \code{dta} dataset, or \code{\link[foreign]{read.spss}}
   if \code{file} is a SPSS \code{sav} dataset.}
 }
+\value{
+a \code{\link{psData-class}} object
+}
 \description{
 Function to download Quality of Government (QOG) data and
-load it as a data frame in R. The result carries an
-\code{\link{xtdata}} attribute that can be passed to the
-\code{\link{xtmerge}} panel data method. Please visit the
-QOG Institute website at \url{http://www.qog.pol.gu.se/}
-for a presentation of QOG research.
+load it as a data frame in R. Please visit the QOG
+Institute website at \url{http://www.qog.pol.gu.se/} for a
+presentation of QOG research.
 }
 \details{
 This version of the package handles all four QOG datasets:

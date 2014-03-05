@@ -1,10 +1,8 @@
-#' Get Quality of Government datasets in \code{xtdata} format
+#' Get Quality of Government datasets in \code{\link{psData-class}} format
 #'
 #' Function to download Quality of Government (QOG) data and load it as a data 
-#' frame in R. The result carries an \code{\link{xtdata}} attribute that can be 
-#' passed to the \code{\link{xtmerge}} panel data method. Please visit the 
-#' QOG Institute website at \url{http://www.qog.pol.gu.se/} for a presentation 
-#' of QOG research.
+#' frame in R. Please visit the QOG Institute website at 
+#' \url{http://www.qog.pol.gu.se/} for a presentation of QOG research.
 #'
 #' @export
 #' @param file a filename to save the dataset at. 
@@ -67,6 +65,7 @@
 #' sets \code{version} to \code{std} and requires \code{file} to end
 #' in \code{.csv}. Filenames with inadequate extensions will be modified to 
 #' conform to these expectations if they do not.
+#' @return a \code{\link{psData-class}} object
 #' @seealso \code{\link{get_qogbook}}, \code{\link[foreign]{read.dta}}, \code{\link[foreign]{read.spss}}
 #' @author Francois Briatte \email{f.briatte@@ed.ac.uk}
 #' @examples

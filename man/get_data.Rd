@@ -59,7 +59,7 @@ get_data(url = NULL, var.n = "country", var.t = "year", read = "csv",
   correctly.}
 }
 \value{
-a data frame, possibly of \code{\link{class-psData}}
+a data frame, possibly of \code{\link{psData-class}}
 (expected output)
 }
 \description{

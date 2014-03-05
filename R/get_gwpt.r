@@ -1,7 +1,7 @@
 #' Get state-level historical events from Gledistch & Ward and Powell & Thyne
 #'
 #' Function to download state-level historical events from Gleditsch and Ward (1999, updated 3 May 2013) and Powell and Thyne (2011, updated c. 2013). 
-#' The result is a \code{\link{class-psData}} object. There is a small bug with the slots that returns two warnings.
+#' The result is a \code{\link{psData-class}} object. There is a small bug with the slots that returns two warnings.
 #'
 #' @param start the first year of measurement to include. Defaults to \code{1945}.
 #' @param end the last year of measurement to include. Defaults to \code{2013}.

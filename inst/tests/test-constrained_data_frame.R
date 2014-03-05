@@ -17,7 +17,7 @@ foo <- Bar(data.frame(a=1:5, b=6:10))
 
 ####
 
-context("subclass DataFrameConst [ method")
+context("subclass psData [ method")
 
 test_that("[,psData,missing,missing works", {
   expect_equal(foo[], foo)

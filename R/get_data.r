@@ -21,7 +21,7 @@
 #'   \item \code{\link{get_dpi}}. DPI data
 #'   \item \code{\link{get_qog}}. QOG data (untested, also produces cross-section standard data frames)
 #' }
-#' @return a data frame, possibly of \code{\link{class-psData}} (expected output)
+#' @return a data frame, possibly of \code{\link{psData-class}} (expected output)
 #' @importFrom downloader download
 #' @keywords get data download
 #' @export

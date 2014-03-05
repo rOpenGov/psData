@@ -93,7 +93,7 @@ panel.tse <- function(yvar, tvar = seq_along(yvar)) {
 # superior to the number of unique values in the data.
 #
 # Inspired by several other similar helper functions in other packages, and by 
-# the \code{xtile} function in Stata. Used mostly in \code{\link{xtmap}}.
+# the \code{xtile} function in Stata. Used mostly in \code{panel_map} (coming).
 # 
 # @param x variable
 # @param q quantiles
@@ -206,3 +206,54 @@ DropNA.psData <- function(data, Var)
   message(paste0(TotalDropped, " observations dropped based on missing values of the standardised ID variable.\n\n"))
   return(DataNoNA)
 }
+
+#' Autodetect a date format
+#' 
+#' Looks for perfect matches between the values of a variable and its converted 
+#' values to a date format handled by the \code{\link{lubridate}} package.
+#' @return the fraction of perfect matches
+#' @keywords internal
+#' @export
+try_date = function(x, date = "%Y") {
+
+  try_require("lubridate")
+
+  # crosstabulate old/new values
+  t = table(x, parse_date_time(x, date, quiet = TRUE))
+  
+  # fraction of perfect matches
+  t = sum(diag(t)) / sum(t)
+  
+  if(is.nan(t))
+    return(0)
+  else
+    return(t)
+
+}
+
+#' Autodetect a country code
+#' 
+#' Looks for perfect matches between the values of a variable and its converted 
+#' values from a list of country codes handled by the \code{\link{countrycode}} 
+#' package. The codes are assessed against their ISO-3C translation.
+#' @return the fraction of perfect matches
+#' @keywords internal
+#' @export
+try_countrycode = function(x, format = "iso3n") {
+  
+  try_require("countrycode")
+  
+  # crosstabulate old/new values
+  t = table(x, countrycode(x, origin = format, destination = "iso3n", warn = FALSE))
+  
+  # fraction of perfect matches
+  t = sum(diag(t)) / sum(t)
+  
+  if(is.nan(t))
+    return(0)
+  else
+    return(t)
+  
+}
+
+# the two functions could be merged if the try_require calls could be removed

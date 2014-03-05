@@ -1,21 +1,21 @@
 #' psData package
 #'
-#' This package defines two S4 classes 
+#' This (draft) package defines two S4 classes:
 #'
 #' \enumerate{
-#' \item `HomogList`: a list in which all elements must be the same class
-#' \item `DataFrameConst`: a data frame with optional required columns and  classes, or general constraints.
+#' \item `psData`: a \code{data.frame} with design attributes, and optionally, 
+#' column/variable protections and bibliographic metadata.
+#' \item `HomogList`: a list in which all elements must be the same class,
+#' used internally to store the data settings.
 #' }
 #'
-#' For each of these classes, there are functions that easily create a subclass.
+#' The code was forked from the \code{DataFrameConstr} package, from
+#' which the \code{HomogList} class is also taken: see the initial code by
+#' Jeffrey Arnold at \url{https://github.com/jrnold/DataFrameConstr}.
 #'
-#' It also defines the most common methods \code{[<-}, \code{[[<-},
-#' \code{$<-}, \code{c}, \code{cbind2}, \code{rbind2} for these classes so that the constraints
-#' are checked when data in the objects are updated.
-#'
-#' See \url{https://github.com/jrnold/psData} for example code.
+
 #' 
-#' @name DataFramePlus
+#' @name psData
 #' @docType package
 NULL
 

@@ -12,7 +12,10 @@
 #' @exportMethod colnames<-
 #' @exportMethod rownames<-
 #' @exportMethod names<-
+#' @exportMethod merge
 NULL
+
+# @exportMethod dimnames<- ## to add above?
 
 FunctionList <- subclass_homog_list("FunctionList", "function")
 CharacterList <- subclass_homog_list("CharacterList", "character")
@@ -224,14 +227,31 @@ setMethod("initialize", "psData",
             .Object
           })
 
+setGeneric("design", function(object, ...) standardGeneric("design"))
+setMethod("design", "psData", function(object) { object@design })
+
+setGeneric("meta", function(object, ...) standardGeneric("meta"))
+setMethod("meta", "psData", 
+          function(object) { 
+            cat(ifelse(object@meta$name == "", "", paste0(object@meta$name, "\n")),
+                "Panel data frame [", 
+                nrow(object), "rows x ", ncol(object), "columns]\n\n",
+                mapply(function(x, y) cat(sprintf("$ %s: %s\n", x, y)),
+                       names(object@design), object@design))
+            
+            object@meta })
+
+# basic show method will display primary panel and time attributes
+# use design() method to get all panel attributes
 setMethod("show", "psData",
           function(object) {
-            cat(object@meta$name, "\nPanel data frame [", 
+            cat(ifelse(object@meta$name == "", "", paste0(object@meta$name, "\n")),
+                "Panel data frame [", 
                 nrow(object), "rows x ", ncol(object), "columns,",
-                length(unique(as.data.frame(object)[, object@design$panel[1]])), 
+                length(unique(object[, object@design$panel ])), 
                 object@design$panel[1], 
                 "x", 
-                length(unique(as.data.frame(object)[, object@design$time[1]])), 
+                length(unique(object[, object@design$time ])), 
                 object@design$time[1], "]\n\n")
             print(head(as(object, "data.frame")))
             if(length(object@columns) > 0) {
@@ -242,11 +262,12 @@ setMethod("show", "psData",
             if(length(object@constraints) > 0) {
               cat("Constraints:\n")
               show(object@constraints)
-            }            
-            cat("\nSource:", 
-                paste0(object@meta$meta, collapse = ", "),
-                object@meta$version, object@meta$date, "\n", 
-                object@meta$url)
+            }
+            if(length(object@meta) > 0)
+              cat("\nSource:", 
+                  paste0(object@meta$author, collapse = ", "),
+                  object@meta$version, object@meta$date, "\n", 
+                  object@meta$url)
           })
 
 ###Methods
@@ -403,12 +424,71 @@ setMethod("dimnames<-", c(x="psData", value="list"),
 #                   by.y = c(y@design$panel[1], y@design$time[1]), ...)
 #           })
 
-# setMethod("merge", c("psData", "psData"), function(x, y, ...) {
-#   head(merge(as.data.frame(x), as.data.frame(y), ...))
-# })
-# setMethod("merge", c("data.frame", "psData"), function(x, y, ...) {
-#   head(merge(x, as.data.frame(y), ...))
-# })
-# setMethod("merge", c("psData", "data.frame"), function(x, y, ...) {
-#   head(merge(as.data.frame(x), y, ...))
-# })
+setMethod("merge", c("psData", "psData"), function(x, y, ...) {
+  head(merge(as.data.frame(x), as.data.frame(y), ...))
+})
+setMethod("merge", c("data.frame", "psData"), function(x, y, ...) {
+  head(merge(x, as.data.frame(y), ...))
+})
+setMethod("merge", c("psData", "data.frame"), function(x, y, ...) {
+  head(merge(as.data.frame(x), y, ...))
+})
+
+#' as.psData
+#'
+#' Converts a data frame to \code{\link{class-psData}} by adding two
+#' lists of attributes to the data:
+#' \itemize{
+#'   \item \code{design}. define panel attributes like country 
+#'   codes and time units
+#'   \item \code{meta}. define a minimal set of references to
+#'   describe the data (optional)
+#' }
+#' @details
+#' The \code{class-psData} also optionally supports all methods from the
+#' \code{DataFrameConstr} package:
+#' \itemize{
+#'   \item \code{columns}. protect the classes of selected columns, 
+#'   as in \code{columns = c(a = "numeric", b = "ANY", c = "factor")}
+#'   \item \code{constraints}. force selected variables to follow logical conditions,
+#'   as in \code{constraints = list(function(x) { x$a > 0 }}
+#'   \item \code{exclusive}. protect the number of rows (\code{FALSE} by default)
+#' }
+#' @name as.psData
+#' @param data
+#' @references \code{DataFrameConstr}, by Jeffrey Arnold: 
+#' \url{https://github.com/jrnold/DataFrameConstr}
+#' @seealso \code{\link{as.panel}}
+#' @examples
+#' # Load Reinhart and Rogoff demo data.
+#' data(debt)
+#' # Add full panel details and metadata.
+#' debt = as.psData(debt,
+#'           design = list(
+#'             # data design
+#'             panel = c("Country"),
+#'             format = c(Country = "name"),
+#'             time = c("Year"),
+#'             date = c(Year = "%Y")
+#'           ),
+#'           meta = list(
+#'             # descriptive
+#'             name = "Reinhart and Rogoff data, edited from Herndon et al.'s script.",
+#'             # similar to R packages
+#'             author = "Cosma Shalizi",
+#'             # versioning
+#'             date = "2013-04-29", 
+#'             version = "",
+#'             url = "http://www.stat.cmu.edu/~cshalizi/uADA/13/hw/11/debt.csv"
+#'           ))
+#' # Standard data frame.
+#' head(data.frame(debt))
+#' # psData data frame.
+#' debt
+#' @export
+as.psData = function(data, design = list(), meta = list(), ...) {
+
+  stopifnot(c("panel", "format", "time", "date") %in% names(design))
+  return(psData(data, design = design, meta = meta, ...))
+
+}

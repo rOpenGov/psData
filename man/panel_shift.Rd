@@ -26,18 +26,16 @@ lags \item \code{panel_lag} will perform a positive shift
 of \code{k} leads }
 }
 \examples{
-# Load QOG demo datasets.
-data(qog.demo)
-# Subset to a short series.
-QOG = panel_subset(qog.ts.demo, year \%in\% 2008:2012 & cname == "United States")
-# Lag by one time period.
-QOG$L1.wdi_gdpc = panel_lag(QOG, "wdi_gdpc", -1)
-# Lead by two time periods.
-QOG$F2.wdi_gdpc = panel_lead(QOG, "wdi_gdpc", 2)
-# Check results.
-QOG[, c("year", "wdi_gdpc", "L1.wdi_gdpc", "F2.wdi_gdpc")]
-# Full method.
-cbind(QOG, sapply(-2:2, panel_shift, data = QOG, variable = "wdi_hec"))
+# Load Reinhart and Rogoff demo data.
+data(debt)
+# Convert to "country name-year" panel format.
+debt = as.panel(debt, "Country", "Year")
+# Lag real GDP growth by one time period.
+debt$L1.growth = panel_lag(debt, "growth", -1)
+# Lead real GDP growth by two time periods.
+debt$F2.growth = panel_lead(debt, "growth", 2)
+# Show results.
+head(debt[, c("Year", "growth", "L1.growth", "F2.growth")])
 }
 \references{
 Christopher Gandrud, "Slide: one function for lag/lead

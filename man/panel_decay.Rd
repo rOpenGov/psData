@@ -10,8 +10,7 @@ with Missingness",
 panel_decay(data, x, cutpoint)
 }
 \arguments{
-  \item{data}{a data frame with the \code{\link{psData}}
-  attribute.}
+  \item{data}{a data frame of \code{\link{psData-class}}.}
 
   \item{x}{the variable for which to compute linear decay}
 
@@ -20,7 +19,7 @@ panel_decay(data, x, cutpoint)
 \description{
 Linear decay function adapted from the
 \code{\link[doBy]{doBy}} package by Zachary M. Jones, and
-modified to understand the \code{\link{psData}} attribute.
+modified to handle \code{\link{psData-class}} objects.
 }
 \author{
 Zachary M. Jones

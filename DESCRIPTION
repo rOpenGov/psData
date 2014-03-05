@@ -4,9 +4,9 @@ Author: none <none@none.com>
 Version: 0.1
 License: GPL-3
 Title: psData demo
-Description: A combination of DataCombine + DataFrameConstr
-    functions to use on panel data or times series, plus
-    a set of get methods for frequently used datasets.
+Description: Functions to use on panel data or times series, plus
+    a set of methods to download and use frequently used datasets
+    for political science.
 Depends:
     methods,
     R (>= 2.15.0)
@@ -28,7 +28,6 @@ Collate:
     'constrained_data_frame.r'
     'data-countrycodes.r'
     'data-debt.r'
-    'data-qog.demo.r'
     'get_data.r'
     'get_dpi.r'
     'get_gwpt.r'
