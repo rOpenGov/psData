@@ -2,14 +2,18 @@
 \alias{get_data}
 \title{Get data in all formats read by the default packages}
 \usage{
-get_data(url = NULL, var.n = "country", var.t = "year", read = "csv",
+get_data(Url = NULL, var.n = "country", var.t = "year", read = "csv",
   vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE,
-  na.rm = TRUE, duplicates = "message", fromLast = FALSE, args = NULL)
+  na.rm = TRUE, duplicates = "message", fromLast = FALSE, quite = TRUE,
+  args = NULL, ...)
 }
 \arguments{
-  \item{url}{character string; the URL for the dataset you
+  \item{Url}{character string; the URL for the dataset you
   would like to download; automatically set by other
-  \code{get} methods (see 'Details').}
+  \code{get} methods (see 'Details'). Note, the URL must
+  end in the file extension for the data type (e.g.
+  \code{.csv}). If it doesn't, then you must specify the
+  data type with \code{read}.}
 
   \item{var.n}{character string; the main panel variable
   (column name). Defaults to \code{"country"};
@@ -54,9 +58,12 @@ get_data(url = NULL, var.n = "country", var.t = "year", read = "csv",
   be considered from the reverse side. Only relevant if
   \code{duplicates = 'drop'} or \code{duplicates = 'out'}.}
 
-  \item{args}{additional argument to the \code{read}
-  function. Automatically sets SPSS files to import
-  correctly.}
+  \item{quite}{logical. Whether or not to return messages
+  while getting the data.}
+
+  \item{args}{a list of additional arguments to pass the
+  \code{read} function. Automatically sets SPSS files to
+  import correctly.}
 }
 \value{
 a data frame, possibly of \code{\link{psData-class}}
@@ -70,7 +77,7 @@ the other get methods in this file.
 }
 \details{
 The \code{get} method scrapes an online locator
-(\code{url}), reads it into a recognized data format
+(\code{Url}), reads it into a recognized data format
 (\code{read}), and requires its main panel (\code{var.n})
 and time (\code{var.t}) to be imported. The \code{psData}
 contains the following \code{get} presets: \itemize{ \item

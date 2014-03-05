@@ -11,7 +11,7 @@
 #' PolityData <- get_polity4()
 #' 
 #' # Create data frame with only the main Polity democracy variable (polity2)
-#' Polity2Data <- get_polity(vars = 'polity2', OutCountryID = 'imf')
+#' Polity2Data <- get_polity4(vars = 'polity2', OutCountryID = 'imf')
 #' }
 #'  
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
@@ -20,7 +20,7 @@
 #'    
 #' @export
 #' @keywords polity data csts
-get_polity4 = function(url = "http://www.systemicpeace.org/inscr/p4v2012.sav", 
+get_polity4 = function(Url = "http://www.systemicpeace.org/inscr/p4v2012.sav", 
                        var.n = "country", var.t = "year", read = "spss", ...) {
-  return(get_data(url, var.n, var.t, read, ...))
+  return(get_data(Url, var.n, var.t, read, ...))
 }

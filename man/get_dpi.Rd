@@ -2,11 +2,11 @@
 \alias{get_dpi}
 \title{Downloads the Database of Political Institutions (DPI)}
 \usage{
-get_dpi(url = "http://bit.ly/1jZ3nmM", var.n = "countryname",
+get_dpi(Url = "http://bit.ly/1jZ3nmM", var.n = "countryname",
   var.t = "year", read = "dta", ...)
 }
 \arguments{
-  \item{url,}{read, var.n, var.t, ... \code{\link{get}}
+  \item{Url,}{read, var.n, var.t, ... \code{\link{get}}
   parameters}
 }
 \value{

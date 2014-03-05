@@ -2,7 +2,7 @@
 \alias{get_polity4}
 \title{Downloads Polity IV}
 \usage{
-get_polity4(url = "http://www.systemicpeace.org/inscr/p4v2012.sav",
+get_polity4(Url = "http://www.systemicpeace.org/inscr/p4v2012.sav",
   var.n = "country", var.t = "year", read = "spss", ...)
 }
 \arguments{
@@ -23,7 +23,7 @@ can be used for merging the data with other data sets.
 PolityData <- get_polity4()
 
 # Create data frame with only the main Polity democracy variable (polity2)
-Polity2Data <- get_polity(vars = 'polity2', OutCountryID = 'imf')
+Polity2Data <- get_polity4(vars = 'polity2', OutCountryID = 'imf')
 }
 }
 \seealso{

@@ -4,7 +4,7 @@
 #' a panel variable and a time variable. These parameters are easy to pass
 #' through little functions like the other get methods in this file.
 #' 
-#' @param url character string; the URL for the dataset you would like to download; automatically set by other \code{get} methods (see 'Details').
+#' @param Url character string; the URL for the dataset you would like to download; automatically set by other \code{get} methods (see 'Details'). Note, the URL must end in the file extension for the data type (e.g. \code{.csv}). If it doesn't, then you must specify the data type with \code{read}.
 #' @param var.n character string; the main panel variable (column name). Defaults to \code{"country"}; automatically set by other \code{get} methods (see 'Details').
 #' @param var.t character string; the main time variable (column name). Defaults to \code{"year"}; automatically set by other \code{get} methods (see 'Details').
 #' @param read character string; the format of the data (\code{csv}, \code{dta}, \code{spss}, \code{table} or any other supported \code{read.method} function). Defaults to \code{"csv"}; automatically set by other \code{get} methods (see 'Details').
@@ -14,9 +14,10 @@
 #' @param na.rm logical. Drop observations where \code{OutCountryID} is \code{NA}.
 #' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
-#' @param args additional argument to the \code{read} function. Automatically sets SPSS files to import correctly.
+#' @param quite logical. Whether or not to return messages while getting the data.
+#' @param args a list of additional arguments to pass the \code{read} function. Automatically sets SPSS files to import correctly.
 #' 
-#' @details The \code{get} method scrapes an online locator (\code{url}), reads it into a recognized data format (\code{read}), and requires its main panel (\code{var.n}) and time (\code{var.t}) to be imported. The \code{psData} contains the following \code{get} presets:
+#' @details The \code{get} method scrapes an online locator (\code{Url}), reads it into a recognized data format (\code{read}), and requires its main panel (\code{var.n}) and time (\code{var.t}) to be imported. The \code{psData} contains the following \code{get} presets:
 #' \itemize{
 #'   \item \code{\link{get_polity4}}. Polity IV data
 #'   \item \code{\link{get_dpi}}. DPI data
@@ -31,9 +32,9 @@
 #' @importFrom downloader download
 #' @keywords get data download
 #' @export
-get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv", vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE, na.rm = TRUE, duplicates = 'message', fromLast = FALSE, args = NULL) {
+get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv", vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE, na.rm = TRUE, duplicates = 'message', fromLast = FALSE, quite = TRUE, args = NULL, ...) {
   
-  if(is.null(url)) {
+  if(is.null(Url)) {
     getters = ls("package:psData", pattern = "get_")
     getters = getters[ !getters %in% c("get_data") ]
     return(cat("Available methods:", paste0(getters, collapse = ", "),
@@ -44,42 +45,58 @@ get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv",
   try_require("foreign")
   
   tmpfile <- tempfile()
-  message("Downloading: ", url)
-  download(url, tmpfile, mode = "wb", quiet = TRUE)
-  
-  args = list(file = file, ...)
+  if (!isTRUE(quite)){
+    message("Downloading: ", Url)
+  }
+  download(Url, tmpfile, mode = "wb", quiet = quite)
+
+  # Set basic arguments 
+  if (is.null(args)){
+    args = list(file = tmpfile)
+  } else if (!is.null(args)){
+    args = append_list(list(file = tmpfile), args)
+  }
 
   # table args
-  if(!grepl(".dat$|.txt$|.tab$", url) | read == "table") {
+  if(grepl(".dat$|.txt$|.tab$", Url) | read == "table") {
     read = "read.table"
     if(is.null(unlist(args["sep"])))
       args["sep"] = " "
-    if(grepl(".tab$", url))
+    if(grepl(".tab$", Url))
       args["sep"] = "\t"
   }
   # csv args
-  if(!grepl(".csv$", url) | read == "csv") {
+  if(grepl(".csv$", Url) | read == "csv") {
     read = "read.csv"
     if(is.null(unlist(args["sep"])))
       args["sep"] = ","
   }
-  if(!grepl(".tsv$", url) | read == "tsv") {
+  if(grepl(".tsv$", Url) | read == "tsv") {
     read = "read.csv"
     if(is.null(unlist(args["sep"])))
       args["sep"] = "\t"
   }
   # stata args
-  if(grepl(".dta$", url) | read == "dta" | read == "Stata") {
+  if(grepl(".dta$", Url) | read == "dta" | read == "Stata") {
     read = "read.dta"
     if(is.null(unlist(args["warn.missing.labels"])))
       args["warn.missing.labels"] = FALSE
   }
   # spss args
-  if(grepl(".sav$", file) | read == "spss" | read == "SPSS") {
+  if(grepl(".sav$", Url) | read == "spss" | read == "SPSS") {
     read = "read.spss"
     if(is.null(unlist(args["to.data.frame"])))
       args["to.data.frame"] = TRUE
   }
+
+  # stop if unsupported file type
+  acceptable = c('read.table', 'read.csv', 'read.dta', 'read.spss')
+  if (!(read %in% acceptable)){
+    message('Unsupported data type. Make sure the downloaded data can be can be read by:\n\n')
+    stop(paste(DeleteObj, collapse = ", "))
+  }
+
+  # read data into a data frame
   data = do.call(read, args = args)
 
   unlink(tmpfile)
