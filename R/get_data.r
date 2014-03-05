@@ -15,12 +15,18 @@
 #' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
 #' @param args additional argument to the \code{read} function. Automatically sets SPSS files to import correctly.
+#' 
 #' @details The \code{get} method scrapes an online locator (\code{url}), reads it into a recognized data format (\code{read}), and requires its main panel (\code{var.n}) and time (\code{var.t}) to be imported. The \code{psData} contains the following \code{get} presets:
 #' \itemize{
 #'   \item \code{\link{get_polity4}}. Polity IV data
 #'   \item \code{\link{get_dpi}}. DPI data
 #'   \item \code{\link{get_qog}}. QOG data (untested, also produces cross-section standard data frames)
 #' }
+#' @examples
+#' \dontrun{
+#' 
+#' }
+#' 
 #' @return a data frame, possibly of \code{\link{psData-class}} (expected output)
 #' @importFrom downloader download
 #' @keywords get data download
@@ -31,7 +37,7 @@ get_data = function(url = NULL, var.n = "country", var.t = "year", read = "csv",
     getters = ls("package:psData", pattern = "get_")
     getters = getters[ !getters %in% c("get_data") ]
     return(cat("Available methods:", paste0(getters, collapse = ", "),
-               "\nSee ?get_data and ?get_methods for usage."))
+               "\n\nSee ?get_data and ?get_methods for usage.\n\n"))
   }
   try_require("countrycode")
   try_require("downloader")

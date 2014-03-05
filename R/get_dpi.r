@@ -22,7 +22,7 @@
 #' @keywords dpi data csts
 #'    
 #' @export
-get_dpi = function(url = "http://bit.ly/1jZ3nmM", 
+get_dpi <- function(url = "http://bit.ly/1jZ3nmM", 
                    var.n = "countryname", var.t = "year", read = "dta", ...) {
   return(get_data(url, var.n, var.t, read, ...))
 }
