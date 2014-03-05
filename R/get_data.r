@@ -16,6 +16,7 @@
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
 #' @param quite logical. Whether or not to return messages while getting the data.
 #' @param args a list of additional arguments to pass the \code{read} function. Automatically sets SPSS files to import correctly.
+#' @param file character string naming an \code{.RData} file to save the output data frame as.
 #' 
 #' @details The \code{get} method scrapes an online locator (\code{Url}), reads it into a recognized data format (\code{read}), and requires its main panel (\code{var.n}) and time (\code{var.t}) to be imported. The \code{psData} contains the following \code{get} presets:
 #' \itemize{
@@ -32,7 +33,7 @@
 #' @importFrom downloader download
 #' @keywords get data download
 #' @export
-get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv", vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE, na.rm = TRUE, duplicates = 'message', fromLast = FALSE, quite = TRUE, args = NULL, ...) {
+get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv", vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE, na.rm = TRUE, duplicates = 'message', fromLast = FALSE, quite = TRUE, args = NULL, file = NULL, ...) {
   
   if(is.null(Url)) {
     getters = ls("package:psData", pattern = "get_")
@@ -40,15 +41,14 @@ get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv"
     return(cat("Available methods:", paste0(getters, collapse = ", "),
                "\n\nSee ?get_data and ?get_methods for usage.\n\n"))
   }
+
+  # Load required packages
   try_require("countrycode")
   try_require("downloader")
   try_require("foreign")
   
+  # Create temporary file
   tmpfile <- tempfile()
-  if (!isTRUE(quite)){
-    message("Downloading: ", Url)
-  }
-  download(Url, tmpfile, mode = "wb", quiet = quite)
 
   # Set basic arguments 
   if (is.null(args)){
@@ -57,6 +57,7 @@ get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv"
     args = append_list(list(file = tmpfile), args)
   }
 
+  ## Additional arguments for reading the file
   # table args
   if(grepl(".dat$|.txt$|.tab$", Url) | read == "table") {
     read = "read.table"
@@ -92,11 +93,16 @@ get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv"
   # stop if unsupported file type
   acceptable = c('read.table', 'read.csv', 'read.dta', 'read.spss')
   if (!(read %in% acceptable)){
-    message('Unsupported data type. Make sure the downloaded data can be can be read by:\n\n')
-    stop(paste(DeleteObj, collapse = ", "))
+    stop(paste0('Unsupported data type.\n\nMake sure the downloaded data can be can be read by:\n\n', paste(acceptable, collapse = ", ")))
   }
 
-  # read data into a data frame
+  # Download data
+  if (!isTRUE(quite)){
+    message("Downloading: ", Url)
+  }
+  download(Url, tmpfile, mode = "wb", quiet = quite)
+
+  # Read data into a data frame
   data = do.call(read, args = args)
 
   unlink(tmpfile)
@@ -112,16 +118,19 @@ get_data <- function(Url = NULL, var.n = "country", var.t = "year", read = "csv"
   
   # Include new country ID variable
   data <- CountryID(data, 
-                    OutCountryID = OutCountryID,
-                    countryVar = ifelse(is.numeric(var.n), names(data)[var.n], var.n),
-                    timeVar = ifelse(is.numeric(var.t), names(data)[var.t], var.t),
-                    duplicates = duplicates, 
-                    standardCountryName = standardCountryName,fromLast = fromLast)
+            OutCountryID = OutCountryID,
+            countryVar = ifelse(is.numeric(var.n), names(data)[var.n], var.n),
+            timeVar = ifelse(is.numeric(var.t), names(data)[var.t], var.t),
+            duplicates = duplicates, 
+            standardCountryName = standardCountryName, fromLast = fromLast)
   
   # Drop NAs for OutCountryID
   if (isTRUE(na.rm)){
     data <- DropNA.psData(data, Var = OutCountryID)
   }
+
+  if (!is.null(file)){
+    save(data, file)
+  }
   return(data)
-  
 }
