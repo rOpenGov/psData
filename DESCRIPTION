@@ -38,4 +38,4 @@ Collate:
     'get_polity4.r'
     'get_qog.r'
     'panel.r'
-    'utils.R'
+    'utils.r'

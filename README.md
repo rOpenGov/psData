@@ -15,7 +15,7 @@ The goals of the associated package are:
 ## DEMO
 
 ```{S}
-devtools::install_github("briatte/psData")
+devtools::install_github("rOpenGov/psData", ref = "devPanel")
 library(psData)
 as.panel(debt, "Country", "Year")
 ```
