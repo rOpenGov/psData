@@ -2,4 +2,4 @@ auto
 .Rproj.user
 .Rbuildignore
 *.Rproj
-NEWS
+.Rhistory
