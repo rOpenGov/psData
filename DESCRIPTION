@@ -1,7 +1,7 @@
 Package: psData
 Maintainer: none <none@none.com>
 Author: none <none@none.com>
-Version: 0.1
+Version: 1.0
 License: GPL-3
 Title: psData demo
 Description: Functions to use on panel data or times series, plus
