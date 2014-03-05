@@ -486,9 +486,16 @@ setMethod("merge", c("psData", "data.frame"), function(x, y, ...) {
 #' # psData data frame.
 #' debt
 #' @export
-as.psData = function(data, design = list(), meta = list(), ...) {
+as.psData = function(data, design, meta = list(), ...) {
 
   stopifnot(c("panel", "format", "time", "date") %in% names(design))
-  return(psData(data, design = design, meta = meta, ...))
+
+  data = psData(data, design = design, meta = meta, ...)
+
+  return(data)
 
 }
+
+#' Verify the data are in \code{\link{psData}} format
+#'
+is.psData = function(x) inherits(x, "psData")

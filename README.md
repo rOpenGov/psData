@@ -1,4 +1,4 @@
-## `psData` creates data frames with attributes that makes it easy to manipulate panel/time series data frames.
+## `psData` — panel structure data frames
 
 The `psData` S4 class is built on top of Jeffrey Arnold's [DataFrameConstr](https://github.com/jrnold/DataFrameConstr) and accepts the same arguments, plus two optional lists of settings:
 
@@ -35,14 +35,16 @@ Add `quiet = TRUE` to display the country-year format detection reports.
 
 ## TODO
 
-[ ] assign both `data.frame` and `psData` classes, as in `data.table`?
-[ ] fix `setMethod("merge")` (not working yet, S4 declaration contains bugs)
-[ ] improve `setMethod("design")` (allow assignment as in `igraph::V`)
-[ ] improve `setMethod("meta")` (provide output for DataPackage, or route to `pander`)
+[ ] add `setMethod("sample")` (sample on panel units? on time units?)
 [ ] add `setMethod("summarize")` (see `xtsum` and `xtdes` in `qogdata` or Stata)
-[ ] add `setMethod("sample")` (is it acceptable to sample on panel units by default?)
-[x] add `xtsubset` capabilities
-[ ] add `xtcountry` capabilities (substitute to `CountryID`)?
-[ ] add `find` and `names` method to find and label variables?
+[ ] add `xtcountry` capabilities (fuse to `CountryID`)
+[ ] fix `setMethod("merge")` (not working yet, S4 declaration contains bugs)
+[ ] harmonize variable scheme of `get` methods and document
+[ ] improve `setMethod("design")` (allow assignment as with `V()` in `igraph`)
+[ ] improve `setMethod("meta")` (provide output for DataPackage, or route to `pander`)
 [ ] rewrite `DropNA.psData` as `setMethod("na.omit", "psData")`?
 [ ] switch from panel-time method to generic dyadic method, and later _k_-adic
+[?] add `find` and `names` method to find and label variables
+[?] assign both `data.frame` and `psData` classes, as in `data.table`
+[?] more subtle country/time matchers
+[x] add `xtsubset` capabilities

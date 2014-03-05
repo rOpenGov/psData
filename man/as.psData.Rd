@@ -2,7 +2,7 @@
 \alias{as.psData}
 \title{as.psData}
 \usage{
-as.psData(data, design = list(), meta = list(), ...)
+as.psData(data, design, meta = list(), ...)
 }
 \arguments{
   \item{data}{}

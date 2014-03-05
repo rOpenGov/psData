@@ -60,5 +60,5 @@ Francois Briatte \email{f.briatte@ed.ac.uk}
 \seealso{
 \code{\link{psData}}, \code{\link{subset}}
 }
-\keyword{psData}
+\keyword{panel}
 

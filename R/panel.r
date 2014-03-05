@@ -12,7 +12,7 @@
 #' @param date the format of the time variable, in any notation supported by 
 #' the \code{\link{parse_date_time}} function of the \code{\link{lubridate}} 
 #' package; will automatically detect variables 
-#' @param year autodetect year format; defaults to \code{TRUE}
+#' @param detect autodetect country and year formats; defaults to \code{FALSE}
 #' @param ... any other method passed to \code{\link{as.psData}}
 #' @seealso \code{\link[lubridate]{parse_date_time}}
 #' @examples
@@ -21,62 +21,51 @@
 #' # Convert to "country name-year" panel format.
 #' as.panel(debt, "Country", "Year")
 #' @export
-as.panel = function(data, panel, time, format = NA, date = NA, quiet = TRUE, ...) {
+as.panel = function(data, panel, time, format = NA, date = NA, 
+                    quiet = FALSE, detect = FALSE, ...) {
 
-  # autodetection of years, months and dates with lubridate (vectorized)
-  i = c("y", "m", "ymd")
-  j = sapply(i, function(x) try_date(data[, time], date = x))
-  j = names(j)[ which(j > .9) ]
-  if(length(j) > 1) {
-    date = j[1]
-    if(!quiet)
-      message(paste("Assigned date format", date, "to time variable", time, "\n",
-                    "Discarded alternative formats:", 
-                    paste0(j[-1], collapse = ", "), "\n "),
-              paste0("Use as.panel('", panel, "', '", time, "', date = '...') to change."))
-  } else if(length(j) == 1) {
-    date = j
-    if(!quiet)
-      message(paste("Assigned date format", date, "to time variable", time, "\n "),
-              paste0("Use as.panel('", panel, "', '", time, "', date = '...') to change."))
-  } else {
+  if(detect) {
     
-    # unknown time
-    if(is.na(date)) {
-      date = "t"
+    # autodetection of years, months and dates with lubridate (vectorized)
+    i = c("y", "m", "ymd")
+    j = sapply(i, function(x) try_date(data[, time], date = x))
+    j = names(j)[ which(j > .9) ]
+    if(length(j) > 0) {
+      date = ifelse(length(j) > 1, j[1], j)
       if(!quiet)
-        message(paste("Assigned generic format 't' to time variable", time, "\n "),
+        message(paste("Assigned date format", date, "to time variable", time, "\n",
+                      ifelse(length(j) > 1, paste0("Discarded alternative formats:", j[-1], "\n", collapse = " "), "")),
                 paste0("Use as.panel('", panel, "', '", time, "', date = '...') to change."))
     }
-
-  }
-
-  # autodetection of country codes with lubridate (vectorized)
-  i = c("cowc", "cown", "iso3c", "iso3n", "iso2c", "imf", "fao", "un", "wb", "country.name")
-  j = sapply(i, function(x) try_countrycode(data[, panel], format = x))
-  j = names(j)[ which(j > .9) ]
-  if(length(j) > 1) {
-    format = j[1]
-    if(!quiet)
-      message(paste("Assigned country code format", format, "to panel variable", panel, "\n ",
-                    "Discarded alternative formats:", 
-                    paste0(j[-1], collapse = ", "), "\n"),
-              paste0("Use as.panel('", panel, "', '", time, "', format = '...') to change."))
-  } else if(length(j) == 1) {
-    format = j
-    if(!quiet)
-      message(paste("Assigned country code format", format, "to panel variable", panel, "\n "),
-              paste0("Use as.panel('", panel, "', '", time, "', format = '...') to change."))
-  } else {
     
-    # unknown panel format
-    if(is.na(format)) {
-      format = "name"
+    # autodetection of country codes with lubridate (vectorized)
+    i = c("cowc", "cown", "iso3c", "iso3n", "iso2c", "imf", "fao", "un", "wb", "country.name")
+    j = sapply(i, function(x) try_countrycode(data[, panel], format = x))
+    j = names(j)[ which(j > .9) ]
+    if(length(j) > 0) {
+      format = ifelse(length(j) > 1, j[1], j)
       if(!quiet)
-        message(paste("Assigned generic format 'name' to panel variable", panel, "\n "),
+        message(paste("Assigned code format", format, "to country variable", panel, "\n",
+                      ifelse(length(j) > 1, paste0("Discarded alternative formats:", j[-1], "\n", collapse = " "), "")),
                 paste0("Use as.panel('", panel, "', '", time, "', format = '...') to change."))
     }
     
+  }
+
+  # unknown panel format
+  if(is.na(format)) {
+    format = "name"
+    if(!quiet)
+      message(paste("Assigned generic format 'name' to panel variable", panel, "\n "),
+              paste0("Use as.panel('", panel, "', '", time, "', format = '...') to change."))
+  }
+
+  # unknown time format
+  if(is.na(date)) {
+    date = "t"
+    if(!quiet)
+      message(paste("Assigned generic format 't' to time variable", time, "\n "),
+              paste0("Use as.panel('", panel, "', '", time, "', date = '...') to change."))
   }
 
   formats = format
@@ -226,10 +215,38 @@ panel_tse = function(data, x) {
 #'     theme_bw(14)
 #' }
 #' @name panel_subset
-#' @keywords psData
+#' @keywords panel
 panel_subset = function(data, formula, select = names(data), drop = FALSE) {
 
   keep = eval(substitute(formula), data)
   data = data[keep, select, drop = drop]
+  return(data)
+}
+
+#' Sample out of a \code{\link{psData-class}} data frame
+#' 
+#' Function to extract a sample of observations out of a panel dataset, 
+#' preserving all time measurements for each sampled observation.
+#' 
+#' @export
+#' @param data \code{\link{psData-class}} data frame
+#' @param n how many observations to sample
+#' @seealso \code{\link{sample}}
+#' @examples
+#' # Load Reinhart and Rogoff demo data.
+#' data(debt)
+#' # Convert to "country name-year" panel format.
+#' debt = as.panel(debt, "Country", "Year")
+#' # Random sample of five countries.
+#' unique(panel_sample(debt, 5)$Country)
+#' # Random cross-section of year 2000.
+#' panel_subset(panel_sample(debt, 10), Year == 2000)
+#' @keywords panel
+panel_sample <- function(data, n = 20) {
+  
+  uid = data@design$panel
+  sample = sample(data[, uid], n, replace = F)
+  sample = data[, uid] %in% sample
+  data = do.call("panel_subset", args = list(data = data, formula = sample))
   return(data)
 }

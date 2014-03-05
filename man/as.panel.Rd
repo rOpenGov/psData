@@ -2,7 +2,8 @@
 \alias{as.panel}
 \title{Quick panel data declaration}
 \usage{
-as.panel(data, panel, time, format = NA, date = NA, quiet = TRUE, ...)
+as.panel(data, panel, time, format = NA, date = NA, quiet = FALSE,
+  detect = FALSE, ...)
 }
 \arguments{
   \item{data}{a data frame}
@@ -21,8 +22,8 @@ as.panel(data, panel, time, format = NA, date = NA, quiet = TRUE, ...)
   function of the \code{\link{lubridate}} package; will
   automatically detect variables}
 
-  \item{year}{autodetect year format; defaults to
-  \code{TRUE}}
+  \item{detect}{autodetect country and year formats;
+  defaults to \code{FALSE}}
 
   \item{...}{any other method passed to
   \code{\link{as.psData}}}
