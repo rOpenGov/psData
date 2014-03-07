@@ -1,7 +1,7 @@
 psData
 ==========
 
-### Version 0.1.3
+### Version 0.1.4
 
 [![Build Status](https://travis-ci.org/rOpenGov/psData.png)](https://travis-ci.org/rOpenGov/psData)
 
@@ -54,13 +54,13 @@ Also feel free to make a pull request with a new **Getter** or **Variable Builde
 To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
 
 
-```r
+```{S}
 PolityData <- PolityGet(vars = "polity2")
 
 head(PolityData)
 ```
 
-```
+```{S}
 ##   iso2c     country year polity2
 ## 1    AF Afghanistan 1800      -6
 ## 2    AF Afghanistan 1801      -6
@@ -76,7 +76,7 @@ Note that the **iso2c** variable refers to the [ISO two letter country code coun
 To create **winset** (**W**) and **selectorate** (**ModS**) data use the following code:
 
 
-```r
+```{S}
 library(psData)
 
 WinData <- WinsetCreator()
@@ -84,7 +84,7 @@ WinData <- WinsetCreator()
 head(WinData)
 ```
 
-```
+```{S}
 ##    iso2c     country year    W ModS
 ## 1     AF Afghanistan 1975 0.25    0
 ## 2     AF Afghanistan 1976 0.25    0
@@ -101,6 +101,6 @@ head(WinData)
 
 *psData* is on [CRAN](http://cran.r-project.org/web/packages/psData/index.html). You can also download the development version with the [devtools](https://github.com/hadley/devtools) package:
 
-```
+```{S}
 devtools::install_github('psData/rOpenGov')
 ```
