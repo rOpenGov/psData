@@ -1,42 +1,42 @@
 #' Downloads Polity IV
-#' 
+#'
 #' Downloads the Polity IV data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
-#' 
+#'
 #' @param url character string. The URL for the Polity IV data set you would like to download. Note: it must be for the SPSS version of the file.
-#' @param vars character vector containing the variables to keep. If \code{vars = NULL} then the entire data set is returned. Note that the \code{country} and \code{year} variables are always returned.  
-#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options. 
+#' @param vars character vector containing the variables to keep. If \code{vars = NULL} then the entire data set is returned. Note that the \code{country} and \code{year} variables are always returned.
+#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.
 #' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.
 #' @param na.rm logical. Drop observations where \code{OutCountryID} is \code{NA}.
 #' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
 #' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
 #'
-#' @return a data frame   
-#'    
+#' @return a data frame
+#'
 #' @examples
 #' \dontrun{
 #' # Download full data set
-#' PolityData <- PolityGet() 
-#' 
+#' PolityData <- PolityGet()
+#'
 #' # Create data frame with only the main Polity democracy variable (polity2)
-#' Polity2Data <- PolityGet(vars = 'polity2', 
+#' Polity2Data <- PolityGet(vars = 'polity2',
 #'                          OutCountryID = 'imf')
 #' }
-#'  
+#'
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
 #'
 #' @importFrom foreign read.spss
-#'    
+#'
 #' @export
 
-PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav', 
-                      vars = NULL, OutCountryID = 'iso2c', standardCountryName = TRUE, 
+PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
+                      vars = NULL, OutCountryID = 'iso2c', standardCountryName = TRUE,
                       na.rm = TRUE, duplicates = 'message', fromLast = FALSE){
-    # Download underlying Polity IV data 
+    # Download underlying Polity IV data
     tmpfile <- tempfile()
     download.file(url, tmpfile)
-    PolityData <- read.spss(tmpfile, to.data.frame = TRUE)  
+    PolityData <- read.spss(tmpfile, to.data.frame = TRUE)
     unlink(tmpfile)
-    
+
     # Ensure that vars are in the data frame
 
     # Clean up
@@ -46,16 +46,16 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
         stop('Specified variables not found in data.')
       }
     	Vars <- c('country', 'year', vars)
-    	PolityData <- PolityData[, Vars] 
-    } 
-        
+    	PolityData <- PolityData[, Vars]
+    }
+
     # Include new country ID variable and standardise country names
     PolityData <- CountryID(data = PolityData, OutCountryID = OutCountryID,
-                    timeVar = 'year', duplicates = duplicates, 
+                    timeVar = 'year', duplicates = duplicates,
                     standardCountryName = standardCountryName, fromLast = fromLast)
   # Drop NAs for OutCountryID
     if (isTRUE(na.rm)){
-        PolityData <- DropNA.psData(data = PolityData, 
+        PolityData <- DropNA.psData(data = PolityData,
                         Var = OutCountryID)
     }
     return(PolityData)
@@ -63,12 +63,12 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 
 
 #' Downloads the Database of Political Institutions (DPI)
-#' 
+#'
 #' Downloads the Database of Political Institutions (DPI) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
-#' 
+#'
 #' @param url character string. The URL for the Polity IV data set you would like to download. Note: the link must be to a Stata formated file.
-#' @param vars character vector containing the variables to keep. If \code{vars = NULL} then the entire data set is returned. Note that \code{country} and \code{year} variables are always returned.  
-#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options. 
+#' @param vars character vector containing the variables to keep. If \code{vars = NULL} then the entire data set is returned. Note that \code{country} and \code{year} variables are always returned.
+#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.
 #' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.
 #' @param na.rm logical. Drop observations where \code{OutCountryID} is \code{NA}.
 #' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
@@ -76,31 +76,31 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 #'
 #' @details Note: a bit.ly URL is used to shorten the Stata formatted data set's URL due to CRAN requirements.
 #'
-#' @return a data frame   
-#'    
+#' @return a data frame
+#'
 #' @examples
 #' \dontrun{
 #' # Download full data set
 #' DpiData <- DpiGet()
-#' 
+#'
 #' # Create data frame with only the military variable
-#' DpiSub <- DpiGet(vars = 'military', 
+#' DpiSub <- DpiGet(vars = 'military',
 #'                  OutCountryID = 'imf')
 #' }
-#'  
+#'
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
 #'
 #' @importFrom foreign read.dta
-#'    
+#'
 #' @export
 
-DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'iso2c', 
-                   standardCountryName = TRUE, na.rm = TRUE, 
+DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'iso2c',
+                   standardCountryName = TRUE, na.rm = TRUE,
                    duplicates = 'message', fromLast = FALSE){
-    # Download underlying Dpi IV data 
+    # Download underlying Dpi IV data
     tmpfile <- tempfile()
     download.file(url, tmpfile)
-    DpiData <- read.dta(tmpfile)  
+    DpiData <- read.dta(tmpfile)
     unlink(tmpfile)
 
     # Clean up
@@ -109,30 +109,30 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'i
           stop('Specified variables not found in data.')
         }
         Vars <- c('countryname', 'year', vars)
-        DpiData <- DpiData[, Vars] 
-    } 
-        
+        DpiData <- DpiData[, Vars]
+    }
+
     # Include new country ID variable
-    DpiData <- CountryID(data = DpiData, 
+    DpiData <- CountryID(data = DpiData,
                     OutCountryID = OutCountryID, countryVar = 'countryname',
-                    timeVar = 'year', duplicates = duplicates, 
+                    timeVar = 'year', duplicates = duplicates,
                     standardCountryName = standardCountryName,fromLast = fromLast)
 
     # Drop NAs for OutCountryID
     if (isTRUE(na.rm)){
-        DpiData <- DropNA.psData(data = DpiData, 
+        DpiData <- DropNA.psData(data = DpiData,
                         Var = OutCountryID)
     }
     return(DpiData)
 }
 
 #' Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into one data frame
-#' 
+#'
 #' @param urls URLs for each Excel file in the Reinhart and Rogoff data set. See \url{http://www.carmenreinhart.com/data/browse-by-topic/topics/7/}.
-#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options. 
+#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.
 #' @param message logical. Whether or not to notify you which of sheets are being cleaned and organised.
 #' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.
-#' 
+#'
 #' @return Returns a data frame with the following columns:
 #' \itemize{
 #'   \item{\code{iso2c}: }{The ISO two letter country code identifying the country. This can be changed to another country ID system using \code{OutCountryID}}
@@ -147,15 +147,15 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'i
 #'   \item{\code{RR_BankingCrisis}: }{Banking crisis.}
 #'   \item{\code{RR_YearlyCrisisTally}: }{Total number of crises per year.}
 #'  }
-#'  
+#'
 #'  @examples
 #'  \dontrun{
 #'  # RRDummies <- RRCrisisGest()
 #'  }
 #'
 #'  @source
-#'  Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American Economic Review.  
-#' 
+#'  Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American Economic Review.
+#'
 #' @importFrom xlsx loadWorkbook
 #' @importFrom xlsx getSheets
 #' @importFrom xlsx read.xlsx
@@ -165,29 +165,29 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL, OutCountryID = 'i
 
 RRCrisisGet <- function(urls = c(
   'http://www.carmenreinhart.com/user_uploads/data/22_data.xls',
-  'http://www.carmenreinhart.com/user_uploads/data/35_data.xls', 
+  'http://www.carmenreinhart.com/user_uploads/data/35_data.xls',
   'http://www.carmenreinhart.com/user_uploads/data/23_data.xls',
-  'http://www.carmenreinhart.com/user_uploads/data/25_data.xls'), 
+  'http://www.carmenreinhart.com/user_uploads/data/25_data.xls'),
   OutCountryID = 'iso2c', message = TRUE,
   standardCountryName = TRUE){
-  
+
   OutData <- data.frame()
-  
+
   for (i in urls){
     tmpfile <- tempfile()
     download.file(i, tmpfile)
     WB <- getSheets(loadWorkbook(tmpfile))
-    
+
     # Load workbook and find relevant sheet names
     WBNames <- names(WB)
     Droppers <- c('Contents', 'CrisisDefinition', 'CrisisDefinitions', 'Sheet1', 'Sheet3')
     WBNames <- WBNames[!is.element(WBNames, Droppers)]
-    
+
     for (u in WBNames){
       Temp <- read.xlsx(tmpfile, u)
       # Keep only the year and crisis indicators
       Temp <- Temp[13:nrow(Temp), c(1:9)]
-      
+
       # Extract the country name
       if (u == 'UK'){
         Temp$country <- 'United Kingdom'
@@ -201,7 +201,7 @@ RRCrisisGet <- function(urls = c(
         Temp$country <- CountryName
       }
       Temp <- MoveFront(Temp, 'country')
-      
+
       # Rename variables
       names(Temp) <- c('country', 'year', 'RR_Independence', 'RR_CurrencyCrisis', 'RR_InflationCrisis',
                        'RR_StockMarketCrash', 'RR_SovDebtCrisisDom', 'RR_SovDebtCrisisExt',
@@ -223,16 +223,16 @@ RRCrisisGet <- function(urls = c(
   OutData$country[OutData$country == 'Costa'] <-
     OutData$country[OutData$country == 'Dominican'] <- 'Domincan Republic'
   OutData$country[OutData$country == 'El'] <- 'El Salvador'
-  
+
   OutData <- CountryID(data = OutData, OutCountryID = OutCountryID,
                        timeVar = 'year', standardCountryName = standardCountryName)
-  
+
   # Clean year
   OutData$year <- as.character(OutData$year)
   OutData$year <- as.numeric(OutData$year)
 
   OutData <- OutData[order(OutData[, OutCountryID], OutData[, 'year']), ]
-  
+
   return(OutData)
 }
 
@@ -242,7 +242,7 @@ RRCrisisGet <- function(urls = c(
 #'
 #' @param url character string. The URL for the Dreher data set you would like to download. Note: it must be for the xlx version of the file. Currently only the 1970-2011 version is supported.
 #' @param sheets character vector of the Excel sheets (variables) that you would like to return. See Details for more information.
-#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options. 
+#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.
 #' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.#' @param message logical. Whether or not to notify you which of sheets are being cleaned and organised.
 #'
 #' @details Using the \code{sheets} argument you can select which variables to download from their individual workbook seets in the original data set. These include:
@@ -266,18 +266,18 @@ RRCrisisGet <- function(urls = c(
 #' @examples
 #' \dontrun{
 #' # Download 'WB other agreed', 'WB environment agreed'
-#' # These are the default sheets to gather 
+#' # These are the default sheets to gather
 #' WBPrograms <- IMF_WBGet()
 #' }
 #'
 #' @source Data website: \url{http://www.uni-heidelberg.de/fakultaeten/wiso/awi/professuren/intwipol/datasets_en.html}.
 #'
 #' When using the IMF data, please cite:
-#' 
+#'
 #' Dreher, Axel, 2006, IMF and Economic Growth: The Effects of Programs, Loans, and Compliance with Conditionality, World Development 34, 5: 769-788.
 #'
 #' When using the World Bank data, please cite:
-#' 
+#'
 #' Boockmann, Bernhard and Axel Dreher, 2003, The Contribution of the IMF and the World Bank to Economic Freedom, European Journal of Political Economy 19, 3: 633-649.
 #'
 #' @importFrom xlsx loadWorkbook
@@ -294,7 +294,7 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
   download.file(url, tmpfile)
 
   # Select sheet
-  WB <- getSheets(loadWorkbook(tmpfile)) 
+  WB <- getSheets(loadWorkbook(tmpfile))
   WBNames <- names(WB)
 
   # Error if desired sheet is not in the data set.
@@ -314,7 +314,7 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
       OneSheet <- read.xlsx(tmpfile, i)
       OneSheet <- melt(OneSheet, id.vars = c('Country.Code', 'Country.Name'))
 
-      # Clean 
+      # Clean
       OneSheet$variable <- gsub('X', '', as.character(OneSheet$variable))
       OneSheet$variable <- as.numeric(OneSheet$variable)
       if (class(OneSheet$value) == 'character'){
@@ -359,3 +359,70 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
   return(FullDF)
 }
 
+#' Downloads the Democracy and Dictatorship data set
+#'
+#' Downloads the Democracy and Dictatorship data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
+#' See the codebook at the authors' website \url{https://sites.google.com/site/joseantoniocheibub/datasets/democracy-and-dictatorship-revisited}
+#' (Direct link to codebook: \url{http://uofi.box.com/shared/static/e6e312753fbc609fc379.pdf})
+#'
+#' @param url character string. The URL for the Democracy and Dictatorship data set you would like to download. Note: it must be for the Stata version of the file.
+#' @param vars character vector containing the variables to keep. If \code{vars = NULL} then the entire data set is returned. Note that the \code{country} and \code{year} variables are always returned.
+#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.
+#' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.
+#' @param na.rm logical. Drop observations where \code{OutCountryID} is \code{NA}.
+#' @param duplicates character specifying how to handle duplicated country-year observations. Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
+#' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'out'}.
+#'
+#' @return a data frame
+#'
+#' @examples
+#' \dontrun{
+#' # Download full data set
+#' DDData <- DDGet()
+#'
+#' # Create data frame with only the main Polity democracy variable (polity2)
+#' DDData <- PolityGet(vars = 'polity2',
+#'                          OutCountryID = 'imf')
+#' }
+#'
+#' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}
+#'
+#' @importFrom foreign read.dta
+#'
+#' @export
+
+DDGet <- function(url = 'http://uofi.box.com/shared/static/bba3968d7c3397c024ec.dta',
+                      vars = NULL, OutCountryID = 'iso2c', standardCountryName = TRUE,
+                      na.rm = TRUE, duplicates = 'message', fromLast = FALSE){
+  # Download underlying Polity IV data
+  tmpfile <- tempfile()
+  download.file(url, tmpfile, method='wget')
+  DDData <- read.dta(tmpfile)
+  unlink(tmpfile)
+
+  # Clean up
+
+  DDData$order <- NULL
+  names(DDData)[names(DDData) == "ctryname"] <- "country"
+
+  # Ensure that vars are in the data frame
+  if (!is.null(vars)){
+    if (!all(vars %in% names(DDData))){
+      stop('Specified variables not found in data.')
+    }
+
+    Vars <- c('country', 'year', vars)
+    DDData <- DDData[, Vars]
+  }
+
+  # Include new country ID variable and standardise country names
+  DDData <- CountryID(data = DDData, OutCountryID = OutCountryID,
+                          timeVar = 'year', duplicates = duplicates,
+                          standardCountryName = standardCountryName, fromLast = fromLast)
+  # Drop NAs for OutCountryID
+  if (isTRUE(na.rm)){
+    DDData <- DropNA.psData(data = DDData,
+                                Var = OutCountryID)
+  }
+  return(DDData)
+}
