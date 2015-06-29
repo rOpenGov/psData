@@ -387,18 +387,13 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
 #'
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}
 #'
-#' @importFrom foreign read.dta
-#'
 #' @export
 
 DDGet <- function(url = 'http://uofi.box.com/shared/static/bba3968d7c3397c024ec.dta',
                       vars = NULL, OutCountryID = 'iso2c', standardCountryName = TRUE,
                       na.rm = TRUE, duplicates = 'message', fromLast = FALSE){
   # Download underlying Polity IV data
-  tmpfile <- tempfile()
-  download.file(url, tmpfile, method='wget')
-  DDData <- read.dta(tmpfile)
-  unlink(tmpfile)
+  DDData <- rio::import(url)
 
   # Clean up
 
