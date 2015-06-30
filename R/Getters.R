@@ -122,7 +122,7 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}},
 #' \code{\link{WinsetCreator}}
 #'
-#' @importFrom rio import
+#' @importFrom foreign read.dta
 #'
 #' @export
 
@@ -131,7 +131,10 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
                    standardCountryName = TRUE, na.rm = TRUE,
                    duplicates = 'message', fromLast = FALSE){
     # Download underlying Dpi IV data
-    DpiData <- import(url)
+    tmpfile <- tempfile()
+    download.file(url, tmpfile)
+    DpiData <- read.dta(tmpfile)
+    unlink(tmpfile)
 
 
     # Clean up
@@ -206,14 +209,14 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
 #' @export
 
 RRCrisisGet <- function(urls = c(
-  'http://www.carmenreinhart.com/user_uploads/data/22_data.xls',
-  'http://www.carmenreinhart.com/user_uploads/data/35_data.xls',
-  'http://www.carmenreinhart.com/user_uploads/data/23_data.xls',
-  'http://www.carmenreinhart.com/user_uploads/data/25_data.xls'),
-  OutCountryID = 'iso2c', message = TRUE,
-  standardCountryName = TRUE){
+    'http://www.carmenreinhart.com/user_uploads/data/22_data.xls',
+    'http://www.carmenreinhart.com/user_uploads/data/35_data.xls',
+    'http://www.carmenreinhart.com/user_uploads/data/23_data.xls',
+    'http://www.carmenreinhart.com/user_uploads/data/25_data.xls'),
+    OutCountryID = 'iso2c', message = TRUE,
+    standardCountryName = TRUE){
 
-  OutData <- data.frame()
+    OutData <- data.frame()
 
   for (i in urls){
     tmpfile <- tempfile()

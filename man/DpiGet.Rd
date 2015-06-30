@@ -59,6 +59,7 @@ DpiSub <- DpiGet(vars = 'military',
 }
 }
 \seealso{
-\code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
+\code{\link{countrycode}}, \code{\link{CountryID}},
+\code{\link{WinsetCreator}}
 }
 

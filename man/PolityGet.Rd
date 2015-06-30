@@ -55,6 +55,7 @@ Polity2Data <- PolityGet(vars = 'polity2',
 }
 }
 \seealso{
-\code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{WinsetCreator}}
+\code{\link{countrycode}}, \code{\link{CountryID}},
+\code{\link{WinsetCreator}}
 }
 

@@ -2,9 +2,12 @@
 % Please edit documentation in R/Getters.R
 \name{RRCrisisGet}
 \alias{RRCrisisGet}
-\title{Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into one data frame}
+\title{Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into
+one data frame}
 \source{
-Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American Economic Review.
+Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt
+Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American
+Economic Review.
 }
 \usage{
 
@@ -15,18 +18,25 @@ Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt Crisis,
   OutCountryID = "iso2c", message = TRUE, standardCountryName = TRUE)
 }
 \arguments{
-\item{urls}{URLs for each Excel file in the Reinhart and Rogoff data set. See \url{http://www.carmenreinhart.com/data/browse-by-topic/topics/7/}.}
+\item{urls}{URLs for each Excel file in the Reinhart and Rogoff data set. See
+\url{http://www.carmenreinhart.com/data/browse-by-topic/topics/7/}.}
 
-\item{OutCountryID}{character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.}
+\item{OutCountryID}{character string. The type of country ID you would like
+to include in the output file along with the country name. See
+\code{\link{countrycode}} for available options.}
 
-\item{message}{logical. Whether or not to notify you which of sheets are being cleaned and organised.}
+\item{message}{logical. Whether or not to notify you which of sheets are
+being cleaned and organised.}
 
-\item{standardCountryName}{logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.}
+\item{standardCountryName}{logical. Whether or not to standardise the country
+names variable based on \code{country.name} from  \code{\link{countrycode}}.}
 }
 \value{
 Returns a data frame with the following columns:
 \itemize{
-  \item{\code{iso2c}: }{The ISO two letter country code identifying the country. This can be changed to another country ID system using \code{OutCountryID}}
+  \item{\code{iso2c}: }{The ISO two letter country code identifying the
+country. This can be changed to another country ID system using
+\code{OutCountryID}}
   \item{\code{country}: }{Country names.}
   \item{\code{year}: }{The year.}
   \item{\code{RR_Independence}: }{Year of independence.}
@@ -40,7 +50,8 @@ Returns a data frame with the following columns:
  }
 }
 \description{
-Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into one data frame
+Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into
+one data frame
 }
 \examples{
 \dontrun{
