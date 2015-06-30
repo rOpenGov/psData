@@ -21,6 +21,7 @@ Imports:
     DataCombine,
     foreign,
     reshape2,
+    rio,
     xlsx
 LazyData: TRUE
 VignetteBuilder: knitr
