@@ -1,11 +1,11 @@
 psData
 ==========
 
-### Version 0.1.4
+### Version 0.1.5
 
 [![Build Status](https://travis-ci.org/rOpenGov/psData.png)](https://travis-ci.org/rOpenGov/psData)
 
-### Started by Christopher Gandrud
+Started by Christopher Gandrud
 
 ---
 
@@ -54,6 +54,7 @@ Also feel free to make a pull request with a new **Getter** or **Variable Builde
 To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
 
 ```{r, message=FALSE}
+library(psData)
 PolityData <- PolityGet(vars = 'polity2')
 
 head(PolityData)
@@ -72,11 +73,3 @@ head(WinData)
 ```
 
 ---
-
-## Install
-
-*psData* is on [CRAN](http://cran.r-project.org/web/packages/psData/index.html). You can also download the development version with the [devtools](https://github.com/hadley/devtools) package:
-
-```
-devtools::install_github('rOpenGov/psData')
-```

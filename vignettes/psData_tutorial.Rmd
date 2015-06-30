@@ -5,7 +5,7 @@
 
 # psData Motivation and Tutorial
 
-A lot of progress has been made on improving political scientists' ability to access data 'programmatically', e.g. data can be downloaded with source code R. Packages such as [WDI](http://cran.r-project.org/web/packages/WDI/index.html) for World Bank Development Indicator and [dvn](http://cran.r-project.org/web/packages/dvn/index.html) for many data sets stored on the [Dataverse Network](http://thedata.org/) make it much easier for political scientists to use this data as part of a highly [integrated and reproducible workflow](http://christophergandrud.blogspot.de/2013/07/getting-started-with-reproducible.html). 
+A lot of progress has been made on improving political scientists' ability to access data 'programmatically', e.g. data can be downloaded with source code R. Packages such as [WDI](http://cran.r-project.org/package=WDI) for World Bank Development Indicator and [dvn](http://cran.r-project.org/package=dvn) for many data sets stored on the [Dataverse Network](http://thedata.org/) make it much easier for political scientists to use this data as part of a highly [integrated and reproducible workflow](http://christophergandrud.blogspot.de/2013/07/getting-started-with-reproducible.html). 
 
 There are nonetheless still many commonly used political science data sets that aren't easily accessible to researchers. Recently, I've been using the [Database of Political Institutions (DPI)](http://econ.worldbank.org/WBSITE/EXTERNAL/EXTDEC/EXTRESEARCH/0,,contentMDK:20649465~pagePK:64214825~piPK:64214943~theSitePK:469382,00.html), [Polity IV](http://www.systemicpeace.org/polity/polity4.htm) democracy indicators, and [Reinhart and Rogoff's (2010)](http://www.carmenreinhart.com/data/browse-by-topic/topics/7/) financial crisis occurrence data. All three of these data sets are freely available for download online. However, getting them, cleaning them up, and merging them together is kind of a pain. This is especially true for the Reinhart and Rogoff data, which is in 4 Excel files with over 70 individual sheets, one for each country's data. 
 
@@ -49,7 +49,7 @@ WinData <- WinsetCreator()
 
 ## Install
 
-*psData* is on [CRAN](http://cran.r-project.org/web/packages/psData/index.html). You can also download the development version with the [devtools](https://github.com/hadley/devtools) package:
+*psData* is on [CRAN](http://cran.r-project.org/package=psData). You can also download the development version with the [devtools](https://github.com/hadley/devtools) package:
 
 ```
 devtools::install_github('psData', 'christophergandrud')

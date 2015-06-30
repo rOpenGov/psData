@@ -1,11 +1,9 @@
 psData
 ==========
 
-### Version 0.1.4
+### Version 0.1.5
 
 [![Build Status](https://travis-ci.org/rOpenGov/psData.png)](https://travis-ci.org/rOpenGov/psData)
-
-## Note: Development has moved to the [devPanel](https://github.com/rOpenGov/psData/tree/devPanel) branch. (Thanks to @briatte for great work moving this forward!)
 
 ---
 
@@ -96,11 +94,3 @@ head(WinData)
 
 
 ---
-
-## Install
-
-*psData* is on [CRAN](http://cran.r-project.org/web/packages/psData/index.html). You can also download the development version with the [devtools](https://github.com/hadley/devtools) package:
-
-```{S}
-devtools::install_github('rOpenGov/psData')
-```

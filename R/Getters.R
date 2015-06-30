@@ -51,16 +51,14 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
     # Download underlying Polity IV data
     PolityData <- import(url)
 
-    # Ensure that vars are in the data frame
-
     # Clean up
     # Ensure that vars are in the data frame
     if (!is.null(vars)) {
       if (!all(vars %in% names(PolityData))) {
         stop('Specified variables not found in data.')
       }
-    	Vars <- c('country', 'year', vars)
-    	PolityData <- PolityData[, Vars]
+        Vars <- c('country', 'year', vars)
+        PolityData <- PolityData[, Vars]
     }
 
     # Include new country ID variable and standardise country names
@@ -424,4 +422,83 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
   # Final Clean
   FullDF <- FullDF[order(FullDF[, OutCountryID], FullDF[, 'year']), ]
   return(FullDF)
+}
+
+#' Downloads the Democracy and Dictatorship data set
+#'
+#' Downloads the Democracy and Dictatorship data set. It keeps specified
+#' variables and creates a standard country ID variable that can be used for
+#' merging the data with other data sets.
+#' See the codebook at the authors' website
+#' \url{https://sites.google.com/site/joseantoniocheibub/datasets/democracy-and-dictatorship-revisited}
+#' (Direct link to codebook: \url{http://uofi.box.com/shared/static/e6e312753fbc609fc379.pdf})
+#'
+#' @param url character string. The URL for the Democracy and Dictatorship data
+#' set you would like to download. Note: it must be for the Stata version of
+#' the file.
+#' @param vars character vector containing the variables to keep. If
+#' \code{vars = NULL} then the entire data set is returned. Note that the
+#' \code{country} and \code{year} variables are always returned.
+#' @param OutCountryID character string. The type of country ID you would like
+#' to include in the output file along with the country name. See
+#' \code{\link{countrycode}} for available options.
+#' @param standardCountryName logical. Whether or not to standardise the country
+#' names variable based on \code{country.name} from  \code{\link{countrycode}}.
+#' @param na.rm logical. Drop observations where \code{OutCountryID} is
+#' \code{NA}.
+#' @param duplicates character specifying how to handle duplicated country-year
+#' observations. Can be set to \code{none} to do nothing, \code{message} to
+#' simply report duplicates, \code{drop} to report and drop duplicates, and
+#' \code{return} to return a data frame with only duplicated observations
+#' (see also \code{fromLast}).
+#' @param fromLast logical indicating if duplication should be considered from
+#' the reverse side. Only relevant if \code{duplicates = 'drop'} or
+#' \code{duplicates = 'out'}.
+#'
+#' @return a data frame
+#'
+#' @examples
+#' \dontrun{
+#' # Download full data set
+#' DDData <- DDGet()
+#' }
+#'
+#' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}
+#'
+#'  @importFrom rio import
+#'
+#' @export
+
+DDGet <- function(url = 'http://uofi.box.com/shared/static/bba3968d7c3397c024ec.dta',
+                  vars = NULL, OutCountryID = 'iso2c',
+                  standardCountryName = TRUE,
+                  na.rm = TRUE, duplicates = 'message', fromLast = FALSE){
+    # Download underlying Polity IV data
+    DDData <- rio::import(url)
+
+    # Clean up
+    DDData$order <- NULL
+    names(DDData)[names(DDData) == "ctryname"] <- "country"
+
+    # Ensure that vars are in the data frame
+    if (!is.null(vars)){
+        if (!all(vars %in% names(DDData))){
+            stop('Specified variables not found in data.')
+        }
+
+        Vars <- c('country', 'year', vars)
+        DDData <- DDData[, Vars]
+    }
+
+    # Include new country ID variable and standardise country names
+    DDData <- CountryID(data = DDData, OutCountryID = OutCountryID,
+                        timeVar = 'year', duplicates = duplicates,
+                        standardCountryName = standardCountryName,
+                        fromLast = fromLast)
+    # Drop NAs for OutCountryID
+    if (isTRUE(na.rm)){
+        DDData <- DropNA.psData(data = DDData,
+                                Var = OutCountryID)
+    }
+    return(DDData)
 }
