@@ -69,7 +69,8 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
   # Drop NAs for OutCountryID
     if (isTRUE(na.rm)) {
         PolityData <- DropNA.psData(data = PolityData,
-                        Var = OutCountryID)
+                                    timeVar='year',
+                                    OutCountryID=OutCountryID)
     }
     return(PolityData)
 }
@@ -151,7 +152,8 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
     # Drop NAs for OutCountryID
     if (isTRUE(na.rm)) {
         DpiData <- DropNA.psData(data = DpiData,
-                        Var = OutCountryID)
+                                 timeVar='year',
+                                 OutCountryID=OutCountryID)
     }
     return(DpiData)
 }
@@ -462,7 +464,7 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
 #'
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}
 #'
-#'  @importFrom rio import
+#' @importFrom rio import
 #'
 #' @export
 
@@ -471,7 +473,7 @@ DDGet <- function(url = 'http://uofi.box.com/shared/static/bba3968d7c3397c024ec.
                   standardCountryName = TRUE,
                   na.rm = TRUE, duplicates = 'message', fromLast = FALSE){
     # Download underlying Polity IV data
-    DDData <- rio::import(url)
+    DDData <- import(url)
 
     # Clean up
     DDData$order <- NULL
@@ -493,9 +495,10 @@ DDGet <- function(url = 'http://uofi.box.com/shared/static/bba3968d7c3397c024ec.
                         standardCountryName = standardCountryName,
                         fromLast = fromLast)
     # Drop NAs for OutCountryID
-    if (isTRUE(na.rm)){
+    if (isTRUE(na.rm) & duplicates != "return") {
         DDData <- DropNA.psData(data = DDData,
-                                Var = OutCountryID)
+                                timeVar='year',
+                                OutCountryID=OutCountryID)
     }
     return(DDData)
 }

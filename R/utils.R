@@ -5,26 +5,12 @@
 #' reports if duplicated country IDs have been created and lets the user either 
 #' drop these or return only duplicated values for inspection.
 #' @param data a data frame object
-#' @param countryVar character string naming the country.name variable. See 
-#' \code{\link{countrycode}}.
-#' @param OutCountryID character string. The type of country ID you would like 
-#' to include in the output file along with the country name. See 
-#' \code{\link{countrycode}} for available options.
-#' @param standardCountryName logical. Whether or not to standardise the country 
-#' names variable based on \code{country.name} from  \code{\link{countrycode}}.
-#' @param duplicates character string specifying how to handle duplicated 
-#' country or country-time observations (for the latter see \code{timeVar}). 
-#' Can be set to \code{none} to do nothing, \code{message} to simply report 
-#' duplicates, \code{drop} to report and drop duplicates, and \code{return} to 
-#' return a data frame with only duplicated observations (see also
-#' \code{fromLast}).
-#' @param timeVar character string indicating the name of a time variable. For 
-#' example, country time series often have separate rows based on a \code{year} 
-#' variable. This is used solely to determine if there are duplicated 
-#' country-time values.
-#' @param fromLast logical indicating if duplication should be considered from 
-#' the reverse side. Only relevant if \code{duplicates = 'drop'} or 
-#' \code{duplicates = 'out'}.
+#' @param countryVar character string naming the country.name variable. See \code{\link{countrycode}}.
+#' @param OutCountryID character string. The type of country ID you would like to include in the output file along with the country name. See \code{\link{countrycode}} for available options.
+#' @param standardCountryName logical. Whether or not to standardise the country names variable based on \code{country.name} from  \code{\link{countrycode}}.
+#' @param duplicates character string specifying how to handle duplicated country or country-time observations (for the latter see \code{timeVar}). Can be set to \code{none} to do nothing, \code{message} to simply report duplicates, \code{drop} to report and drop duplicates, and \code{return} to return a data frame with only duplicated observations (see also \code{fromLast}).
+#' @param timeVar character string indicating the name of a time variable. For example, country time series often have separate rows based on a \code{year} variable. This is used solely to determine if there are duplicated country-time values.
+#' @param fromLast logical indicating if duplication should be considered from the reverse side. Only relevant if \code{duplicates = 'drop'} or \code{duplicates = 'return'}.
 #'
 #' @seealso {\code{\link{duplicated}}}
 #'
@@ -49,21 +35,19 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c',
   }
 
   # Include new country ID variable
-  data[, OutCountryID] <- countrycode(data[, countryVar],
+  data[, OutCountryID] <- countrycode(data[, countryVar], 
                             origin = 'country.name',
                             destination = OutCountryID)
 
   # Standardise country names
   if (isTRUE(standardCountryName)){
-  data <- MoveFront(data, countryVar)
-  data <- data[, -1]
-  data$country <- countrycode(data[, OutCountryID],
-                            origin = OutCountryID,
-                            destination = 'country.name')
-  data <- MoveFront(data, c(OutCountryID, 'country'))
+    data$standardized_country <- countrycode(data[, OutCountryID],
+                              origin = OutCountryID,
+                              destination = 'country.name')
+    data <- MoveFront(data, c(OutCountryID, 'standardized_country', countryVar))
   }
   else if (!isTRUE(standardCountryName)){
-    data <- MoveFront(data = data, OutCountryID)
+    data <- MoveFront(data, c(OutCountryID, countryVar))
   }
 
   # Inspect duplicated values
@@ -87,10 +71,28 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c',
     # Difference between the original and transformed data sets
     DifDups <- TransCount - OriginCount
 
+    # Get the duplicated values, which are printed out later in message
+    country_pieces <- split(TransDupDF[ , Var2], TransDupDF[ , OutCountryID])
+    if (is.null(timeVar)) {
+      dup_values <- lapply(country_pieces, function(df) unique(df[ , OutCountryID]))
+    } else {
+      get_dup_values <- function(df) {
+        if (length(unique(df[ , timeVar])) == 1) {
+          return(paste0(unique(df[, OutCountryID]), ": ", unique(df[, timeVar])))
+        } else {
+          return(paste0(unique(df[, OutCountryID]), ": ", min(df[, timeVar]), "-", max(df[, timeVar])))
+        }
+      }
+      dup_values <- lapply(country_pieces, get_dup_values)
+    }
+
     # Output
     if (duplicates == 'message') {
       message(paste0(DifDups, ' duplicated values were created when standardising the country ID with ', OutCountryID, '.'))
-      if (DifDups > 0) paste('\nTo inspect duplicated rows set duplicates = "out".\n')
+      if (DifDups > 0) {
+        message(paste0('Duplicated values: ', paste(dup_values, collapse = " ; "),
+                       '.\nTo inspect duplicated rows set duplicates = "return".\n'))
+      }
     }
     else if (duplicates == 'drop') {
       data <- data[!duplicated(data[, Var2], fromLast = fromLast), ]
@@ -115,31 +117,32 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c',
 #' @keywords internals
 #' @export
 
-DropNA.psData <- function(data, Var)
-{
-  # Find term number
-  DataNames <- names(data)
-  TestExist <- Var %in% DataNames
-  if (!all(TestExist)){
-          stop("Variable(s) not found in the data frame.")
+DropNA.psData <- function(data, countryVar = 'country', timeVar = NULL, OutCountryID) {
+  # Drop if is.NA(OutCountryID)
+  DataNoNA <- data[!is.na(data[, OutCountryID]), ]
+
+  # Check which original country values were dropped
+  DataNA <- data[is.na(data[, OutCountryID]), ]
+  if (is.null(timeVar)) {
+    country_pieces <- split(DataNA[, countryVar], DataNA[, countryVar])
+    dropped_values <- lapply(country_pieces, function(df) unique(df[ , countryVar]))
+  } else {
+    country_pieces <- split(DataNA[, c(countryVar, timeVar)], DataNA[, countryVar])
+    get_dropped_values <- function(df) {
+      if (length(unique(df[ , timeVar])) == 1) {
+        return(paste0(unique(df[, countryVar]), ": ", unique(df[, timeVar])))
+      } else {
+        return(paste0(unique(df[, countryVar]), ": ", min(df[, timeVar]), "-", max(df[, timeVar])))
+      }
+    }
+    dropped_values <- lapply(country_pieces, get_dropped_values)
   }
 
-  # Drop if NA
-  if (length(Var) == 1) {
-          DataNoNA <- data[!is.na(data[, Var]), ]
+  TotalDropped <- sum(is.na(data[ , OutCountryID]))
 
-          DataVar <- data[, Var]
-          DataNA <- DataVar[is.na(DataVar)]
-          TotalDropped <- length(DataNA)
-  }
-  else{
-          RowNA <- apply(data[, Var], 1, function(x){any(is.na(x))})
-          DataNoNA <- data[!RowNA, ]
-
-          TotalDropped <- sum(RowNA)
-  }
-
-  message(paste0(TotalDropped, " observations dropped based on missing values of the standardised ID variable.\n\n"))
+  message(paste0(TotalDropped, " observations dropped based on missing values of the standardised ID variable."))
+  message(paste0("The observations that were dropped are: ", paste(dropped_values, collapse = " ; "),
+                 ".\nTo keep NA's set na.rm = FALSE\n"))
   return(DataNoNA)
 }
 
