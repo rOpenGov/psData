@@ -465,7 +465,7 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
 #'
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}}
 #'
-#'  @importFrom rio import
+#' @importFrom rio import
 #'
 #' @export
 
@@ -474,7 +474,7 @@ DDGet <- function(url = 'http://uofi.box.com/shared/static/bba3968d7c3397c024ec.
                   standardCountryName = TRUE,
                   na.rm = TRUE, duplicates = 'message', fromLast = FALSE){
     # Download underlying Polity IV data
-    DDData <- rio::import(url)
+    DDData <- import(url)
 
     # Clean up
     DDData$order <- NULL
