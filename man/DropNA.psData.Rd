@@ -12,7 +12,8 @@ DropNA.psData(data, Var)
 \arguments{
 \item{data}{a data frame object.}
 
-\item{Var}{a character vector naming the variables you would like to have only non-missing (NA) values.}
+\item{Var}{a character vector naming the variables you would like to have
+only non-missing (NA) values.}
 }
 \description{
 Drop rows from a data frame with missing values in the OutCountryID variable.

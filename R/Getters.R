@@ -129,11 +129,8 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
                    standardCountryName = TRUE, na.rm = TRUE,
                    duplicates = 'message', fromLast = FALSE){
     # Download underlying Dpi IV data
-    tmpfile <- tempfile()
-    download.file(url, tmpfile)
-    DpiData <- read.dta(tmpfile)
-    unlink(tmpfile)
-
+    DpiData <- import(url)
+    DpiData <- labelDataset(DpiData)
 
     # Clean up
     if (!is.null(vars)) {
