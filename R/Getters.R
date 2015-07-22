@@ -496,7 +496,7 @@ DDGet <- function(url = 'http://uofi.box.com/shared/static/bba3968d7c3397c024ec.
                         standardCountryName = standardCountryName,
                         fromLast = fromLast)
     # Drop NAs for OutCountryID
-    if (isTRUE(na.rm)){
+    if (isTRUE(na.rm) & duplicates != "return") {
         DDData <- DropNA.psData(data = DDData,
                                 Var = OutCountryID)
     }
