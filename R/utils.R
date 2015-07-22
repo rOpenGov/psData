@@ -95,11 +95,11 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c',
                        '. To inspect duplicated rows set duplicates = "return".\n'))
       }
     }
-    else if (duplicates == 'drop') {
+    else if (duplicates == 'drop'){
       data <- data[!duplicated(data[, Var2], fromLast = fromLast), ]
       message(paste(DifDups, 'duplicated rows were dropped.\n'))
     }
-    else if (duplicates == 'return') {
+    else if (duplicates == 'return'){
       data <- data[duplicated(data[, Var2], fromLast = fromLast), ]
       message(paste('Only duplicated rows returned.\n'))
     }
@@ -128,7 +128,7 @@ DropNA.psData <- function(data, Var)
   }
 
   # Drop if NA
-  if (length(Var) == 1) {
+  if (length(Var) == 1){
           DataNoNA <- data[!is.na(data[, Var]), ]
 
           DataVar <- data[, Var]
