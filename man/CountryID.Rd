@@ -35,7 +35,7 @@ country-time values.}
 
 \item{fromLast}{logical indicating if duplication should be considered from
 the reverse side. Only relevant if \code{duplicates = 'drop'} or
-\code{duplicates = 'out'}.}
+\code{duplicates = 'return'}.}
 }
 \description{
 Function for creating standardised country names and ID variables based on

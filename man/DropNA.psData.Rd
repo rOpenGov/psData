@@ -7,7 +7,7 @@
 Largely based on \code{DropNA} from the \code{DataCombine} package.
 }
 \usage{
-DropNA.psData(data, Var)
+DropNA.psData(data, countryVar = "country", timeVar = NULL, OutCountryID)
 }
 \arguments{
 \item{data}{a data frame object.}
