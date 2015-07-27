@@ -130,7 +130,7 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
                    standardCountryName = TRUE, na.rm = TRUE,
                    duplicates = 'message', fromLast = FALSE){
     # Download underlying Dpi IV data
-    DpiData <- import(url)
+    DpiData <- import(url, format='dta')
     DpiData <- labelDataset(DpiData)
 
     # Clean up
@@ -152,7 +152,7 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
     # Drop NAs for OutCountryID
     if (isTRUE(na.rm)) {
         DpiData <- DropNA.psData(data = DpiData,
-                                 timeVar='year',
+                                 countryVar = 'countryname', timeVar='year',
                                  OutCountryID=OutCountryID)
     }
     return(DpiData)
