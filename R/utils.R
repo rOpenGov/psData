@@ -109,15 +109,18 @@ CountryID <- function(data, countryVar = 'country', OutCountryID = 'iso2c',
 #' Drop rows from a data frame with missing values in the OutCountryID variable.
 #'
 #' @param data a data frame object.
-#' @param Var a character vector naming the variables you would like to have 
+#' @param countryVar a character vector naming the variables you would like to have 
 #' only non-missing (NA) values.
+#' @param timeVar variable indicating the time.
+#' @param OutCountryID the ID the output country identifier.
 #'
 #' @source Largely based on \code{DropNA} from the \code{DataCombine} package.
 #'
 #' @keywords internals
 #' @export
 
-DropNA.psData <- function(data, countryVar = 'country', timeVar = NULL, OutCountryID) {
+DropNA.psData <- function(data, countryVar = 'country', timeVar = NULL, 
+                          OutCountryID) {
   # Drop if is.NA(OutCountryID)
   DataNoNA <- data[!is.na(data[, OutCountryID]), ]
 
