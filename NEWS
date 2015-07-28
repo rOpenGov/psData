@@ -1,3 +1,8 @@
+## Version 0.1.6
+
+- More informative drop message when converting country IDs. Thank you to
+Anh Le.
+
 ## Version 0.1.5
 
 - A number of getters now rely on import from rio.

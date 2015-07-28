@@ -12,8 +12,8 @@ DropNA.psData(data, countryVar = "country", timeVar = NULL, OutCountryID)
 \arguments{
 \item{data}{a data frame object.}
 
-\item{countryVar}{a character vector naming the variables you would like to have
-only non-missing (NA) values.}
+\item{countryVar}{a character vector naming the variables you would like to
+have only non-missing (NA) values.}
 
 \item{timeVar}{variable indicating the time.}
 
