@@ -55,7 +55,7 @@ Also feel free to make a pull request with a new **Getter** or **Variable Builde
 
 To download only the **polity2** variable from [Polity IV](http://www.systemicpeace.org/polity/polity4.htm):
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(psData)
 PolityData <- PolityGet(vars = 'polity2')
 
@@ -66,7 +66,7 @@ Note that the **iso2c** variable refers to the [ISO two letter country code coun
 
 To create **winset** (**W**) and **selectorate** (**ModS**) data use the following code:
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(psData)
 
 WinData <- WinsetCreator()
