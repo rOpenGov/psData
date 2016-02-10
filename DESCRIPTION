@@ -5,8 +5,8 @@ Description: This R package includes functions for gathering commonly used and
     regularly maintained data set in political science. It also includes
     functions for combining components from these data sets into variables that
     have been suggested in the literature, but are not regularly maintained.
-Version: 0.1.6
-Date: 2015-07-28
+Version: 0.2
+Date: 2015-02-10
 Author: Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
 URL: http://cran.r-project.org/package=psData
@@ -17,12 +17,8 @@ License: GPL (>= 3)
 Imports:
     countrycode,
     DataCombine,
-    foreign,
     reshape2,
     rio,
     xlsx
 LazyData: TRUE
-VignetteBuilder: knitr
-Suggests:
-    knitr
 RoxygenNote: 5.0.1

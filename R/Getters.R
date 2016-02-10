@@ -83,7 +83,10 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 #' used for merging the data with other data sets.
 #'
 #' @param url character string. The URL for the Polity IV data set you would
-#' like to download. Note: the link must be to a Stata formated file.
+#' like to download. Note this is exclusively to download previous, IMF hosted,
+#' versions of the data set. If a value is not supplied, then the 2015 IDB 
+#' hosted version will be downloaded. If a link is supplied it must be to a 
+#' Stata formated file.
 #' @param vars character vector containing the variables to keep. If
 #' \code{vars = NULL} then the entire data set is returned. Note that
 #' \code{country} and \code{year} variables are always returned.
@@ -103,8 +106,6 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 #' the reverse side. Only relevant if \code{duplicates = 'drop'} or
 #' \code{duplicates = 'out'}.
 #'
-#' @details Note: a bit.ly URL is used to shorten the Stata formatted data set's
-#' URL due to CRAN requirements.
 #'
 #' @return a data frame
 #'
@@ -121,17 +122,32 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
 #' @seealso \code{\link{countrycode}}, \code{\link{CountryID}},
 #' \code{\link{WinsetCreator}}
 #'
-#' @importFrom foreign read.dta
+#' @importFrom rio import
+#' @importFrom utils download.file unzip
 #'
 #' @export
 
-DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
+DpiGet <- function(url, vars = NULL,
                    OutCountryID = 'iso2c',
                    standardCountryName = TRUE, na.rm = TRUE,
                    duplicates = 'message', fromLast = FALSE){
     # Download underlying Dpi IV data
-    DpiData <- import(url, format='dta')
-    DpiData <- labelDataset(DpiData)
+    if (missing(url)){
+        message('Downloading the 2015 DPI from: http://www.iadb.org/en/research-and-data/publication-details,3169.html?pub_id=IDB-DB-121\n\n')
+        url <- 'http://www.iadb.org/document.cfm?pubDetail=1&id=40094628' 
+        
+        tmp_file <- tempfile()
+        download.file(url, tmp_file)
+        
+        con <- unzip(tmp_file, files = 'DPI2015/DPI2015_stata11.dta')
+        
+        DpiData <- import(con)
+    }
+    
+    else if (!missing(url)) {
+        DpiData <- import(url, format = 'dta')
+        DpiData <- labelDataset(DpiData)
+    }
 
     # Clean up
     if (!is.null(vars)) {

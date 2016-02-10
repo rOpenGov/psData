@@ -4,13 +4,16 @@
 \alias{DpiGet}
 \title{Downloads the Database of Political Institutions (DPI)}
 \usage{
-DpiGet(url = "http://bit.ly/1jZ3nmM", vars = NULL, OutCountryID = "iso2c",
+DpiGet(url, vars = NULL, OutCountryID = "iso2c",
   standardCountryName = TRUE, na.rm = TRUE, duplicates = "message",
   fromLast = FALSE)
 }
 \arguments{
 \item{url}{character string. The URL for the Polity IV data set you would
-like to download. Note: the link must be to a Stata formated file.}
+like to download. Note this is exclusively to download previous, IMF hosted,
+versions of the data set. If a value is not supplied, then the 2015 IDB 
+hosted version will be downloaded. If a link is supplied it must be to a 
+Stata formated file.}
 
 \item{vars}{character vector containing the variables to keep. If
 \code{vars = NULL} then the entire data set is returned. Note that
