@@ -7,3 +7,5 @@ README.Rmd
 
 # Travis scripts
 .travis.yml
+
+DPI2015/*
