@@ -188,21 +188,18 @@ DpiGet <- function(url = 'http://bit.ly/1jZ3nmM', vars = NULL,
 #'   \item{\code{RR_YearlyCrisisTally}: }{Total number of crises per year.}
 #'  }
 #'
-#'  @examples
-#'  \dontrun{
-#'  # RRDummies <- RRCrisisGest()
+#' @examples
+#' \dontrun{
+#'  RRDummies <- RRCrisisGest()
 #'  }
 #'
-#'  @source
-#'  Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt
+#' @source
+#' Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt
 #' Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American
 #' Economic Review.
 #'
-#' @importFrom xlsx loadWorkbook
-#' @importFrom xlsx getSheets
-#' @importFrom xlsx read.xlsx
-#' @importFrom DataCombine MoveFront
-#' @importFrom DataCombine DropNA
+#' @importFrom xlsx loadWorkbook getSheets read.xlsx
+#' @importFrom DataCombine MoveFront DropNA
 #' @export
 
 RRCrisisGet <- function(urls = c(

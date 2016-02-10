@@ -4,6 +4,11 @@
 \alias{RRCrisisGet}
 \title{Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into
 one data frame}
+\source{
+Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt
+Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American
+Economic Review.
+}
 \usage{
 
   RRCrisisGet(urls = c("http://www.carmenreinhart.com/user_uploads/data/22_data.xls",
@@ -43,19 +48,15 @@ country. This can be changed to another country ID system using
   \item{\code{RR_BankingCrisis}: }{Banking crisis.}
   \item{\code{RR_YearlyCrisisTally}: }{Total number of crises per year.}
  }
-
- @examples
- \dontrun{
- # RRDummies <- RRCrisisGest()
- }
-
- @source
- Reinhart, Camen M. and Kenneth S. Rogoff, ''From Financial Crash to Debt
-Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American
-Economic Review.
 }
 \description{
 Download and combine Reinhart and Rogoff's (2010) crisis dummy variables into
 one data frame
+}
+\examples{
+\dontrun{
+ RRDummies <- RRCrisisGest()
+ }
+
 }
 
