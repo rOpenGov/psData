@@ -1,5 +1,7 @@
 language: r
 sudo: required
+r_packages: 
+  - xlsx
 notifications:
   email:
     - christopher.gandrud@gmail.com
