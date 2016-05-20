@@ -36,7 +36,7 @@
 #' @import countrycode
 #' @export
 
-WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v2012.sav', DpiUrl = 'http://bit.ly/1jZ3nmM', OutCountryID = 'iso2c', na.rm = TRUE){  
+WinsetCreator <- function(PolityUrl = 'http://www.systemicpeace.org/inscr/p4v2015.sav', DpiUrl = 'http://bit.ly/1jZ3nmM', OutCountryID = 'iso2c', na.rm = TRUE){
   # CRAN finess
   xrcomp <- xropen <- parcomp <- military <- NULL
 

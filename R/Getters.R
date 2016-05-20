@@ -44,7 +44,7 @@
 #'
 #' @export
 
-PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2012.sav',
+PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2015.sav',
                       vars = NULL, OutCountryID = 'iso2c',
                       standardCountryName = TRUE,
                       na.rm = TRUE, duplicates = 'message', fromLast = FALSE){
