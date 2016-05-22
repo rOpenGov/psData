@@ -13,7 +13,7 @@ Polity IV: \url{http://www.systemicpeace.org/}.
 Modified so that military regime is take from Database of Political Institutions (\url{http://go.worldbank.org/2EAGGLRZ40}), rather than Banks, Arthur S. 1996. Political Handbook of the World. New York: CSA Publications.
 }
 \usage{
-WinsetCreator(PolityUrl = "http://www.systemicpeace.org/inscr/p4v2012.sav",
+WinsetCreator(PolityUrl = "http://www.systemicpeace.org/inscr/p4v2015.sav",
   DpiUrl = "http://bit.ly/1jZ3nmM", OutCountryID = "iso2c", na.rm = TRUE)
 }
 \arguments{

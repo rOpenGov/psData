@@ -4,7 +4,7 @@
 \alias{PolityGet}
 \title{Downloads Polity IV}
 \usage{
-PolityGet(url = "http://www.systemicpeace.org/inscr/p4v2012.sav",
+PolityGet(url = "http://www.systemicpeace.org/inscr/p4v2015.sav",
   vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE,
   na.rm = TRUE, duplicates = "message", fromLast = FALSE)
 }
