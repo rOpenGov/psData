@@ -1,7 +1,7 @@
 psData
 ==========
 
-Version 0.2
+Version 0.2.1
 [![CRAN Version](http://www.r-pkg.org/badges/version/psData)](http://cran.r-project.org/package=psData)
 [![Build Status](https://travis-ci.org/rOpenGov/psData.png)](https://travis-ci.org/rOpenGov/psData)
 ![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/psData)
