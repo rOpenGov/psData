@@ -1,6 +1,6 @@
 ## Version 0.2.2
 
-- Specify vignette builder.
+- Remove inactive vignettes. Dynamic documentation in README.
 
 ## Version 0.2.1
 
