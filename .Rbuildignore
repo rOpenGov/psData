@@ -9,3 +9,7 @@ README.Rmd
 .travis.yml
 
 DPI2015/*
+^pkgdown$
+^_pkgdown\.yml$
+^\.github$
+^\._pkgdown\.yml$
