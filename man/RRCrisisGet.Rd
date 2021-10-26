@@ -10,16 +10,19 @@ Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American
 Economic Review.
 }
 \usage{
-
-  RRCrisisGet(urls = c("http://www.carmenreinhart.com/user_uploads/data/22_data.xls",
-  "http://www.carmenreinhart.com/user_uploads/data/35_data.xls",
-  "http://www.carmenreinhart.com/user_uploads/data/23_data.xls",
-  "http://www.carmenreinhart.com/user_uploads/data/25_data.xls"),
-  OutCountryID = "iso2c", message = TRUE, standardCountryName = TRUE)
+RRCrisisGet(
+  urls = c("http://www.carmenreinhart.com/user_uploads/data/22_data.xls",
+    "http://www.carmenreinhart.com/user_uploads/data/35_data.xls",
+    "http://www.carmenreinhart.com/user_uploads/data/23_data.xls",
+    "http://www.carmenreinhart.com/user_uploads/data/25_data.xls"),
+  OutCountryID = "iso2c",
+  message = TRUE,
+  standardCountryName = TRUE
+)
 }
 \arguments{
 \item{urls}{URLs for each Excel file in the Reinhart and Rogoff data set. See
-\url{http://www.carmenreinhart.com/data/browse-by-topic/topics/7/}.}
+\url{https://carmenreinhart.com/data/browse-by-topic/topics/7/}.}
 
 \item{OutCountryID}{character string. The type of country ID you would like
 to include in the output file along with the country name. See
@@ -59,4 +62,3 @@ one data frame
  }
 
 }
-

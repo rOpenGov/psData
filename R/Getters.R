@@ -84,8 +84,8 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2015.sav',
 #'
 #' @param url character string. The URL for the Polity IV data set you would
 #' like to download. Note this is exclusively to download previous, IMF hosted,
-#' versions of the data set. If a value is not supplied, then the 2015 IDB 
-#' hosted version will be downloaded. If a link is supplied it must be to a 
+#' versions of the data set. If a value is not supplied, then the 2015 IDB
+#' hosted version will be downloaded. If a link is supplied it must be to a
 #' Stata formated file.
 #' @param vars character vector containing the variables to keep. If
 #' \code{vars = NULL} then the entire data set is returned. Note that
@@ -132,18 +132,18 @@ DpiGet <- function(url, vars = NULL,
                    standardCountryName = TRUE, na.rm = TRUE,
                    duplicates = 'message', fromLast = FALSE){
     # Download underlying Dpi IV data
-    if (missing(url)){
-        message('Downloading the 2015 DPI from: http://www.iadb.org/en/research-and-data/publication-details,3169.html?pub_id=IDB-DB-121\n\n')
-        url <- 'http://www.iadb.org/document.cfm?pubDetail=1&id=40094628' 
-        
-        tmp_file <- tempfile()
-        download.file(url, tmp_file)
-        
-        con <- unzip(tmp_file, files = 'DPI2015/DPI2015_stata11.dta')
-        
+    if (missing(url) || is.null(url)){
+        message('Downloading the 2020 DPI from: http://dx.doi.org/10.18235/0003049\n\n')
+        url <- 'https://publications.iadb.org/publications/english/document/The-Database-of-Political-Institutions-2020-DPI2020.zip'
+
+        tmp_file <- tempfile(fileext = ".zip")
+        download.file(url, tmp_file, mode = "wb")
+
+        con <- unzip(tmp_file, files = 'DPI2020/DPI2020_stata13.dta')
+
         DpiData <- import(con)
     }
-    
+
     else if (!missing(url)) {
         DpiData <- import(url, format = 'dta')
         DpiData <- labelDataset(DpiData)
@@ -230,7 +230,7 @@ RRCrisisGet <- function(urls = c(
 
   for (i in urls){
     tmpfile <- tempfile()
-    download.file(i, tmpfile)
+    download.file(i, tmpfile, mode = "wb")
     WB <- getSheets(loadWorkbook(tmpfile))
 
     # Load workbook and find relevant sheet names
@@ -367,8 +367,8 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
                    OutCountryID = 'iso2c', message = TRUE,
                    standardCountryName = TRUE){
   # Download full Dreher IMF program data set
-  tmpfile <- tempfile()
-  download.file(url, tmpfile)
+  tmpfile <- tempfile(fileext = ".xls")
+  download.file(url, tmpfile, mode = "wb")
 
   # Select sheet
   WB <- getSheets(loadWorkbook(tmpfile))

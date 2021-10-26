@@ -4,7 +4,7 @@
 
 ## Version 0.2.1
 
-- Updated URL for `PolityGet` to 2015 version. 
+- Updated URL for `PolityGet` to 2015 version.
 Thanks to Xavier Fernández i Marín.
 
 ## Version 0.1.6
@@ -37,13 +37,13 @@ Bank projects (1970-2011).
 - Added `RRCrisisGet` for gathering and cleaning Reinhart and Rogoff (2010)
 financial crisis dummy variables.
 
-## Version 0.1.1
+## psData 0.1.1
 
 - Added ability to report and inspect duplicated values created by standardising
 country names in `CountryID`, `PolityGet`, and `DpiGet`. Also added a choice to
 these variables of whether or not to standardise country names along with IDs.
 
-## Version 0.1
+## psData 0.1
 
 First development version of **psData**. The package includes the following main
 functions:

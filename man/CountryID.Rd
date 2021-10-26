@@ -4,9 +4,15 @@
 \alias{CountryID}
 \title{Function for creating standardised country names and ID variables}
 \usage{
-CountryID(data, countryVar = "country", OutCountryID = "iso2c",
-  standardCountryName = TRUE, duplicates = "message", timeVar = NULL,
-  fromLast = FALSE)
+CountryID(
+  data,
+  countryVar = "country",
+  OutCountryID = "iso2c",
+  standardCountryName = TRUE,
+  duplicates = "message",
+  timeVar = NULL,
+  fromLast = FALSE
+)
 }
 \arguments{
 \item{data}{a data frame object}
@@ -46,4 +52,3 @@ drop these or return only duplicated values for inspection.
 \seealso{
 {\code{\link{duplicated}}}
 }
-
