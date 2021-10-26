@@ -51,8 +51,7 @@ Downloads the Democracy and Dictatorship data set. It keeps specified
 variables and creates a standard country ID variable that can be used for
 merging the data with other data sets.
 See the codebook at the authors' website
-\url{https://sites.google.com/site/joseantoniocheibub/datasets/democracy-and-dictatorship-revisited}
-(Direct link to codebook: \url{http://uofi.box.com/shared/static/e6e312753fbc609fc379.pdf})
+\url{https://sites.google.com/site/joseantoniocheibub/datasets/dd?authuser=0}
 }
 \examples{
 \dontrun{

@@ -1,7 +1,7 @@
 Type: Package
 Package: psData
 Title: Download Regularly Maintained Political Science Data Sets
-Version: 0.2.2
+Version: 0.2.2.9000
 Date: 2016-09-01
 Author: Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
@@ -11,18 +11,21 @@ Description: This R package includes functions for gathering commonly used
     variables that have been suggested in the literature, but are not
     regularly maintained.
 License: GPL (>= 3)
-URL: https://CRAN.R-project.org/package=psData
+URL: https://CRAN.R-project.org/package=psData,
+    https://ropengov.github.io/psData/, https://github.com/rOpenGov/psData
 BugReports: https://github.com/rOpenGov/psData/issues
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.5.0)
 Imports:
     countrycode,
     DataCombine,
+    readxl,
     reshape2,
-    rio,
-    xlsx
+    rio
 Suggests:
     knitr
 Encoding: UTF-8
 LazyData: TRUE
 RoxygenNote: 7.1.2
+X-schema.org-isPartOf: http://ropengov.org/
+X-schema.org-keywords: ropengov

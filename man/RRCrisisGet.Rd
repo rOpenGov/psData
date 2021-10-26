@@ -22,7 +22,7 @@ RRCrisisGet(
 }
 \arguments{
 \item{urls}{URLs for each Excel file in the Reinhart and Rogoff data set. See
-\url{https://carmenreinhart.com/data/browse-by-topic/topics/7/}.}
+\url{https://carmenreinhart.com/browse-by-topic/}.}
 
 \item{OutCountryID}{character string. The type of country ID you would like
 to include in the output file along with the country name. See
@@ -58,7 +58,7 @@ one data frame
 }
 \examples{
 \dontrun{
- RRDummies <- RRCrisisGest()
+ RRDummies <- RRCrisisGet()
  }
 
 }
