@@ -1,0 +1,6 @@
+url: https://ropengov.github.io/psData/
+template:
+  package: rogtemplate
+  opengraph:
+    twitter:
+      site: '@rOpenGov'

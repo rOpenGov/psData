@@ -1,11 +1,17 @@
-psData
-==========
 
-Version 0.2.1
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# psData <a href='https://ropengov.github.io/psData/'><img src='man/figures/logo.png' align="right" height="139" /></a>
+
+<!-- badges: start -->
+[![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
 [![CRAN Version](http://www.r-pkg.org/badges/version/psData)](http://cran.r-project.org/package=psData)
 [![Build Status](https://travis-ci.org/rOpenGov/psData.png)](https://travis-ci.org/rOpenGov/psData)
 ![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/psData)
 ![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/psData)
+
+
+<!-- badges: end -->
 
 Started by Christopher Gandrud
 
