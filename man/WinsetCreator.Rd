@@ -10,11 +10,15 @@ Morrow, J. D., Bueno De Mesquita, B., Siverson, R. M., and Smith, A. 2008. Retes
 
 Polity IV: \url{http://www.systemicpeace.org/}.
 
-Modified so that military regime is take from Database of Political Institutions (\url{http://go.worldbank.org/2EAGGLRZ40}), rather than Banks, Arthur S. 1996. Political Handbook of the World. New York: CSA Publications.
+Modified so that military regime is take from Database of Political Institutions (\url{https://publications.iadb.org/en/database-political-institutions-2020-dpi2020}), rather than Banks, Arthur S. 1996. Political Handbook of the World. New York: CSA Publications.
 }
 \usage{
-WinsetCreator(PolityUrl = "http://www.systemicpeace.org/inscr/p4v2015.sav",
-  DpiUrl = "http://bit.ly/1jZ3nmM", OutCountryID = "iso2c", na.rm = TRUE)
+WinsetCreator(
+  PolityUrl = "http://www.systemicpeace.org/inscr/p4v2015.sav",
+  DpiUrl = NULL,
+  OutCountryID = "iso2c",
+  na.rm = TRUE
+)
 }
 \arguments{
 \item{PolityUrl}{character string. The URL for the Polity IV data set you would like to download. Note: it must be for the SPSS version of the file.}
@@ -48,4 +52,3 @@ WinsetData <- WinsetCreator()
 \seealso{
 \code{\link{countrycode}}, \code{\link{CountryID}}, \code{\link{DpiGet}}, \code{\link{PolityGet}}
 }
-

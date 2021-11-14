@@ -1,5 +1,0 @@
-language: r
-sudo: required
-cache: packages
-r_packages: 
-  - xlsx

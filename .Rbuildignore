@@ -13,3 +13,5 @@ DPI2015/*
 ^_pkgdown\.yml$
 ^\.github$
 ^\._pkgdown\.yml$
+^DPI2020$
+^docs$

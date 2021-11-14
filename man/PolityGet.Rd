@@ -4,9 +4,15 @@
 \alias{PolityGet}
 \title{Downloads Polity IV}
 \usage{
-PolityGet(url = "http://www.systemicpeace.org/inscr/p4v2015.sav",
-  vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE,
-  na.rm = TRUE, duplicates = "message", fromLast = FALSE)
+PolityGet(
+  url = "http://www.systemicpeace.org/inscr/p4v2015.sav",
+  vars = NULL,
+  OutCountryID = "iso2c",
+  standardCountryName = TRUE,
+  na.rm = TRUE,
+  duplicates = "message",
+  fromLast = FALSE
+)
 }
 \arguments{
 \item{url}{character string. The URL for the Polity IV data set you would
@@ -59,4 +65,3 @@ Polity2Data <- PolityGet(vars = 'polity2',
 \code{\link{countrycode}}, \code{\link{CountryID}},
 \code{\link{WinsetCreator}}
 }
-

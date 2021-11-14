@@ -23,4 +23,3 @@ have only non-missing (NA) values.}
 Drop rows from a data frame with missing values in the OutCountryID variable.
 }
 \keyword{internals}
-

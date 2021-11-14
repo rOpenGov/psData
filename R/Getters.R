@@ -84,8 +84,8 @@ PolityGet <- function(url = 'http://www.systemicpeace.org/inscr/p4v2015.sav',
 #'
 #' @param url character string. The URL for the Polity IV data set you would
 #' like to download. Note this is exclusively to download previous, IMF hosted,
-#' versions of the data set. If a value is not supplied, then the 2015 IDB 
-#' hosted version will be downloaded. If a link is supplied it must be to a 
+#' versions of the data set. If a value is not supplied, then the 2015 IDB
+#' hosted version will be downloaded. If a link is supplied it must be to a
 #' Stata formated file.
 #' @param vars character vector containing the variables to keep. If
 #' \code{vars = NULL} then the entire data set is returned. Note that
@@ -132,18 +132,18 @@ DpiGet <- function(url, vars = NULL,
                    standardCountryName = TRUE, na.rm = TRUE,
                    duplicates = 'message', fromLast = FALSE){
     # Download underlying Dpi IV data
-    if (missing(url)){
-        message('Downloading the 2015 DPI from: http://www.iadb.org/en/research-and-data/publication-details,3169.html?pub_id=IDB-DB-121\n\n')
-        url <- 'http://www.iadb.org/document.cfm?pubDetail=1&id=40094628' 
-        
-        tmp_file <- tempfile()
-        download.file(url, tmp_file)
-        
-        con <- unzip(tmp_file, files = 'DPI2015/DPI2015_stata11.dta')
-        
+    if (missing(url) || is.null(url)){
+        message('Downloading the 2020 DPI from: http://dx.doi.org/10.18235/0003049\n\n')
+        url <- 'https://publications.iadb.org/publications/english/document/The-Database-of-Political-Institutions-2020-DPI2020.zip'
+
+        tmp_file <- tempfile(fileext = ".zip")
+        download.file(url, tmp_file, mode = "wb")
+
+        con <- unzip(tmp_file, files = 'DPI2020/DPI2020_stata13.dta')
+
         DpiData <- import(con)
     }
-    
+
     else if (!missing(url)) {
         DpiData <- import(url, format = 'dta')
         DpiData <- labelDataset(DpiData)
@@ -178,7 +178,7 @@ DpiGet <- function(url, vars = NULL,
 #' one data frame
 #'
 #' @param urls URLs for each Excel file in the Reinhart and Rogoff data set. See
-#' \url{http://www.carmenreinhart.com/data/browse-by-topic/topics/7/}.
+#' \url{https://carmenreinhart.com/browse-by-topic/}.
 #' @param OutCountryID character string. The type of country ID you would like
 #' to include in the output file along with the country name. See
 #' \code{\link{countrycode}} for available options.
@@ -206,7 +206,7 @@ DpiGet <- function(url, vars = NULL,
 #'
 #' @examples
 #' \dontrun{
-#'  RRDummies <- RRCrisisGest()
+#'  RRDummies <- RRCrisisGet()
 #'  }
 #'
 #' @source
@@ -214,7 +214,6 @@ DpiGet <- function(url, vars = NULL,
 #' Crisis,'' NBER Working Paper 15795, March 2010. Forthcoming in American
 #' Economic Review.
 #'
-#' @importFrom xlsx loadWorkbook getSheets read.xlsx
 #' @importFrom DataCombine MoveFront DropNA
 #' @export
 
@@ -226,21 +225,23 @@ RRCrisisGet <- function(urls = c(
     OutCountryID = 'iso2c', message = TRUE,
     standardCountryName = TRUE){
 
+  message("These datasets have been moved. Returning NULL")
+  return(NULL)
+
     OutData <- data.frame()
 
   for (i in urls){
     tmpfile <- tempfile()
-    download.file(i, tmpfile)
-    WB <- getSheets(loadWorkbook(tmpfile))
+    download.file(i, tmpfile, mode = "wb")
 
     # Load workbook and find relevant sheet names
-    WBNames <- names(WB)
+    WBNames <- readxl::excel_sheets(tmpfile)
     Droppers <- c('Contents', 'CrisisDefinition', 'CrisisDefinitions', 'Sheet1',
                   'Sheet3')
     WBNames <- WBNames[!is.element(WBNames, Droppers)]
 
     for (u in WBNames){
-      Temp <- read.xlsx(tmpfile, u)
+      Temp <- readxl::read_excel(tmpfile, u)
       # Keep only the year and crisis indicators
       Temp <- Temp[13:nrow(Temp), c(1:9)]
 
@@ -355,9 +356,6 @@ RRCrisisGet <- function(urls = c(
 #' the World Bank to Economic Freedom, European Journal of Political Economy
 #' 19, 3: 633-649.
 #'
-#' @importFrom xlsx loadWorkbook
-#' @importFrom xlsx getSheets
-#' @importFrom xlsx read.xlsx
 #' @importFrom DataCombine VarDrop
 #' @importFrom reshape2 melt
 #' @export
@@ -367,12 +365,11 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
                    OutCountryID = 'iso2c', message = TRUE,
                    standardCountryName = TRUE){
   # Download full Dreher IMF program data set
-  tmpfile <- tempfile()
-  download.file(url, tmpfile)
+  tmpfile <- tempfile(fileext = paste0(".", tools::file_ext(url)))
+  download.file(url, tmpfile, mode = "wb")
 
   # Select sheet
-  WB <- getSheets(loadWorkbook(tmpfile))
-  WBNames <- names(WB)
+  WBNames <-  readxl::excel_sheets(tmpfile)
 
   # Error if desired sheet is not in the data set.
   TestExist <- sheets %in% WBNames
@@ -388,7 +385,9 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
     }
     if (i != 'WB environment agreed'){
       # Extract sheet
-      OneSheet <- read.xlsx(tmpfile, i)
+      OneSheet <- readxl::read_excel(tmpfile, i)
+      names(OneSheet) <- gsub(" ", ".", names(OneSheet))
+
       OneSheet <- melt(OneSheet, id.vars = c('Country.Code', 'Country.Name'))
 
       # Clean
@@ -400,19 +399,20 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
       }
 
       OneSheet <- CountryID(data = OneSheet, OutCountryID = OutCountryID,
-                   countryVar = 'Country.Name', duplicates = 'none',
-                   standardCountryName = standardCountryName)
+                            countryVar = 'Country.Name', duplicates = 'none',
+                            standardCountryName = standardCountryName)
       OneSheet <- VarDrop(OneSheet, 'Country.Code')
       names(OneSheet) <- c(OutCountryID, 'country', 'year', VarName)
 
     }
     else if (i == 'WB environment agreed'){ # originally in country-year format
       # Extract sheet
-      OneSheet <- read.xlsx(tmpfile, i)
+      OneSheet <- readxl::read_excel(tmpfile, i)
+      OneSheet <- as.data.frame(OneSheet)
 
       OneSheet <- CountryID(data = OneSheet, OutCountryID = OutCountryID,
-                   countryVar = 'country', duplicates = 'none',
-                   standardCountryName = standardCountryName)
+                            countryVar = 'country', duplicates = 'none',
+                            standardCountryName = standardCountryName)
       OneSheet <- VarDrop(OneSheet, 'code')
       names(OneSheet) <- c(OutCountryID, 'country', 'year', VarName)
     }
@@ -438,12 +438,13 @@ IMF_WBGet <- function(url = 'http://axel-dreher.de/Dreher%20IMF%20and%20WB.xls',
 
 #' Downloads the Democracy and Dictatorship data set
 #'
+#' @description
 #' Downloads the Democracy and Dictatorship data set. It keeps specified
 #' variables and creates a standard country ID variable that can be used for
 #' merging the data with other data sets.
 #' See the codebook at the authors' website
-#' \url{https://sites.google.com/site/joseantoniocheibub/datasets/democracy-and-dictatorship-revisited}
-#' (Direct link to codebook: \url{http://uofi.box.com/shared/static/e6e312753fbc609fc379.pdf})
+#' \url{https://sites.google.com/site/joseantoniocheibub/datasets/dd?authuser=0}
+#'
 #'
 #' @param url character string. The URL for the Democracy and Dictatorship data
 #' set you would like to download. Note: it must be for the Stata version of

@@ -21,8 +21,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
-[![CRAN Version](http://www.r-pkg.org/badges/version/psData)](http://cran.r-project.org/package=psData)
-[![Build Status](https://travis-ci.org/rOpenGov/psData.png)](https://travis-ci.org/rOpenGov/psData)
+[![CRAN Version](http://www.r-pkg.org/badges/version/psData)](https://CRAN.R-project.org/package=psData)
+[![R-CMD-check](https://github.com/rOpenGov/psData/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rOpenGov/psData/actions/workflows/R-CMD-check.yaml)
 ![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/psData)
 ![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/psData)
 
@@ -33,23 +33,23 @@ Started by Christopher Gandrud
 
 ---
 
-This [R](http://www.r-project.org/) package includes functions for gathering commonly used and regularly maintained political science data sets. It also includes functions for combining components from these data sets into variables that have been suggested in the political science literature, but are not regularly updated.
+This [R](https://www.r-project.org/) package includes functions for gathering commonly used and regularly maintained political science data sets. It also includes functions for combining components from these data sets into variables that have been suggested in the political science literature, but are not regularly updated.
 
 *psData* includes two primary function types: **Getters** and **Variable Builders**. Getter functions automate the gathering and cleaning of particular data sets so that they can easily be merged with other data. They do not transform the underlying data. Variable Builders use Getters to gather data and then transform it into new variables suggested by the political science literature. The functions currently part of *psData* include:
 
 #### Getters
 
-- `DpiGet`: a function to download the [Database of Political Institutions](http://www.iadb.org/en/research-and-data/publication-details,3169.html?pub_id=IDB-DB-121) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
+- `DpiGet`: a function to download the [Database of Political Institutions](https://www.iadb.org/en/research-and-data/publications?pub_id=IDB-DB-121) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
 - `PolityGet`: a function to download the [Polity IV](http://www.systemicpeace.org/polity/polity4.htm) data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
-- `RRCrisisGet`: download and combine [Reinhart and Rogoff's (2010)](http://www.carmenreinhart.com/data/browse-by-topic/topics/7/) crisis dummy variables into one data frame.
+- `RRCrisisGet`: download and combine [Reinhart and Rogoff's (2010)](https://carmenreinhart.com/browse-by-topic/) crisis dummy variables into one data frame.
 
 - `WB_IMFGet` downloads [Axel Dreher's data set of IMF programs and World Bank projects](http://www.uni-heidelberg.de/fakultaeten/wiso/awi/professuren/intwipol/datasets_en.html) (1970-2011). It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.
 
 #### Variable Builders
 
-- `WinsetCreator`: Creates the winset (W) and a modified version of the selectorate (S) variable from [Bueno de Mesquita et al. (2003)](http://www.nyu.edu/gsas/dept/politics/data/bdm2s2/Logic.htm) using the most recent data available from Polity IV and the Database of Political Institutions.
+- `WinsetCreator`: Creates the winset (W) and a modified version of the selectorate (S) variable from [Bueno de Mesquita et al. (2003)](https://doi.org/10.7551/mitpress/4292.001.0001) using the most recent data available from Polity IV and the Database of Political Institutions.
 
 #### Others
 
@@ -67,7 +67,7 @@ If you notice an updated version of one of the data sets, feel free to submit a 
 
 ## Suggestions
 
-Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/christophergandrud/psData/issues).
+Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package's [Issues page](https://github.com/rOpenGov/psData/issues).
 
 Also feel free to make a pull request with a new **Getter** or **Variable Builder**. Please make the pull request on a branch other than the `master`.
 
@@ -84,7 +84,7 @@ PolityData <- PolityGet(vars = 'polity2')
 head(PolityData)
 ```
 
-Note that the **iso2c** variable refers to the [ISO two letter country code country ID](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This standardised country identifier could be used to easily merge the Polity IV data with another data set. Another country ID can be selected with the `OutCountryID` argument. See the package documentation for details.
+Note that the **iso2c** variable refers to the [ISO two letter country code country ID](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2). This standardised country identifier could be used to easily merge the Polity IV data with another data set. Another country ID can be selected with the `OutCountryID` argument. See the package documentation for details.
 
 To create **winset** (**W**) and **selectorate** (**ModS**) data use the following code:
 

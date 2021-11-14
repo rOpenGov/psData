@@ -19,9 +19,13 @@ the World Bank to Economic Freedom, European Journal of Political Economy
 19, 3: 633-649.
 }
 \usage{
-IMF_WBGet(url = "http://axel-dreher.de/Dreher\%20IMF\%20and\%20WB.xls",
+IMF_WBGet(
+  url = "http://axel-dreher.de/Dreher\%20IMF\%20and\%20WB.xls",
   sheets = c("WB other agreed", "WB environment agreed"),
-  OutCountryID = "iso2c", message = TRUE, standardCountryName = TRUE)
+  OutCountryID = "iso2c",
+  message = TRUE,
+  standardCountryName = TRUE
+)
 }
 \arguments{
 \item{url}{character string. The URL for the Dreher data set you would like
@@ -77,4 +81,3 @@ WBPrograms <- IMF_WBGet()
 }
 
 }
-

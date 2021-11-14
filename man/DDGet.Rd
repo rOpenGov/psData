@@ -4,9 +4,15 @@
 \alias{DDGet}
 \title{Downloads the Democracy and Dictatorship data set}
 \usage{
-DDGet(url = "http://uofi.box.com/shared/static/bba3968d7c3397c024ec.dta",
-  vars = NULL, OutCountryID = "iso2c", standardCountryName = TRUE,
-  na.rm = TRUE, duplicates = "message", fromLast = FALSE)
+DDGet(
+  url = "http://uofi.box.com/shared/static/bba3968d7c3397c024ec.dta",
+  vars = NULL,
+  OutCountryID = "iso2c",
+  standardCountryName = TRUE,
+  na.rm = TRUE,
+  duplicates = "message",
+  fromLast = FALSE
+)
 }
 \arguments{
 \item{url}{character string. The URL for the Democracy and Dictatorship data
@@ -45,8 +51,7 @@ Downloads the Democracy and Dictatorship data set. It keeps specified
 variables and creates a standard country ID variable that can be used for
 merging the data with other data sets.
 See the codebook at the authors' website
-\url{https://sites.google.com/site/joseantoniocheibub/datasets/democracy-and-dictatorship-revisited}
-(Direct link to codebook: \url{http://uofi.box.com/shared/static/e6e312753fbc609fc379.pdf})
+\url{https://sites.google.com/site/joseantoniocheibub/datasets/dd?authuser=0}
 }
 \examples{
 \dontrun{
@@ -58,4 +63,3 @@ DDData <- DDGet()
 \seealso{
 \code{\link{countrycode}}, \code{\link{CountryID}}
 }
-
