@@ -19,7 +19,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="deps/_Roboto%20Mono-0.4.0/font.css" rel="stylesheet">
+<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Download Regularly Maintained Political Science Data Sets">
 <meta property="og:description" content="This R package includes functions for gathering commonly used
@@ -40,13 +41,13 @@
 <!-- rogtemplate style sheet --><link href="BS5/rogtemplate.css" rel="stylesheet">
 </head>
 <body>
-    <a href="#container" class="visually-hidden-focusable">Skip to content</a>
+    <a href="#container" class="visually-hidden-focusable">Skip to contents</a>
     
 
     <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-dark"><div class="container">
     <a class="navbar-brand me-2" href="index.html">psData</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2.9000</small>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -57,9 +58,12 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Search" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search..." autocomplete="off">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
       <ul class="navbar-nav">
@@ -86,15 +90,15 @@
 <!-- badges: end -->
 <p>Started by Christopher Gandrud</p>
 <hr>
-<p>This <a href="http://www.r-project.org/" class="external-link">R</a> package includes functions for gathering commonly used and regularly maintained political science data sets. It also includes functions for combining components from these data sets into variables that have been suggested in the political science literature, but are not regularly updated.</p>
+<p>This <a href="https://www.r-project.org/" class="external-link">R</a> package includes functions for gathering commonly used and regularly maintained political science data sets. It also includes functions for combining components from these data sets into variables that have been suggested in the political science literature, but are not regularly updated.</p>
 <p><em>psData</em> includes two primary function types: <strong>Getters</strong> and <strong>Variable Builders</strong>. Getter functions automate the gathering and cleaning of particular data sets so that they can easily be merged with other data. They do not transform the underlying data. Variable Builders use Getters to gather data and then transform it into new variables suggested by the political science literature. The functions currently part of <em>psData</em> include:</p>
 <div class="section level4">
 <h4 id="getters">Getters<a class="anchor" aria-label="anchor" href="#getters"></a>
 </h4>
 <ul>
-<li><p><code>DpiGet</code>: a function to download the <a href="http://www.iadb.org/en/research-and-data/publication-details,3169.html?pub_id=IDB-DB-121" class="external-link">Database of Political Institutions</a> data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.</p></li>
+<li><p><code>DpiGet</code>: a function to download the <a href="https://www.iadb.org/en/research-and-data/publications?pub_id=IDB-DB-121" class="external-link">Database of Political Institutions</a> data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.</p></li>
 <li><p><code>PolityGet</code>: a function to download the <a href="http://www.systemicpeace.org/polity/polity4.htm" class="external-link">Polity IV</a> data set. It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.</p></li>
-<li><p><code>RRCrisisGet</code>: download and combine <a href="http://www.carmenreinhart.com/data/browse-by-topic/topics/7/" class="external-link">Reinhart and Rogoff’s (2010)</a> crisis dummy variables into one data frame.</p></li>
+<li><p><code>RRCrisisGet</code>: download and combine <a href="https://carmenreinhart.com/browse-by-topic/" class="external-link">Reinhart and Rogoff’s (2010)</a> crisis dummy variables into one data frame.</p></li>
 <li><p><code>WB_IMFGet</code> downloads <a href="http://www.uni-heidelberg.de/fakultaeten/wiso/awi/professuren/intwipol/datasets_en.html" class="external-link">Axel Dreher’s data set of IMF programs and World Bank projects</a> (1970-2011). It keeps specified variables and creates a standard country ID variable that can be used for merging the data with other data sets.</p></li>
 </ul>
 </div>
@@ -103,7 +107,7 @@
 </h4>
 <ul>
 <li>
-<code>WinsetCreator</code>: Creates the winset (W) and a modified version of the selectorate (S) variable from <a href="http://www.nyu.edu/gsas/dept/politics/data/bdm2s2/Logic.htm" class="external-link">Bueno de Mesquita et al. (2003)</a> using the most recent data available from Polity IV and the Database of Political Institutions.</li>
+<code>WinsetCreator</code>: Creates the winset (W) and a modified version of the selectorate (S) variable from <a href="https://doi.org/10.7551/mitpress/4292.001.0001" class="external-link">Bueno de Mesquita et al. (2003)</a> using the most recent data available from Polity IV and the Database of Political Institutions.</li>
 </ul>
 </div>
 <div class="section level4">
@@ -125,7 +129,7 @@
 <div class="section level2">
 <h2 id="suggestions">Suggestions<a class="anchor" aria-label="anchor" href="#suggestions"></a>
 </h2>
-<p>Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package’s <a href="https://github.com/christophergandrud/psData/issues" class="external-link">Issues page</a>.</p>
+<p>Please feel free to suggest other data set downloading and variable creating functions. To do this just leave a note on the package’s <a href="https://github.com/rOpenGov/psData/issues" class="external-link">Issues page</a>.</p>
 <p>Also feel free to make a pull request with a new <strong>Getter</strong> or <strong>Variable Builder</strong>. Please make the pull request on a branch other than the <code>master</code>.</p>
 <hr>
 </div>
@@ -134,32 +138,32 @@
 </h2>
 <p>To download only the <strong>polity2</strong> variable from <a href="http://www.systemicpeace.org/polity/polity4.htm" class="external-link">Polity IV</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://cran.r-project.org/package=psData" class="external-link">psData</a></span><span class="op">)</span>
-<span class="va">PolityData</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/PolityGet.html">PolityGet</a></span><span class="op">(</span>vars <span class="op">=</span> <span class="st">'polity2'</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=psData" class="external-link">psData</a></span><span class="op">)</span>
+<span class="va">PolityData</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/PolityGet.html">PolityGet</a></span><span class="op">(</span>vars <span class="op">=</span> <span class="st">"polity2"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">PolityData</span><span class="op">)</span></code></pre></div>
-<pre><code>##   iso2c standardized_country     country year polity2
-## 1    AF          Afghanistan Afghanistan 1800      -6
-## 2    AF          Afghanistan Afghanistan 1801      -6
-## 3    AF          Afghanistan Afghanistan 1802      -6
-## 4    AF          Afghanistan Afghanistan 1803      -6
-## 5    AF          Afghanistan Afghanistan 1804      -6
-## 6    AF          Afghanistan Afghanistan 1805      -6</code></pre>
-<p>Note that the <strong>iso2c</strong> variable refers to the <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" class="external-link">ISO two letter country code country ID</a>. This standardised country identifier could be used to easily merge the Polity IV data with another data set. Another country ID can be selected with the <code>OutCountryID</code> argument. See the package documentation for details.</p>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">PolityData</span><span class="op">)</span>
+<span class="co">#&gt;   iso2c standardized_country     country year polity2</span>
+<span class="co">#&gt; 1    AF          Afghanistan Afghanistan 1800      -6</span>
+<span class="co">#&gt; 2    AF          Afghanistan Afghanistan 1801      -6</span>
+<span class="co">#&gt; 3    AF          Afghanistan Afghanistan 1802      -6</span>
+<span class="co">#&gt; 4    AF          Afghanistan Afghanistan 1803      -6</span>
+<span class="co">#&gt; 5    AF          Afghanistan Afghanistan 1804      -6</span>
+<span class="co">#&gt; 6    AF          Afghanistan Afghanistan 1805      -6</span></code></pre></div>
+<p>Note that the <strong>iso2c</strong> variable refers to the <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" class="external-link">ISO two letter country code country ID</a>. This standardised country identifier could be used to easily merge the Polity IV data with another data set. Another country ID can be selected with the <code>OutCountryID</code> argument. See the package documentation for details.</p>
 <p>To create <strong>winset</strong> (<strong>W</strong>) and <strong>selectorate</strong> (<strong>ModS</strong>) data use the following code:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://cran.r-project.org/package=psData" class="external-link">psData</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=psData" class="external-link">psData</a></span><span class="op">)</span>
 
 <span class="va">WinData</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/WinsetCreator.html">WinsetCreator</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">WinData</span><span class="op">)</span></code></pre></div>
-<pre><code>##   iso2c              country year    W ModS
-## 1    AE United Arab Emirates 1975 0.25 0.25
-## 2    AE United Arab Emirates 1976 0.25 0.25
-## 3    AE United Arab Emirates 1977 0.25 0.25
-## 4    AE United Arab Emirates 1978 0.25 0.25
-## 5    AE United Arab Emirates 1979 0.25 0.25
-## 6    AE United Arab Emirates 1980 0.25 0.25</code></pre>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">WinData</span><span class="op">)</span>
+<span class="co">#&gt;   iso2c              country year    W ModS</span>
+<span class="co">#&gt; 1    AE United Arab Emirates 1975 0.25 0.25</span>
+<span class="co">#&gt; 2    AE United Arab Emirates 1976 0.25 0.25</span>
+<span class="co">#&gt; 3    AE United Arab Emirates 1977 0.25 0.25</span>
+<span class="co">#&gt; 4    AE United Arab Emirates 1978 0.25 0.25</span>
+<span class="co">#&gt; 5    AE United Arab Emirates 1979 0.25 0.25</span>
+<span class="co">#&gt; 6    AE United Arab Emirates 1980 0.25 0.25</span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -169,12 +173,9 @@
 <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=psData" class="external-link">https://​cloud.r-project.org/​package=psData</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/rOpenGov/psData/" class="external-link">https://​github.com/​rOpenGov/​psData/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/rOpenGov/psData/issues" class="external-link">https://​github.com/​rOpenGov/​psData/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=psData" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/rOpenGov/psData/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/rOpenGov/psData/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -197,8 +198,8 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="http://ropengov.org/" class="external-link"><img src="https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg" alt="rOG-badge"></a></li>
-<li><a href="http://cran.r-project.org/package=psData" class="external-link"><img src="http://www.r-pkg.org/badges/version/psData" alt="CRAN Version"></a></li>
-<li><a href="https://travis-ci.org/rOpenGov/psData" class="external-link"><img src="https://travis-ci.org/rOpenGov/psData.png" alt="Build Status"></a></li>
+<li><a href="https://CRAN.R-project.org/package=psData" class="external-link"><img src="http://www.r-pkg.org/badges/version/psData" alt="CRAN Version"></a></li>
+<li><a href="https://github.com/rOpenGov/psData/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/rOpenGov/psData/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
