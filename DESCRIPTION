@@ -2,7 +2,7 @@ Type: Package
 Package: psData
 Title: Download Regularly Maintained Political Science Data Sets
 Version: 0.2.2.9000
-Date: 2016-09-01
+Date: 2021-11-14
 Author: Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
 Description: This R package includes functions for gathering commonly used
